@@ -6,8 +6,6 @@ import {
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native';
-// import HomeIcon from 'react-native-vector-icons/FontAwesome';
-// import PlannerIcon from 'react-native-vector-icons/Entypo';
 import HomeScreen from '../screens/HomeScreen';
 import WorkoutsScreen from '../screens/WorkoutsScreen';
 import {ColorSchemeName} from 'react-native';
@@ -49,25 +47,8 @@ const BottomTab = createBottomTabNavigator();
 function BottomTabNavigator() {
   return (
     <BottomTab.Navigator initialRouteName="Home">
-      <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        // options={{
-        // tabBarIcon: ({color, size}) => (
-        // <HomeIcon name="home" size={size} color={color} />
-        // ),
-        // }}
-      />
-      <BottomTab.Screen
-        name="Workouts"
-        component={WorkoutsScreen}
-        // options={{
-        //   unmountOnBlur: true,
-        //   tabBarIcon: ({color, size}) => (
-        //     // <PlannerIcon name="add-to-list" size={size} color={color} />
-        //   ),
-        // }}
-      />
+      <BottomTab.Screen name="Home" component={HomeScreen} />
+      <BottomTab.Screen name="Workouts" component={WorkoutsScreen} />
     </BottomTab.Navigator>
   );
 }
