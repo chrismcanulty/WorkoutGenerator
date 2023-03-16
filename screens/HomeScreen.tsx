@@ -5,7 +5,6 @@ import SplashScreen from 'react-native-splash-screen';
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   useEffect(() => {
-    console.log('is this being called?');
     SplashScreen.hide();
   });
   return (
