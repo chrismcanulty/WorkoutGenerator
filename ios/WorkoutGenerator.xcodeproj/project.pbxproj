@@ -30,6 +30,8 @@
 		B04F51F129C3EF2200745F6C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B04F51E129C3EF2200745F6C /* Zocial.ttf */; };
 		B04F51F229C3EF2200745F6C /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B04F51E229C3EF2200745F6C /* FontAwesome5_Solid.ttf */; };
 		B04F51F329C3EF2200745F6C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B04F51E329C3EF2200745F6C /* EvilIcons.ttf */; };
+		B04F520829C3FC8D00745F6C /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B04F520629C3FC8D00745F6C /* Montserrat-Regular.ttf */; };
+		B04F520929C3FC8D00745F6C /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B04F520729C3FC8D00745F6C /* Montserrat-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		B04F51E129C3EF2200745F6C /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = ../../../WorkoutApp/ios/Zocial.ttf; sourceTree = "<group>"; };
 		B04F51E229C3EF2200745F6C /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = ../../../WorkoutApp/ios/FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
 		B04F51E329C3EF2200745F6C /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = ../../../WorkoutApp/ios/EvilIcons.ttf; sourceTree = "<group>"; };
+		B04F520629C3FC8D00745F6C /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		B04F520729C3FC8D00745F6C /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -155,6 +159,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				BF6D8FE2E20640AC8111CEAA /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -173,6 +178,8 @@
 		B04F51D329C3EE4800745F6C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B04F520729C3FC8D00745F6C /* Montserrat-Bold.ttf */,
+				B04F520629C3FC8D00745F6C /* Montserrat-Regular.ttf */,
 				B04F51D429C3EF2200745F6C /* AntDesign.ttf */,
 				B04F51E029C3EF2200745F6C /* Entypo.ttf */,
 				B04F51E329C3EF2200745F6C /* EvilIcons.ttf */,
@@ -202,6 +209,13 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-WorkoutGenerator-WorkoutGeneratorTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		BF6D8FE2E20640AC8111CEAA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,6 +312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B04F520929C3FC8D00745F6C /* Montserrat-Bold.ttf in Resources */,
 				B04F51EB29C3EF2200745F6C /* Ionicons.ttf in Resources */,
 				B04F51EA29C3EF2200745F6C /* Fontisto.ttf in Resources */,
 				B04F51E929C3EF2200745F6C /* MaterialIcons.ttf in Resources */,
@@ -305,6 +320,7 @@
 				B04F51EC29C3EF2200745F6C /* SimpleLineIcons.ttf in Resources */,
 				B04F51EE29C3EF2200745F6C /* FontAwesome5_Brands.ttf in Resources */,
 				B04F51E829C3EF2200745F6C /* Feather.ttf in Resources */,
+				B04F520829C3FC8D00745F6C /* Montserrat-Regular.ttf in Resources */,
 				B04F51F329C3EF2200745F6C /* EvilIcons.ttf in Resources */,
 				B04F51E429C3EF2200745F6C /* AntDesign.ttf in Resources */,
 				B04F51F129C3EF2200745F6C /* Zocial.ttf in Resources */,
