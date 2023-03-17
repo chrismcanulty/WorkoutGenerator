@@ -1,17 +1,21 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <RNSplashScreen.h>//Introduction header file
 
 @implementation AppDelegate
+
+// check https://github.com/crazycodeboy/react-native-splash-screen/issues/606
+// and https://github.com/crazycodeboy/react-native-splash-screen/issues/131
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   self.moduleName = @"WorkoutGenerator";
-  // You can add your custom initial props in the dictionary below.
-  // They will be passed down to the ViewController used by React Native.
-  self.initialProps = @{};
 
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  [super application:application didFinishLaunchingWithOptions:launchOptions];
+  [RNSplashScreen show];
+
+  return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
