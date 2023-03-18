@@ -1,5 +1,5 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -9,7 +9,13 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   });
   return (
     <View>
-      <Text>I am home screen</Text>
+      <Text style={styles.header}>I am home screen</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    fontFamily: 'Montserrat-Regular',
+  },
+});
