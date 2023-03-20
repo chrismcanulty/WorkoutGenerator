@@ -1,17 +1,16 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {View, Text, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
+import styled from 'styled-components/native';
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
+  const Header = styled.Text`
+    font-family: 'Montserrat-Regular';
+  `;
+
   return (
     <View>
-      <Text style={styles.header}>I am workouts screen</Text>
+      <Header>I am workouts screen</Header>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    fontFamily: 'Montserrat-Regular',
-  },
-});
