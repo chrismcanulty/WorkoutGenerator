@@ -7,7 +7,22 @@ import styled from 'styled-components/native';
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const Header = styled.Text`
     font-family: 'Montserrat-Regular';
+    font-size: 35px;
+    margin: 35px;
+    margin-top: 70px;
+    padding: 10px;
+    border: 5px solid grey;
+    border-radius: 5px;
+    text-align: center;
+  `;
+  const Button = styled.TouchableOpacity`
     font-size: 26px;
+    margin-top: 50px;
+    padding: 10px;
+  `;
+  const ButtonText = styled.Text`
+    font-family: 'Montserrat-Regular';
+    font-size: 25px;
     margin: 35px;
     padding: 10px;
     border: 5px solid grey;
@@ -22,7 +37,9 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   return (
     <View>
       <Header>Workout Generator</Header>
-      <Button title="Press me" onPress={() => alert('Simple Button pressed')} />
+      <Button onPress={() => navigation.navigate('Workouts')}>
+        <ButtonText>Generate</ButtonText>
+      </Button>
     </View>
   );
 }
