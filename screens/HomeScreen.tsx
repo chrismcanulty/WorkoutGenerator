@@ -37,7 +37,8 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   return (
     <View>
       <Header>Workout Generator</Header>
-      <Button onPress={() => navigation.navigate('Workouts')}>
+      {/* replace navigation with modal? */}
+      <Button onPress={() => navigation.navigate('MuscleGroup')}>
         <ButtonText>Generate</ButtonText>
       </Button>
     </View>
