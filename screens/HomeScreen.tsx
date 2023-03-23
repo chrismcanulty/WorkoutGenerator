@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import styled from 'styled-components/native';
+import BulbIcon from 'react-native-vector-icons/FontAwesome';
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const Button = styled.TouchableOpacity`
@@ -29,6 +30,10 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     padding: 10px;
     text-align: center;
   `;
+  const Bulb = styled(BulbIcon)`
+    font-size: 35px;
+    color: 'rgb(200,200,0)';
+  `;
 
   useEffect(() => {
     SplashScreen.hide();
@@ -39,7 +44,9 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
       <Header>Workout Generator</Header>
       {/* replace navigation with modal? */}
       <Button onPress={() => navigation.navigate('MuscleGroup')}>
-        <ButtonText>Generate</ButtonText>
+        <ButtonText>
+          Generate <Bulb name="lightbulb-o" />
+        </ButtonText>
       </Button>
     </View>
   );
