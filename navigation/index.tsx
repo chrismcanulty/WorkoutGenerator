@@ -11,6 +11,7 @@ import WorkoutsScreen from '../screens/WorkoutsScreen';
 import {ColorSchemeName} from 'react-native';
 import HomeIcon from 'react-native-vector-icons/FontAwesome';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
+import MuscleGroup from '../screens/MuscleGroup';
 
 export default function Navigation({
   colorScheme,
@@ -38,6 +39,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Workouts"
         component={WorkoutsScreen}
+        options={{title: ''}}
+      />
+      <Stack.Screen
+        name="MuscleGroup"
+        component={MuscleGroup}
         options={{title: ''}}
       />
     </Stack.Navigator>
