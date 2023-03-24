@@ -30,10 +30,6 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     text-align: center;
   `;
 
-  useEffect(() => {
-    SplashScreen.hide();
-  });
-
   return (
     <View>
       <Header>Workout Generator</Header>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
@@ -8,6 +8,7 @@ import {
 } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 import WorkoutsScreen from '../screens/WorkoutsScreen';
+import OnboardingScreen from '../screens/OnboardingScreen';
 import {ColorSchemeName} from 'react-native';
 import HomeIcon from 'react-native-vector-icons/FontAwesome';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
@@ -28,24 +29,53 @@ export default function Navigation({
 
 const Stack = createNativeStackNavigator();
 
+// {
+//   isLoggedIn ? (
+//     // Screens for logged in users
+//     <Stack.Group>
+//       <Stack.Screen name="Home" component={Home} />
+//       <Stack.Screen name="Profile" component={Profile} />
+//     </Stack.Group>
+//   ) : (
+//     // Auth screens
+//     <Stack.Group screenOptions={{headerShown: false}}>
+//       <Stack.Screen name="SignIn" component={SignIn} />
+//       <Stack.Screen name="SignUp" component={SignUp} />
+//     </Stack.Group>
+//   );
+// }
+
 function RootNavigator() {
+  const [isOnboarding, setIsOnboarding] = useState(true);
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        component={BottomTabNavigator}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Workouts"
-        component={WorkoutsScreen}
-        options={{title: ''}}
-      />
-      <Stack.Screen
-        name="MuscleGroup"
-        component={MuscleGroup}
-        options={{title: ''}}
-      />
+      {isOnboarding ? (
+        <Stack.Group>
+          <Stack.Screen
+            name="Workouts"
+            component={OnboardingScreen}
+            options={{title: '', headerShown: false}}
+          />
+        </Stack.Group>
+      ) : (
+        <Stack.Group>
+          <Stack.Screen
+            name="Root"
+            component={BottomTabNavigator}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Workouts"
+            component={WorkoutsScreen}
+            options={{title: ''}}
+          />
+          <Stack.Screen
+            name="MuscleGroup"
+            component={MuscleGroup}
+            options={{title: ''}}
+          />
+        </Stack.Group>
+      )}
     </Stack.Navigator>
   );
 }
