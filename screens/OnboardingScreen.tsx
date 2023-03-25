@@ -38,8 +38,9 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
               className="w-72 h-72 object-contain"
             />
           ),
-          title: 'Happy Shopping',
-          subtitle: 'You can get such great deals with this app',
+          title: 'Create new workouts',
+          subtitle:
+            'Get inspiration for new exercises to add to your existing routine, or create a brand new workout',
         },
         {
           backgroundColor: '#fff',
@@ -51,8 +52,9 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
               className="w-72 h-72 object-contain"
             />
           ),
-          title: 'One stop shop',
-          subtitle: 'Rediscover your love of shopping',
+          title: 'Generate with just a few clicks',
+          subtitle:
+            'Simply select your desired muscle group, number of exercises and available equipment and let us generate an appropriate workout for you',
         },
         {
           backgroundColor: '#fff',
@@ -64,8 +66,9 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
               className="w-72 h-72 object-contain"
             />
           ),
-          title: 'The joy of consumption',
-          subtitle: 'Fill the void in your heart, forget buyers remorse',
+          title: 'Save your favourites',
+          subtitle:
+            'You can save your top three workouts so you can easily refer to them later',
         },
       ]}
     />
