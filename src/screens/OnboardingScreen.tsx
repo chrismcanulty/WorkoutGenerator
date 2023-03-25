@@ -1,20 +1,23 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Image, SafeAreaView, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Onboarding from 'react-native-onboarding-swiper';
-// import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../context/User.Context';
 
-export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
-  const Header = styled.Text`
-    font-family: 'Montserrat-Regular';
-  `;
+const Header = styled.Text`
+  font-family: 'Montserrat-Regular';
+`;
+
+export default function OnboardingScreen() {
+  const {setShouldShowOnboarding} = useContext(UserContext);
 
   const clearOnboarding = async () => {
     try {
-      await AsyncStorage.setItem('@isOnboarding', 'false');
+      await AsyncStorage.setItem('@isOnboarding', 'true');
+      setShouldShowOnboarding(false);
     } catch (err) {
       console.log('Error @setItem: ', err);
     }
@@ -25,6 +28,7 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
       // best practices? See around 33 min mark https://www.youtube.com/watch?v=z5oHeKseh1w
       // when above link instructions are followed, resulting error refers to this link:
       // https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator
+
       onDone={clearOnboarding}
       onSkip={clearOnboarding}
       pages={[
@@ -32,7 +36,7 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
           backgroundColor: '#fff',
           image: (
             <Image
-              source={require('../assets/images/OnboardingOne.jpg')}
+              source={require('../../assets/images/OnboardingOne.jpg')}
               className="w-72 h-72 object-contain rounded-xl overflow-hidden"
             />
           ),
@@ -44,7 +48,7 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
           backgroundColor: '#fff',
           image: (
             <Image
-              source={require('../assets/images/OnboardingTwo.png')}
+              source={require('../../assets/images/OnboardingTwo.png')}
               className="w-72 h-72 object-contain rounded-xl overflow-hidden"
             />
           ),
@@ -56,7 +60,7 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
           backgroundColor: '#fff',
           image: (
             <Image
-              source={require('../assets/images/OnboardingThree.jpg')}
+              source={require('../../assets/images/OnboardingThree.jpg')}
               className="w-72 h-72 object-contain rounded-xl overflow-hidden"
             />
           ),

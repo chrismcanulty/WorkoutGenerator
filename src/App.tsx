@@ -7,6 +7,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Navigation from './navigation';
 import {TailwindProvider} from 'tailwindcss-react-native';
 import SplashScreen from 'react-native-splash-screen';
+import UserProvider from './context/User.Context';
 
 export default function App() {
   // const isLoaded = useCachedResources();
@@ -17,11 +18,13 @@ export default function App() {
   });
 
   return (
-    <TailwindProvider>
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar style="auto" />
-      </SafeAreaProvider>
-    </TailwindProvider>
+    <UserProvider>
+      <TailwindProvider>
+        <SafeAreaProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar style="auto" />
+        </SafeAreaProvider>
+      </TailwindProvider>
+    </UserProvider>
   );
 }

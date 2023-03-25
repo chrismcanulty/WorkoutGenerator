@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {TailwindProvider} from 'tailwindcss-react-native';
 import {
   NavigationContainer,
   DarkTheme,
@@ -15,6 +13,7 @@ import {ColorSchemeName} from 'react-native';
 import HomeIcon from 'react-native-vector-icons/FontAwesome';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import MuscleGroup from '../screens/MuscleGroup';
+import {UserContext} from '../context/User.Context';
 
 export default function Navigation({
   colorScheme,
@@ -22,38 +21,21 @@ export default function Navigation({
   colorScheme: ColorSchemeName;
 }) {
   return (
-    // <TailwindProvider>
     <NavigationContainer
       theme={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
       <RootNavigator />
     </NavigationContainer>
-    // </TailwindProvider>
   );
 }
 
 const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
-  // set isOnboarding to false once onboarding has been completed
-  const [isOnboarding, setIsOnboarding] = useState(true);
-  const checkOnboarding = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@isOnboarding');
-      if (value !== null) {
-        setIsOnboarding(false);
-      }
-    } catch (err) {
-      console.log('Error @checkOnboarding: ', err);
-    }
-  };
-
-  useEffect(() => {
-    checkOnboarding();
-  }, []);
+  const {shouldShowOnboarding} = useContext(UserContext);
 
   return (
     <Stack.Navigator>
-      {isOnboarding ? (
+      {shouldShowOnboarding ? (
         <Stack.Group>
           <Stack.Screen
             name="OnboardingScreen"
