@@ -668,7 +668,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public/react-native-splash-screen\" ";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public/react-native-splash-screen\"",
+					" ",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
@@ -734,7 +737,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public/react-native-splash-screen\" ";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public/react-native-splash-screen\"",
+					" ",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,

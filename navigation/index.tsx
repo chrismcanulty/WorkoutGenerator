@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   NavigationContainer,
   DarkTheme,
@@ -29,30 +30,30 @@ export default function Navigation({
 
 const Stack = createNativeStackNavigator();
 
-// {
-//   isLoggedIn ? (
-//     // Screens for logged in users
-//     <Stack.Group>
-//       <Stack.Screen name="Home" component={Home} />
-//       <Stack.Screen name="Profile" component={Profile} />
-//     </Stack.Group>
-//   ) : (
-//     // Auth screens
-//     <Stack.Group screenOptions={{headerShown: false}}>
-//       <Stack.Screen name="SignIn" component={SignIn} />
-//       <Stack.Screen name="SignUp" component={SignUp} />
-//     </Stack.Group>
-//   );
-// }
-
 function RootNavigator() {
+  // set isOnboarding to false once onboarding has been completed
   const [isOnboarding, setIsOnboarding] = useState(true);
+  const checkOnboarding = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@isOnboarding');
+      if (value !== null) {
+        setIsOnboarding(false);
+      }
+    } catch (err) {
+      console.log('Error @checkOnboarding: ', err);
+    }
+  };
+
+  useEffect(() => {
+    checkOnboarding();
+  }, []);
+
   return (
     <Stack.Navigator>
       {isOnboarding ? (
         <Stack.Group>
           <Stack.Screen
-            name="Workouts"
+            name="OnboardingScreen"
             component={OnboardingScreen}
             options={{title: '', headerShown: false}}
           />

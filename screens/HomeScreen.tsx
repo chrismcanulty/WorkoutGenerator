@@ -1,8 +1,9 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {View} from 'react-native';
-import React, {useEffect} from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import {Text, View} from 'react-native';
+import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const Button = styled.TouchableOpacity`
@@ -30,6 +31,14 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     text-align: center;
   `;
 
+  const clearOnboarding = async () => {
+    try {
+      await AsyncStorage.removeItem('@isOnboarding');
+    } catch (err) {
+      console.log('Error @clearOnboarding: ', err);
+    }
+  };
+
   return (
     <View>
       <Header>Workout Generator</Header>
@@ -37,6 +46,9 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
       <Button onPress={() => navigation.navigate('MuscleGroup')}>
         <ButtonText>Generate</ButtonText>
       </Button>
+      <TouchableOpacity onPress={clearOnboarding}>
+        <Text>Clear onboarding</Text>
+      </TouchableOpacity>
     </View>
   );
 }
