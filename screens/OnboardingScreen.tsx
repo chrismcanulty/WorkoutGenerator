@@ -32,10 +32,8 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
           backgroundColor: '#fff',
           image: (
             <Image
-              source={{
-                uri: 'https://previews.123rf.com/images/irfanfirdaus/irfanfirdaus2003/irfanfirdaus200300016/143492365-vector-illustration-mobile-online-shopping-women-shop-online-with-smartphone-mobile-shopping-concept.jpg',
-              }}
-              className="w-72 h-72 object-contain"
+              source={require('../assets/images/OnboardingOne.jpg')}
+              className="w-72 h-72 object-contain rounded-xl overflow-hidden"
             />
           ),
           title: 'Create new workouts',
@@ -46,24 +44,20 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
           backgroundColor: '#fff',
           image: (
             <Image
-              source={{
-                uri: 'https://cdn.dribbble.com/users/1458982/screenshots/4291206/sign-in-dribble.png?compress=1&resize=400x300&vertical=top',
-              }}
-              className="w-72 h-72 object-contain"
+              source={require('../assets/images/OnboardingTwo.png')}
+              className="w-72 h-72 object-contain rounded-xl overflow-hidden"
             />
           ),
           title: 'Generate with just a few clicks',
           subtitle:
-            'Simply select your desired muscle group, number of exercises and available equipment and let us generate an appropriate workout for you',
+            'Simply select your desired muscle group, number of exercises and available equipment',
         },
         {
           backgroundColor: '#fff',
           image: (
             <Image
-              source={{
-                uri: 'https://thumbs.dreamstime.com/b/woman-shopping-sales-happy-young-holding-paper-bags-enjoying-126694001.jpg',
-              }}
-              className="w-72 h-72 object-contain"
+              source={require('../assets/images/OnboardingThree.jpg')}
+              className="w-72 h-72 object-contain rounded-xl overflow-hidden"
             />
           ),
           title: 'Save your favourites',
