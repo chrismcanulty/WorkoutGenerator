@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {TailwindProvider} from 'tailwindcss-react-native';
 import {
   NavigationContainer,
   DarkTheme,
@@ -21,10 +22,12 @@ export default function Navigation({
   colorScheme: ColorSchemeName;
 }) {
   return (
+    // <TailwindProvider>
     <NavigationContainer
       theme={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
       <RootNavigator />
     </NavigationContainer>
+    // </TailwindProvider>
   );
 }
 
