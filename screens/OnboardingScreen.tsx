@@ -5,6 +5,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Onboarding from 'react-native-onboarding-swiper';
+// import {useNavigation} from '@react-navigation/native';
 
 export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
   const Header = styled.Text`
@@ -21,7 +22,11 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
 
   return (
     <Onboarding
-      // onDone={() => clearOnboarding}
+      // best practices? See around 33 min mark https://www.youtube.com/watch?v=z5oHeKseh1w
+      // when above link instructions are followed, resulting error refers to this link:
+      // https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator
+      onDone={clearOnboarding}
+      onSkip={clearOnboarding}
       pages={[
         {
           backgroundColor: '#fff',
@@ -33,8 +38,8 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
               className="w-72 h-72 object-contain"
             />
           ),
-          title: 'Onboarding',
-          subtitle: 'Done with React Native Onboarding Swiper',
+          title: 'Happy Shopping',
+          subtitle: 'You can get such great deals with this app',
         },
         {
           backgroundColor: '#fff',
@@ -46,8 +51,8 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
               className="w-72 h-72 object-contain"
             />
           ),
-          title: 'Onboarding',
-          subtitle: 'Done with React Native Onboarding Swiper',
+          title: 'One stop shop',
+          subtitle: 'Rediscover your love of shopping',
         },
         {
           backgroundColor: '#fff',
@@ -59,8 +64,8 @@ export default function OnboardingScreen({navigation}: NativeStackHeaderProps) {
               className="w-72 h-72 object-contain"
             />
           ),
-          title: 'Onboarding',
-          subtitle: 'Done with React Native Onboarding Swiper',
+          title: 'The joy of consumption',
+          subtitle: 'Fill the void in your heart, forget buyers remorse',
         },
       ]}
     />
