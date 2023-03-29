@@ -22,7 +22,7 @@ const UserProvider = ({children}) => {
 
   const fetchMuscleGroup = async () => {
     // TODO: catch error
-    //TODO: think about context name?
+    // TODO: think about context name?
     const res = await axios.get('https://wger.de/api/v2/muscle/');
     // const { data: { results }} = await axios.get('https://wger.de/api/v2/muscle/');
     setMuscleGroup(res?.data?.results);

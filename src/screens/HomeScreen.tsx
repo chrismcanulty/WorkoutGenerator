@@ -4,7 +4,6 @@ import React, {useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
-import useResults from '../hooks/useResults';
 import {UserContext} from '../context/User.Context';
 
 const Button = styled.TouchableOpacity`
@@ -41,8 +40,6 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
       console.log('Error @clearOnboarding: ', err);
     }
   };
-
-  const [searchApi, results, errorMessage] = useResults();
 
   console.log('muscleGroup', muscleGroup);
   return (
