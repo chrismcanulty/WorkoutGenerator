@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {node} from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export const UserContext = React.createContext();
 
 const UserProvider = ({children}) => {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(false);
+  const [muscleGroup, setMuscleGroup] = useState([]);
 
   const checkOnboarding = async () => {
     try {
@@ -18,14 +20,23 @@ const UserProvider = ({children}) => {
     }
   };
 
+  const fetchMuscleGroup = async () => {
+    // TODO: catch error
+    //TODO: think about context name?
+    const res = await axios.get('https://wger.de/api/v2/muscle/');
+    // const { data: { results }} = await axios.get('https://wger.de/api/v2/muscle/');
+    setMuscleGroup(res?.data?.results);
+  };
+
   useEffect(() => {
     checkOnboarding();
+    fetchMuscleGroup();
   }, []);
 
   return (
     <>
       <UserContext.Provider
-        value={{shouldShowOnboarding, setShouldShowOnboarding}}>
+        value={{shouldShowOnboarding, setShouldShowOnboarding, muscleGroup}}>
         {children}
       </UserContext.Provider>
     </>
