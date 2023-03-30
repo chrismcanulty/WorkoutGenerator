@@ -8,7 +8,7 @@ export const UserContext = React.createContext();
 const UserProvider = ({children}) => {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(false);
   const [muscleGroup, setMuscleGroup] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const checkOnboarding = async () => {
     try {
@@ -22,12 +22,11 @@ const UserProvider = ({children}) => {
   };
 
   const fetchMuscleGroup = async () => {
-    // TODO: catch error -> done
     // TODO: think about context name?
     try {
       const res = await axios.get('https://wger.de/api/v2/muscle/');
       // const { data: { results }} = await axios.get('https://wger.de/api/v2/muscle/');
-      setMuscleGroup(res?.data?.results);
+      setMuscleGroup(res.data.results);
     } catch (err) {
       setErrorMessage(err);
     }

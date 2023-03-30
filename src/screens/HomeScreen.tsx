@@ -1,5 +1,5 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {View} from 'react-native';
+import {View, FlatList, Text} from 'react-native';
 import React, {useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -41,14 +41,30 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
-  console.log('muscleGroup', muscleGroup);
+  // console.log('muscleGroup', muscleGroup);
+
+  type ItemProps = {title: string};
+
+  const Item = ({title}: ItemProps) => (
+    <View>
+      <Text>{title}</Text>
+    </View>
+  );
+
   return (
     <View>
       <Header>{questions[1]}</Header>
+      <FlatList
+        data={muscleGroup}
+        renderItem={({item}) => {
+          if (item.name_en) {
+            return <Item title={item.name_en} />;
+          }
+        }}></FlatList>
       <Button
         style={{marginBottom: 0, padding: 0}}
         onPress={() => navigation.navigate('MuscleGroup')}>
-        <ButtonText style={{marginTop: 220, marginBottom: 0, padding: 0}}>
+        <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
           Generate
         </ButtonText>
       </Button>
