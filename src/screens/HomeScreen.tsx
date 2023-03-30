@@ -30,6 +30,24 @@ const Header = styled.Text`
   padding: 10px;
   text-align: center;
 `;
+
+type ItemProps = {
+  id: number;
+  name: string;
+  name_en?: string;
+  is_front: boolean;
+  image_url_main: string;
+  image_url_secondary: string;
+};
+
+const Item = (props?: ItemProps) => {
+  return props?.name_en ? (
+    <View>
+      <Text>{props.name_en}</Text>
+    </View>
+  ) : null;
+};
+
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const {muscleGroup} = useContext(UserContext);
 
@@ -43,24 +61,14 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
 
   // console.log('muscleGroup', muscleGroup);
 
-  type ItemProps = {title: string};
-
-  const Item = ({title}: ItemProps) => (
-    <View>
-      <Text>{title}</Text>
-    </View>
-  );
-
   return (
     <View>
       <Header>{questions[1]}</Header>
       <FlatList
         data={muscleGroup}
-        renderItem={({item}) => {
-          if (item.name_en) {
-            return <Item title={item.name_en} />;
-          }
-        }}></FlatList>
+        keyExtractor={item => item.id}
+        renderItem={({item}) => <Item {...item} />}
+      />
       <Button
         style={{marginBottom: 0, padding: 0}}
         onPress={() => navigation.navigate('MuscleGroup')}>
