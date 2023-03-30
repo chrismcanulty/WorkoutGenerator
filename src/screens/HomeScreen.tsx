@@ -35,24 +35,17 @@ const Header = styled.Text`
 // type ItemProps = {
 //   id: number;
 //   name: string;
-//   name_en?: string;
+//   name_en: string;
 //   is_front: boolean;
 //   image_url_main: string;
 //   image_url_secondary: string;
-// };
-
-// const Item = (props?: ItemProps) => {
-//   return props?.name_en ? (
-//     <View>
-//       <Text>{props.name_en}</Text>
-//     </View>
-//   ) : null;
 // };
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const {muscleGroup} = useContext(UserContext);
   const [selected, setSelected] = useState('');
 
+  if (muscleGroup.length === 0) return null;
   const clearOnboarding = async () => {
     try {
       await AsyncStorage.removeItem('@isOnboarding');
@@ -61,29 +54,24 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
-  const sampleData = [
-    {key: '1', value: 'Mobiles', disabled: true},
-    {key: '2', value: 'Appliances'},
-    {key: '3', value: 'Cameras'},
-    {key: '4', value: 'Computers', disabled: true},
-    {key: '5', value: 'Vegetables'},
-    {key: '6', value: 'Diary Products'},
-    {key: '7', value: 'Drinks'},
-  ];
+  const muscleGroupData = () => {
+    console.log('muscleGroup', muscleGroup);
+    const temp = [];
+    for (const muscle of muscleGroup as any) {
+      if (muscle.name_en) {
+        temp.push({...muscle, key: muscle.id, value: muscle.name_en});
+      }
+    }
+    return temp;
+  };
 
-  // need to add a key based on ID of data
-
+  console.log('muscleGroupData', muscleGroupData());
   return (
     <View>
       <Header>{questions[1]}</Header>
-      {/* <FlatList
-        data={muscleGroup}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => <Item {...item} />}
-      /> */}
       <MultipleSelectList
         setSelected={setSelected}
-        data={sampleData}
+        data={muscleGroupData()}
         save="value"
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
