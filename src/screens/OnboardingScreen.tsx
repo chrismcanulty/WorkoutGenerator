@@ -1,13 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Image, View} from 'react-native';
 import React, {useContext} from 'react';
-// import styled from 'styled-components/native';
 import Onboarding from 'react-native-onboarding-swiper';
 import {UserContext} from '../context/User.Context';
-
-// const Header = styled.Text`
-//   font-family: 'Montserrat-Regular';
-// `;
 
 export default function OnboardingScreen() {
   const {setShouldShowOnboarding} = useContext(UserContext);

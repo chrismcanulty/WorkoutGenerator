@@ -2,6 +2,7 @@ import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {View} from 'react-native';
 import React from 'react';
 import styled from 'styled-components/native';
+import questions from '../utils/questions';
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const Header = styled.Text`
@@ -10,7 +11,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   return (
     <View>
-      <Header>Which muscle group would you like to work on?</Header>
+      <Header>{questions[1]}</Header>
     </View>
   );
 }
