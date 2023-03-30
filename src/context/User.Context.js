@@ -9,6 +9,8 @@ const UserProvider = ({children}) => {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(false);
   const [muscleGroup, setMuscleGroup] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
+  // selected muscles will be set based on user selection on home screen component
+  const [selectedMuscles, setSelectedMuscles] = useState([]);
   // create new state that tracks selected muscle group so it's available app-wide
   // pass to home screen and set the state based on user selection
   // use this later to generate workout
@@ -25,10 +27,8 @@ const UserProvider = ({children}) => {
   };
 
   const fetchMuscleGroup = async () => {
-    // TODO: think about context name?
     try {
       const res = await axios.get('https://wger.de/api/v2/muscle/');
-      // const { data: { results }} = await axios.get('https://wger.de/api/v2/muscle/');
       setMuscleGroup(res.data.results);
     } catch (err) {
       setErrorMessage(err);
@@ -48,6 +48,8 @@ const UserProvider = ({children}) => {
           setShouldShowOnboarding,
           muscleGroup,
           errorMessage,
+          selectedMuscles,
+          setSelectedMuscles,
         }}>
         {children}
       </UserContext.Provider>

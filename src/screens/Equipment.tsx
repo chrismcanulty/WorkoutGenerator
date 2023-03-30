@@ -11,7 +11,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   return (
     <View>
-      <Header>What equipment do you have available?</Header>
+      <Header>{questions[1]}</Header>
     </View>
   );
 }

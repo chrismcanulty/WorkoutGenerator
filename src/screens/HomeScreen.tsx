@@ -1,6 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {View} from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
@@ -42,11 +42,7 @@ const Header = styled.Text`
 // };
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
-  const {muscleGroup} = useContext(UserContext);
-  const [selected, setSelected] = useState('');
-  // receive state from context file and set muscle group data into state
-  // so it can be used app wide
-  // later use this state to generate workout
+  const {muscleGroup, setSelectedMuscles} = useContext(UserContext);
 
   if (muscleGroup.length === 0) return null;
   const clearOnboarding = async () => {
@@ -69,9 +65,9 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
 
   return (
     <View>
-      <Header>{questions[1]}</Header>
+      <Header>{questions[0]}</Header>
       <MultipleSelectList
-        setSelected={setSelected}
+        setSelected={setSelectedMuscles}
         data={muscleGroupData()}
         save="value"
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
