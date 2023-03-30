@@ -12,7 +12,7 @@ import OnboardingScreen from '../screens/OnboardingScreen';
 import {ColorSchemeName} from 'react-native';
 import HomeIcon from 'react-native-vector-icons/FontAwesome';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
-import MuscleGroup from '../screens/MuscleGroup';
+import Equipment from '../screens/Equipment';
 import {UserContext} from '../context/User.Context';
 
 export default function Navigation({
@@ -56,8 +56,8 @@ function RootNavigator() {
             options={{title: ''}}
           />
           <Stack.Screen
-            name="MuscleGroup"
-            component={MuscleGroup}
+            name="Equipment"
+            component={Equipment}
             options={{title: ''}}
           />
         </Stack.Group>

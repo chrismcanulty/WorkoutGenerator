@@ -10,7 +10,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   return (
     <View>
-      <Header>Which muscle group would you like to work on?</Header>
+      <Header>What equipment do you have available?</Header>
     </View>
   );
 }
