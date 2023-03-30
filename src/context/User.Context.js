@@ -9,6 +9,9 @@ const UserProvider = ({children}) => {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(false);
   const [muscleGroup, setMuscleGroup] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
+  // create new state that tracks selected muscle group so it's available app-wide
+  // pass to home screen and set the state based on user selection
+  // use this later to generate workout
 
   const checkOnboarding = async () => {
     try {

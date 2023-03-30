@@ -44,6 +44,9 @@ const Header = styled.Text`
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const {muscleGroup} = useContext(UserContext);
   const [selected, setSelected] = useState('');
+  // receive state from context file and set muscle group data into state
+  // so it can be used app wide
+  // later use this state to generate workout
 
   if (muscleGroup.length === 0) return null;
   const clearOnboarding = async () => {
@@ -55,7 +58,6 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   };
 
   const muscleGroupData = () => {
-    console.log('muscleGroup', muscleGroup);
     const temp = [];
     for (const muscle of muscleGroup as any) {
       if (muscle.name_en) {
@@ -65,7 +67,6 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     return temp;
   };
 
-  console.log('muscleGroupData', muscleGroupData());
   return (
     <View>
       <Header>{questions[1]}</Header>
@@ -75,7 +76,7 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         save="value"
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
-        onSelect={() => alert(selected)}
+        // onSelect={selected => setSelectedMuscles(selected)}
         label="Categories"
       />
       <Button
