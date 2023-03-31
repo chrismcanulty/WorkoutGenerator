@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import questions from '../utils/questions';
 import warnings from '../utils/warnings';
 import {UserContext} from '../context/User.Context';
-import {MultipleSelectList} from 'react-native-dropdown-select-list';
+import {MultipleSelectList} from '../component/MultipleSelectList';
 
 const Button = styled.TouchableOpacity`
   font-size: 26px;
@@ -44,15 +44,6 @@ const Warning = styled.Text`
   text-align: center;
 `;
 
-// type ItemProps = {
-//   id: number;
-//   name: string;
-//   name_en: string;
-//   is_front: boolean;
-//   image_url_main: string;
-//   image_url_secondary: string;
-// };
-
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const {muscleGroup, selectedMuscles, setSelectedMuscles} =
     useContext(UserContext);
@@ -77,6 +68,7 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     }
     return temp;
   };
+  console.log('equipmentData', muscleGroupData());
 
   return (
     <View>
@@ -89,6 +81,7 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         onSelect={() => setWarning(false)}
         label="Categories"
+        defaultValues={selectedMuscles}
       />
       {warning && <Warning>{warnings[0]}</Warning>}
       <Button

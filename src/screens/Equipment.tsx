@@ -4,7 +4,7 @@ import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
 import {UserContext} from '../context/User.Context';
-import {MultipleSelectList} from 'react-native-dropdown-select-list';
+import MultipleSelectList from '../component/MultipleSelectList';
 import warnings from '../utils/warnings';
 
 const Button = styled.TouchableOpacity`
@@ -48,6 +48,7 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
   const {equipmentTypes, selectedEquipment, setSelectedEquipment} =
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
+  if (equipmentTypes.length === 0) return null;
 
   const equipmentData = () => {
     const temp = [];
@@ -58,7 +59,7 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
     }
     return temp;
   };
-
+  console.log('equipmentData', equipmentData());
   return (
     <View>
       <Header>{questions[1]}</Header>
@@ -69,7 +70,8 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         onSelect={() => setWarning(false)}
-        label="Categories"
+        label="equipmentData"
+        defaultValues={selectedEquipment}
       />
       {warning && <Warning>{warnings[1]}</Warning>}
       <Button
