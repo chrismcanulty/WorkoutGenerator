@@ -45,21 +45,20 @@ const Warning = styled.Text`
 `;
 
 export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
-  const {equipmentTypes, selectedEquipment, setSelectedEquipment} =
+  const {selectedEquipment, setSelectedEquipment, equipmentData} =
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
-  if (equipmentTypes.length === 0) return null;
 
-  const equipmentData = () => {
-    const temp = [];
-    for (const equipment of equipmentTypes as any) {
-      if (equipment.name) {
-        temp.push({...equipment, key: equipment.id, value: equipment.name});
-      }
+  // if (equipmentTypes.length === 0) return null;
+
+  const onPress = function () {
+    if (selectedEquipment.length > 0) {
+      navigation.navigate('Reps');
+    } else if (selectedEquipment.length === 0) {
+      setWarning(true);
     }
-    return temp;
   };
-  console.log('equipmentData', equipmentData());
+
   return (
     <View>
       <Header>{questions[1]}</Header>
@@ -74,15 +73,7 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
         defaultValues={selectedEquipment}
       />
       {warning && <Warning>{warnings[1]}</Warning>}
-      <Button
-        style={{marginBottom: 0, padding: 0}}
-        onPress={() => {
-          if (selectedEquipment.length > 0) {
-            navigation.navigate('Reps');
-          } else if (selectedEquipment.length === 0) {
-            setWarning(true);
-          }
-        }}>
+      <Button style={{marginBottom: 0, padding: 0}} onPress={onPress}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
           Next
         </ButtonText>

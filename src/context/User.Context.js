@@ -42,6 +42,16 @@ const UserProvider = ({children}) => {
     }
   };
 
+  const equipmentData = () => {
+    const temp = [];
+    for (const equipment of equipmentTypes) {
+      if (equipment.name) {
+        temp.push({...equipment, key: equipment.id, value: equipment.name});
+      }
+    }
+    return temp;
+  };
+
   useEffect(() => {
     checkOnboarding();
     fetchMuscleGroup();
@@ -61,6 +71,7 @@ const UserProvider = ({children}) => {
           setSelectedMuscles,
           selectedEquipment,
           setSelectedEquipment,
+          equipmentData,
         }}>
         {children}
       </UserContext.Provider>

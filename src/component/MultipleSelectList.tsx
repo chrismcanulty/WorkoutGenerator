@@ -198,7 +198,6 @@ export const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
   const [height, setHeight] = React.useState<number>(350);
   const animatedvalue = React.useRef(new Animated.Value(0)).current;
   const [filtereddata, setFilteredData] = React.useState(data);
-  console.log('selectedval', selectedval);
 
   const slidedown = () => {
     setDropdown(true);

@@ -49,7 +49,7 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
 
-  if (muscleGroup.length === 0) return null;
+  // if (muscleGroup.length === 0) return null;
 
   const clearOnboarding = async () => {
     try {
@@ -68,7 +68,14 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     }
     return temp;
   };
-  console.log('equipmentData', muscleGroupData());
+
+  const onPress = function () {
+    if (selectedMuscles.length > 0) {
+      navigation.navigate('Equipment');
+    } else if (selectedMuscles.length === 0) {
+      setWarning(true);
+    }
+  };
 
   return (
     <View>
@@ -84,15 +91,7 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         defaultValues={selectedMuscles}
       />
       {warning && <Warning>{warnings[0]}</Warning>}
-      <Button
-        style={{marginBottom: 0, padding: 0}}
-        onPress={() => {
-          if (selectedMuscles.length > 0) {
-            navigation.navigate('Equipment');
-          } else if (selectedMuscles.length === 0) {
-            setWarning(true);
-          }
-        }}>
+      <Button style={{marginBottom: 0, padding: 0}} onPress={onPress}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
           Next
         </ButtonText>
