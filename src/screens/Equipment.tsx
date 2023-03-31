@@ -62,6 +62,8 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
         onPress={() => {
           if (selectedEquipment.length > 0) {
             navigation.navigate('Reps');
+          } else if (selectedEquipment.length === 0) {
+            alert('Please select what equipment you have available');
           }
         }}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>

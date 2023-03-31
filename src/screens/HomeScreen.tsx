@@ -82,6 +82,8 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         onPress={() => {
           if (selectedMuscles.length > 0) {
             navigation.navigate('Equipment');
+          } else if (selectedMuscles.length === 0) {
+            alert('Please select at least one muscle group');
           }
         }}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
