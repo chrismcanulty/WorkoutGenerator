@@ -1,9 +1,10 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {View} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
+import warnings from '../utils/warnings';
 import {UserContext} from '../context/User.Context';
 import {MultipleSelectList} from 'react-native-dropdown-select-list';
 
@@ -31,6 +32,17 @@ const Header = styled.Text`
   padding: 10px;
   text-align: center;
 `;
+const Warning = styled.Text`
+  border: 3px solid red;
+  border-radius: 20px;
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  color: red;
+  margin: 20px;
+  margin-top: 0px;
+  padding: 10px;
+  text-align: center;
+`;
 
 // type ItemProps = {
 //   id: number;
@@ -44,6 +56,7 @@ const Header = styled.Text`
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   const {muscleGroup, selectedMuscles, setSelectedMuscles} =
     useContext(UserContext);
+  const [warning, setWarning] = useState(false);
 
   if (muscleGroup.length === 0) return null;
 
@@ -77,13 +90,14 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         // onSelect={selected => setSelectedMuscles(selected)}
         label="Categories"
       />
+      {warning && <Warning>{warnings[0]}</Warning>}
       <Button
         style={{marginBottom: 0, padding: 0}}
         onPress={() => {
           if (selectedMuscles.length > 0) {
             navigation.navigate('Equipment');
           } else if (selectedMuscles.length === 0) {
-            alert('Please select at least one muscle group');
+            setWarning(true);
           }
         }}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
