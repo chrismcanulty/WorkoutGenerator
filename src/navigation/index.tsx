@@ -12,7 +12,8 @@ import OnboardingScreen from '../screens/OnboardingScreen';
 import {ColorSchemeName} from 'react-native';
 import HomeIcon from 'react-native-vector-icons/FontAwesome';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
-import Equipment from '../screens/Equipment';
+import EquipmentScreen from '../screens/Equipment';
+import RepsScreen from '../screens/RepsScreen';
 import {UserContext} from '../context/User.Context';
 
 export default function Navigation({
@@ -57,7 +58,12 @@ function RootNavigator() {
           />
           <Stack.Screen
             name="Equipment"
-            component={Equipment}
+            component={EquipmentScreen}
+            options={{title: ''}}
+          />
+          <Stack.Screen
+            name="Reps"
+            component={RepsScreen}
             options={{title: ''}}
           />
         </Stack.Group>

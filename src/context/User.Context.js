@@ -9,11 +9,9 @@ const UserProvider = ({children}) => {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(false);
   const [muscleGroup, setMuscleGroup] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  // selected muscles will be set based on user selection on home screen component
   const [selectedMuscles, setSelectedMuscles] = useState([]);
-  // create new state that tracks selected muscle group so it's available app-wide
-  // pass to home screen and set the state based on user selection
-  // use this later to generate workout
+  const [equipmentTypes, setEquipmentTypes] = useState([]);
+  const [selectedEquipment, setSelectedEquipment] = useState([]);
 
   const checkOnboarding = async () => {
     try {
@@ -35,9 +33,19 @@ const UserProvider = ({children}) => {
     }
   };
 
+  const fetchEquipmentTypes = async () => {
+    try {
+      const res = await axios.get('https://wger.de/api/v2/equipment/');
+      setEquipmentTypes(res.data.results);
+    } catch (err) {
+      setErrorMessage(err);
+    }
+  };
+
   useEffect(() => {
     checkOnboarding();
     fetchMuscleGroup();
+    fetchEquipmentTypes();
   }, []);
 
   return (
@@ -47,9 +55,12 @@ const UserProvider = ({children}) => {
           shouldShowOnboarding,
           setShouldShowOnboarding,
           muscleGroup,
+          equipmentTypes,
           errorMessage,
           selectedMuscles,
           setSelectedMuscles,
+          selectedEquipment,
+          setSelectedEquipment,
         }}>
         {children}
       </UserContext.Provider>
