@@ -32,7 +32,8 @@ const Header = styled.Text`
 `;
 
 export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
-  const {equipmentTypes, setSelectedEquipment} = useContext(UserContext);
+  const {equipmentTypes, selectedEquipment, setSelectedEquipment} =
+    useContext(UserContext);
 
   const equipmentData = () => {
     const temp = [];
@@ -58,7 +59,11 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
       />
       <Button
         style={{marginBottom: 0, padding: 0}}
-        onPress={() => navigation.navigate('Reps')}>
+        onPress={() => {
+          if (selectedEquipment.length > 0) {
+            navigation.navigate('Reps');
+          }
+        }}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
           Next
         </ButtonText>

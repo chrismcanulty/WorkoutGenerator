@@ -42,9 +42,11 @@ const Header = styled.Text`
 // };
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
-  const {muscleGroup, setSelectedMuscles} = useContext(UserContext);
+  const {muscleGroup, selectedMuscles, setSelectedMuscles} =
+    useContext(UserContext);
 
   if (muscleGroup.length === 0) return null;
+
   const clearOnboarding = async () => {
     try {
       await AsyncStorage.removeItem('@isOnboarding');
@@ -77,7 +79,11 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
       />
       <Button
         style={{marginBottom: 0, padding: 0}}
-        onPress={() => navigation.navigate('Equipment')}>
+        onPress={() => {
+          if (selectedMuscles.length > 0) {
+            navigation.navigate('Equipment');
+          }
+        }}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
           Next
         </ButtonText>
