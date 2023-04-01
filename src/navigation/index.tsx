@@ -15,6 +15,7 @@ import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import EquipmentScreen from '../screens/Equipment';
 import RepsScreen from '../screens/RepsScreen';
 import {UserContext} from '../context/User.Context';
+import GenerationScreen from '../screens/GenerationScreen';
 
 export default function Navigation({
   colorScheme,
@@ -64,6 +65,11 @@ function RootNavigator() {
           <Stack.Screen
             name="Reps"
             component={RepsScreen}
+            options={{title: ''}}
+          />
+          <Stack.Screen
+            name="Generation"
+            component={GenerationScreen}
             options={{title: ''}}
           />
         </Stack.Group>

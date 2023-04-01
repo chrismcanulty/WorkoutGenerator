@@ -49,7 +49,7 @@ export default function RepsScreen({navigation}: NativeStackHeaderProps) {
 
   const onPress = function () {
     if (numberOfExercises !== '0') {
-      navigation.navigate('Workouts');
+      navigation.navigate('Generation');
     } else if (numberOfExercises === '0') {
       setWarning(true);
     }
