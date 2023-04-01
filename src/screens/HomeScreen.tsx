@@ -49,8 +49,6 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
 
-  // if (muscleGroup.length === 0) return null;
-
   const clearOnboarding = async () => {
     try {
       await AsyncStorage.removeItem('@isOnboarding');
@@ -87,7 +85,7 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         onSelect={() => setWarning(false)}
-        label="Categories"
+        label="Muscle groups"
         defaultValues={selectedMuscles}
       />
       {warning && <Warning>{warnings[0]}</Warning>}
