@@ -1,11 +1,12 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {View} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
+import warnings from '../utils/warnings';
 import {UserContext} from '../context/User.Context';
-import {MultipleSelectList} from 'react-native-dropdown-select-list';
+import {MultipleSelectList} from '../component/MultipleSelectList';
 
 const Button = styled.TouchableOpacity`
   font-size: 26px;
@@ -31,20 +32,25 @@ const Header = styled.Text`
   padding: 10px;
   text-align: center;
 `;
-
-// type ItemProps = {
-//   id: number;
-//   name: string;
-//   name_en: string;
-//   is_front: boolean;
-//   image_url_main: string;
-//   image_url_secondary: string;
-// };
+const Warning = styled.Text`
+  border: 3px solid red;
+  border-radius: 20px;
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  color: red;
+  margin: 20px;
+  margin-top: 0px;
+  padding: 10px;
+  text-align: center;
+`;
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
-  const {muscleGroup, setSelectedMuscles} = useContext(UserContext);
+  const {muscleGroup, selectedMuscles, setSelectedMuscles} =
+    useContext(UserContext);
+  const [warning, setWarning] = useState(false);
 
-  if (muscleGroup.length === 0) return null;
+  // if (muscleGroup.length === 0) return null;
+
   const clearOnboarding = async () => {
     try {
       await AsyncStorage.removeItem('@isOnboarding');
@@ -63,6 +69,14 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     return temp;
   };
 
+  const onPress = function () {
+    if (selectedMuscles.length > 0) {
+      navigation.navigate('Equipment');
+    } else if (selectedMuscles.length === 0) {
+      setWarning(true);
+    }
+  };
+
   return (
     <View>
       <Header>{questions[0]}</Header>
@@ -72,12 +86,12 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         save="value"
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
-        // onSelect={selected => setSelectedMuscles(selected)}
+        onSelect={() => setWarning(false)}
         label="Categories"
+        defaultValues={selectedMuscles}
       />
-      <Button
-        style={{marginBottom: 0, padding: 0}}
-        onPress={() => navigation.navigate('Equipment')}>
+      {warning && <Warning>{warnings[0]}</Warning>}
+      <Button style={{marginBottom: 0, padding: 0}} onPress={onPress}>
         <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
           Next
         </ButtonText>
