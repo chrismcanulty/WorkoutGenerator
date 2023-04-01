@@ -69,7 +69,7 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         onSelect={() => setWarning(false)}
-        label="equipmentData"
+        label="Equipment"
         defaultValues={selectedEquipment}
       />
       {warning && <Warning>{warnings[1]}</Warning>}

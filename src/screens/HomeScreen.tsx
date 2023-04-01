@@ -87,7 +87,7 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         onSelect={() => setWarning(false)}
-        label="Categories"
+        label="Muscle Groups"
         defaultValues={selectedMuscles}
       />
       {warning && <Warning>{warnings[0]}</Warning>}
