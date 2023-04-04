@@ -1,7 +1,7 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {ScrollView, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useContext, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
 import warnings from '../utils/warnings';
@@ -33,7 +33,7 @@ const Header = styled.Text`
   margin: 20px;
   margin-left: 20px;
   margin-right: 20px;
-  margin-top: 40px;
+  margin-top: 30px;
   padding: 18px;
   text-align: center;
 `;
@@ -46,7 +46,17 @@ const Warning = styled.Text`
   margin: 20px;
   margin-top: 0px;
   padding: 10px;
-  text-align: center;
+`;
+const ButtonWrapper = styled.View`
+  flex: 1;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+`;
+const ContainerWrapper = styled.ScrollView`
+  background-color: white;
+  height: 100%;
 `;
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
@@ -54,13 +64,14 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
 
-  const clearOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem('@isOnboarding');
-    } catch (err) {
-      console.log('Error @clearOnboarding: ', err);
-    }
-  };
+  // Clear onboarding function and button - keep for testing purposes to test onboarding flow
+  // const clearOnboarding = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem('@isOnboarding');
+  //   } catch (err) {
+  //     console.log('Error @clearOnboarding: ', err);
+  //   }
+  // };
 
   const muscleGroupData = () => {
     const temp = [];
@@ -81,28 +92,34 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   };
 
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
-      <Header>{questions[0]}</Header>
-      <MultipleSelectList
-        setSelected={setSelectedMuscles}
-        data={muscleGroupData()}
-        save="value"
-        boxStyles={styles.boxStyles}
-        dropdownStyles={styles.dropdownStyles}
-        dropdownItemStyles={styles.dropdownItemStyles}
-        dropdownTextStyles={styles.dropdownTextStyles}
-        onSelect={() => setWarning(false)}
-        label="Muscle groups"
-        defaultValues={selectedMuscles}
-      />
-      {warning && <Warning>{warnings[0]}</Warning>}
-      <Button onPress={onPress}>
-        <ButtonText>Next</ButtonText>
-      </Button>
-      <Button onPress={clearOnboarding}>
-        <ButtonText>Clear onboarding</ButtonText>
-      </Button>
-    </ScrollView>
+    <>
+      <ContainerWrapper>
+        <Header>{questions[0]}</Header>
+        <View>
+          <MultipleSelectList
+            setSelected={setSelectedMuscles}
+            data={muscleGroupData()}
+            save="value"
+            boxStyles={styles.boxStyles}
+            dropdownStyles={styles.dropdownStyles}
+            dropdownItemStyles={styles.dropdownItemStyles}
+            dropdownTextStyles={styles.dropdownTextStyles}
+            onSelect={() => setWarning(false)}
+            label="Muscle groups"
+            defaultValues={selectedMuscles}
+          />
+          {warning && <Warning>{warnings[0]}</Warning>}
+        </View>
+      </ContainerWrapper>
+      <ButtonWrapper>
+        <Button onPress={onPress}>
+          <ButtonText>Next</ButtonText>
+        </Button>
+        {/* <Button onPress={clearOnboarding}>
+          <ButtonText>Clear onboarding</ButtonText>
+        </Button> */}
+      </ButtonWrapper>
+    </>
   );
 }
 
