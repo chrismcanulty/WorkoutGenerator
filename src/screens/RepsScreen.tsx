@@ -55,6 +55,8 @@ export default function RepsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
+  const pickerItems = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
   return (
     <View>
       <Header>{questions[2]}</Header>
@@ -66,17 +68,9 @@ export default function RepsScreen({navigation}: NativeStackHeaderProps) {
             setWarning(false);
           }
         }}>
-        <Picker.Item label="0" value="0" />
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        <Picker.Item label="6" value="6" />
-        <Picker.Item label="7" value="7" />
-        <Picker.Item label="8" value="8" />
-        <Picker.Item label="9" value="9" />
-        <Picker.Item label="10" value="10" />
+        {pickerItems.map(item => (
+          <Picker.Item label={item} value={item} />
+        ))}
       </Picker>
       {warning && <Warning>{warnings[2]}</Warning>}
       <Button style={{marginBottom: 0, padding: 0}} onPress={onPress}>
