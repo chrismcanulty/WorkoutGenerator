@@ -49,8 +49,6 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
 
-  // if (equipmentTypes.length === 0) return null;
-
   const onPress = function () {
     if (selectedEquipment.length > 0) {
       navigation.navigate('Reps');
@@ -69,7 +67,7 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
         boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
         onSelect={() => setWarning(false)}
-        label="equipmentData"
+        label="Equipment"
         defaultValues={selectedEquipment}
       />
       {warning && <Warning>{warnings[1]}</Warning>}
