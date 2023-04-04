@@ -1,5 +1,5 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {View} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import React, {useContext, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -9,32 +9,37 @@ import {UserContext} from '../context/User.Context';
 import {MultipleSelectList} from '../component/MultipleSelectList';
 
 const Button = styled.TouchableOpacity`
-  font-size: 26px;
-  margin-top: 5px;
+  font-size: 24px;
   padding: 10px;
 `;
 const ButtonText = styled.Text`
-  border: 7px solid grey;
-  border-radius: 30px;
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
   font-family: 'Montserrat-Regular';
-  font-size: 25px;
+  font-size: 24px;
+  color: rgb(38, 38, 38);
   margin: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   padding: 10px;
   text-align: center;
 `;
 const Header = styled.Text`
-  border: 7px solid grey;
-  border-radius: 30px;
-  font-family: 'Montserrat-Regular';
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  font-family: 'Montserrat-Bold';
   font-size: 24px;
+  color: rgb(38, 38, 38);
   margin: 20px;
-  margin-top: 90px;
-  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 40px;
+  padding: 18px;
   text-align: center;
 `;
 const Warning = styled.Text`
-  border: 3px solid red;
-  border-radius: 20px;
+  border: 2px solid red;
+  border-radius: 10px;
   font-family: 'Montserrat-Regular';
   font-size: 12px;
   color: red;
@@ -76,31 +81,50 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   };
 
   return (
-    <View>
+    <ScrollView style={{backgroundColor: 'white'}}>
       <Header>{questions[0]}</Header>
       <MultipleSelectList
         setSelected={setSelectedMuscles}
         data={muscleGroupData()}
         save="value"
-        boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
-        dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
+        boxStyles={styles.boxStyles}
+        dropdownStyles={styles.dropdownStyles}
+        dropdownItemStyles={styles.dropdownItemStyles}
+        dropdownTextStyles={styles.dropdownTextStyles}
         onSelect={() => setWarning(false)}
         label="Muscle groups"
         defaultValues={selectedMuscles}
       />
       {warning && <Warning>{warnings[0]}</Warning>}
-      <Button style={{marginBottom: 0, padding: 0}} onPress={onPress}>
-        <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
-          Next
-        </ButtonText>
+      <Button onPress={onPress}>
+        <ButtonText>Next</ButtonText>
       </Button>
-      <Button
-        style={{marginTop: 0, marginBottom: 0, padding: 0}}
-        onPress={clearOnboarding}>
-        <ButtonText style={{marginTop: 0, marginBottom: 0, padding: 0}}>
-          Clear onboarding
-        </ButtonText>
+      <Button onPress={clearOnboarding}>
+        <ButtonText>Clear onboarding</ButtonText>
       </Button>
-    </View>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  boxStyles: {
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'rgb(230, 230, 230)',
+  },
+  dropdownStyles: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'rgb(230, 230, 230)',
+  },
+  dropdownItemStyles: {},
+  dropdownTextStyles: {
+    color: 'rgb(38, 38, 38)',
+    fontFamily: 'Montserrat-Regular',
+  },
+});

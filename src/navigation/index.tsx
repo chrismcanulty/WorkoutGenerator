@@ -84,7 +84,7 @@ function BottomTabNavigator() {
   return (
     <BottomTab.Navigator initialRouteName="Home">
       <BottomTab.Screen
-        name="Home"
+        name="Generator"
         component={HomeScreen}
         options={{
           tabBarIcon: ({color, size}) => (
