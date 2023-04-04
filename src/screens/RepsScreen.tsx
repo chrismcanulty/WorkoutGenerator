@@ -1,10 +1,11 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import {Picker} from '@react-native-picker/picker';
 import questions from '../utils/questions';
 import warnings from '../utils/warnings';
+import {UserContext} from '../context/User.Context';
 
 const Button = styled.TouchableOpacity`
   font-size: 26px;
@@ -44,7 +45,7 @@ const Warning = styled.Text`
 `;
 
 export default function RepsScreen({navigation}: NativeStackHeaderProps) {
-  const [numberOfExercises, setNumberOfExercises] = useState('0');
+  const {numberOfExercises, setNumberOfExercises} = useContext(UserContext);
   const [warning, setWarning] = useState(false);
 
   const onPress = function () {
@@ -69,7 +70,7 @@ export default function RepsScreen({navigation}: NativeStackHeaderProps) {
           }
         }}>
         {pickerItems.map(item => (
-          <Picker.Item label={item} value={item} />
+          <Picker.Item key={item} label={item} value={item} />
         ))}
       </Picker>
       {warning && <Warning>{warnings[2]}</Warning>}
