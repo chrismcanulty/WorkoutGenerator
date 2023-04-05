@@ -1,5 +1,5 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import {Picker} from '@react-native-picker/picker';
@@ -8,40 +8,49 @@ import warnings from '../utils/warnings';
 import {UserContext} from '../context/User.Context';
 
 const Button = styled.TouchableOpacity`
-  font-size: 26px;
-  margin-top: 5px;
+  font-size: 24px;
   padding: 10px;
 `;
 const ButtonText = styled.Text`
-  border: 7px solid grey;
-  border-radius: 30px;
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
-  font-size: 25px;
-  margin: 10px;
+  font-size: 24px;
+  margin-left: 10px;
+  margin-right: 10px;
   padding: 10px;
   text-align: center;
 `;
 const Header = styled.Text`
-  border: 7px solid grey;
-  border-radius: 30px;
-  font-family: 'Montserrat-Regular';
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Bold';
   font-size: 24px;
   margin: 20px;
-  margin-top: 90px;
-  padding: 10px;
+  margin-top: 30px;
+  padding: 18px;
   text-align: center;
 `;
-
 const Warning = styled.Text`
-  border: 3px solid red;
-  border-radius: 20px;
+  border: 2px solid red;
+  border-radius: 10px;
+  color: red;
   font-family: 'Montserrat-Regular';
   font-size: 12px;
-  color: red;
   margin: 20px;
   margin-top: 0px;
   padding: 10px;
   text-align: center;
+`;
+const ButtonWrapper = styled.View`
+  background-color: white;
+  bottom: 80px;
+  position: absolute;
+  width: 100%;
+`;
+const ContainerWrapper = styled.ScrollView`
+  background-color: white;
+  height: 100%;
 `;
 
 export default function RepsScreen({navigation}: NativeStackHeaderProps) {
@@ -60,25 +69,34 @@ export default function RepsScreen({navigation}: NativeStackHeaderProps) {
 
   return (
     <View>
-      <Header>{questions[2]}</Header>
-      <Picker
-        selectedValue={numberOfExercises}
-        onValueChange={itemValue => {
-          setNumberOfExercises(itemValue);
-          if (itemValue !== '0') {
-            setWarning(false);
-          }
-        }}>
-        {pickerItems.map(item => (
-          <Picker.Item key={item} label={item} value={item} />
-        ))}
-      </Picker>
-      {warning && <Warning>{warnings[2]}</Warning>}
-      <Button style={{marginBottom: 0, padding: 0}} onPress={onPress}>
-        <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
-          Generate
-        </ButtonText>
-      </Button>
+      <ContainerWrapper>
+        <Header>{questions[2]}</Header>
+        <Picker
+          style={styles.pickerStyles}
+          selectedValue={numberOfExercises}
+          onValueChange={itemValue => {
+            setNumberOfExercises(itemValue);
+            if (itemValue !== '0') {
+              setWarning(false);
+            }
+          }}>
+          {pickerItems.map(item => (
+            <Picker.Item key={item} label={item} value={item} />
+          ))}
+        </Picker>
+        {warning && <Warning>{warnings[2]}</Warning>}
+      </ContainerWrapper>
+      <ButtonWrapper>
+        <Button onPress={onPress}>
+          <ButtonText>Generate</ButtonText>
+        </Button>
+      </ButtonWrapper>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  pickerStyles: {
+    marginTop: 50,
+  },
+});

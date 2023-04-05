@@ -24,8 +24,6 @@ const ButtonText = styled.Text`
   text-align: center;
 `;
 const Header = styled.Text`
-  border: 2px rgb(230, 230, 230);
-  border-radius: 15px;
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
   font-size: 24px;
@@ -43,11 +41,11 @@ const Warning = styled.Text`
   margin: 20px;
   margin-top: 0px;
   padding: 10px;
+  text-align: center;
 `;
 const ButtonWrapper = styled.View`
   background-color: white;
   bottom: 0;
-  flex: 1;
   position: absolute;
   width: 100%;
 `;
@@ -99,7 +97,6 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
             save="value"
             boxStyles={styles.boxStyles}
             dropdownStyles={styles.dropdownStyles}
-            dropdownItemStyles={styles.dropdownItemStyles}
             dropdownTextStyles={styles.dropdownTextStyles}
             onSelect={() => setWarning(false)}
             label="Muscle groups"
@@ -136,7 +133,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgb(230, 230, 230)',
   },
-  dropdownItemStyles: {},
   dropdownTextStyles: {
     color: 'rgb(38, 38, 38)',
     fontFamily: 'Montserrat-Regular',
