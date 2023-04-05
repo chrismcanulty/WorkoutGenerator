@@ -43,6 +43,7 @@ const Warning = styled.Text`
   margin: 20px;
   margin-top: 0px;
   padding: 10px;
+  text-align: center;
 `;
 const ButtonWrapper = styled.View`
   background-color: white;
