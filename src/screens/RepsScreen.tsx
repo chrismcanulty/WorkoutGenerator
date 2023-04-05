@@ -47,7 +47,6 @@ const Warning = styled.Text`
 const ButtonWrapper = styled.View`
   background-color: white;
   bottom: 80px;
-  flex: 1;
   position: absolute;
   width: 100%;
 `;

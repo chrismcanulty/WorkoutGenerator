@@ -47,7 +47,6 @@ const Warning = styled.Text`
 const ButtonWrapper = styled.View`
   background-color: white;
   bottom: 80px;
-  flex: 1;
   position: absolute;
   width: 100%;
 `;
@@ -111,7 +110,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgb(230, 230, 230)',
   },
-  dropdownItemStyles: {},
   dropdownTextStyles: {
     color: 'rgb(38, 38, 38)',
     fontFamily: 'Montserrat-Regular',
