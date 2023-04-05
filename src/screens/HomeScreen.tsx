@@ -99,7 +99,6 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
             save="value"
             boxStyles={styles.boxStyles}
             dropdownStyles={styles.dropdownStyles}
-            dropdownItemStyles={styles.dropdownItemStyles}
             dropdownTextStyles={styles.dropdownTextStyles}
             onSelect={() => setWarning(false)}
             label="Muscle groups"
@@ -136,7 +135,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgb(230, 230, 230)',
   },
-  dropdownItemStyles: {},
   dropdownTextStyles: {
     color: 'rgb(38, 38, 38)',
     fontFamily: 'Montserrat-Regular',
