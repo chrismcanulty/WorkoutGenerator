@@ -15,24 +15,21 @@ const Button = styled.TouchableOpacity`
 const ButtonText = styled.Text`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
+  color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 24px;
-  color: rgb(38, 38, 38);
-  margin: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
   padding: 10px;
   text-align: center;
 `;
 const Header = styled.Text`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
+  color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
   font-size: 24px;
-  color: rgb(38, 38, 38);
   margin: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
   margin-top: 30px;
   padding: 18px;
   text-align: center;
@@ -40,19 +37,19 @@ const Header = styled.Text`
 const Warning = styled.Text`
   border: 2px solid red;
   border-radius: 10px;
+  color: red;
   font-family: 'Montserrat-Regular';
   font-size: 12px;
-  color: red;
   margin: 20px;
   margin-top: 0px;
   padding: 10px;
 `;
 const ButtonWrapper = styled.View`
+  background-color: white;
+  bottom: 0;
   flex: 1;
   position: absolute;
-  bottom: 0;
   width: 100%;
-  background-color: white;
 `;
 const ContainerWrapper = styled.ScrollView`
   background-color: white;
