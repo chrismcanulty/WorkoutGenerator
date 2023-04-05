@@ -23,8 +23,6 @@ const ButtonText = styled.Text`
   text-align: center;
 `;
 const Header = styled.Text`
-  border: 2px rgb(230, 230, 230);
-  border-radius: 15px;
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
   font-size: 24px;
