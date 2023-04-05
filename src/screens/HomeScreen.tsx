@@ -1,7 +1,7 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useContext, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
 import warnings from '../utils/warnings';
@@ -9,39 +9,51 @@ import {UserContext} from '../context/User.Context';
 import {MultipleSelectList} from '../component/MultipleSelectList';
 
 const Button = styled.TouchableOpacity`
-  font-size: 26px;
-  margin-top: 5px;
+  font-size: 24px;
   padding: 10px;
 `;
 const ButtonText = styled.Text`
-  border: 7px solid grey;
-  border-radius: 30px;
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
-  font-size: 25px;
-  margin: 10px;
+  font-size: 24px;
+  margin-left: 10px;
+  margin-right: 10px;
   padding: 10px;
   text-align: center;
 `;
 const Header = styled.Text`
-  border: 7px solid grey;
-  border-radius: 30px;
-  font-family: 'Montserrat-Regular';
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Bold';
   font-size: 24px;
   margin: 20px;
-  margin-top: 90px;
-  padding: 10px;
+  margin-top: 30px;
+  padding: 18px;
   text-align: center;
 `;
 const Warning = styled.Text`
-  border: 3px solid red;
-  border-radius: 20px;
+  border: 2px solid red;
+  border-radius: 10px;
+  color: red;
   font-family: 'Montserrat-Regular';
   font-size: 12px;
-  color: red;
   margin: 20px;
   margin-top: 0px;
   padding: 10px;
-  text-align: center;
+`;
+const ButtonWrapper = styled.View`
+  background-color: white;
+  bottom: 0;
+  flex: 1;
+  position: absolute;
+  width: 100%;
+`;
+const ContainerWrapper = styled.ScrollView`
+  background-color: white;
+  height: 100%;
 `;
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
@@ -49,13 +61,14 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
 
-  const clearOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem('@isOnboarding');
-    } catch (err) {
-      console.log('Error @clearOnboarding: ', err);
-    }
-  };
+  // Clear onboarding function and button - keep for testing purposes to test onboarding flow
+  // const clearOnboarding = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem('@isOnboarding');
+  //   } catch (err) {
+  //     console.log('Error @clearOnboarding: ', err);
+  //   }
+  // };
 
   const muscleGroupData = () => {
     const temp = [];
@@ -76,31 +89,56 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
   };
 
   return (
-    <View>
-      <Header>{questions[0]}</Header>
-      <MultipleSelectList
-        setSelected={setSelectedMuscles}
-        data={muscleGroupData()}
-        save="value"
-        boxStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
-        dropdownStyles={{marginLeft: 20, marginRight: 20, borderRadius: 20}}
-        onSelect={() => setWarning(false)}
-        label="Muscle groups"
-        defaultValues={selectedMuscles}
-      />
-      {warning && <Warning>{warnings[0]}</Warning>}
-      <Button style={{marginBottom: 0, padding: 0}} onPress={onPress}>
-        <ButtonText style={{marginTop: 100, marginBottom: 0, padding: 0}}>
-          Next
-        </ButtonText>
-      </Button>
-      <Button
-        style={{marginTop: 0, marginBottom: 0, padding: 0}}
-        onPress={clearOnboarding}>
-        <ButtonText style={{marginTop: 0, marginBottom: 0, padding: 0}}>
-          Clear onboarding
-        </ButtonText>
-      </Button>
-    </View>
+    <>
+      <ContainerWrapper>
+        <Header>{questions[0]}</Header>
+        <View>
+          <MultipleSelectList
+            setSelected={setSelectedMuscles}
+            data={muscleGroupData()}
+            save="value"
+            boxStyles={styles.boxStyles}
+            dropdownStyles={styles.dropdownStyles}
+            dropdownItemStyles={styles.dropdownItemStyles}
+            dropdownTextStyles={styles.dropdownTextStyles}
+            onSelect={() => setWarning(false)}
+            label="Muscle groups"
+            defaultValues={selectedMuscles}
+          />
+          {warning && <Warning>{warnings[0]}</Warning>}
+        </View>
+      </ContainerWrapper>
+      <ButtonWrapper>
+        <Button onPress={onPress}>
+          <ButtonText>Next</ButtonText>
+        </Button>
+        {/* <Button onPress={clearOnboarding}>
+          <ButtonText>Clear onboarding</ButtonText>
+        </Button> */}
+      </ButtonWrapper>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  boxStyles: {
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'rgb(230, 230, 230)',
+  },
+  dropdownStyles: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'rgb(230, 230, 230)',
+  },
+  dropdownItemStyles: {},
+  dropdownTextStyles: {
+    color: 'rgb(38, 38, 38)',
+    fontFamily: 'Montserrat-Regular',
+  },
+});
