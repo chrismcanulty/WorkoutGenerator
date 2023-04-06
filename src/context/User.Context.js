@@ -55,22 +55,33 @@ const UserProvider = ({children}) => {
   };
 
   const fetchExercises = async () => {
-    // console.log('musclegroup', muscleGroup);
-    // console.log('selectedmuscles', selectedMuscles);
-    const temp = [];
+    let tempMuscleArr = [];
     for (let i = 0; i < selectedMuscles.length; i++) {
       const [filteredMuscleGroup] = muscleGroup.filter(
         muscle => muscle.name_en === selectedMuscles[i],
       );
-      temp.push(filteredMuscleGroup.id);
+      tempMuscleArr.push(filteredMuscleGroup.id);
     }
-    const muscleIds = temp.join(',');
-    console.log('muscleIds', muscleIds);
+    const muscleIds = tempMuscleArr.join(',');
+
+    let tempEquipmentArr = [];
+    for (let i = 0; i < selectedEquipment.length; i++) {
+      const [filteredEquipmentTypes] = equipmentTypes.filter(
+        equipment => equipment.name === selectedEquipment[i],
+      );
+      tempEquipmentArr.push(filteredEquipmentTypes.id);
+    }
+    const equipmentIds = tempEquipmentArr.join(',');
+
     try {
       const res = await axios.get(
-        `https://wger.de/api/v2/exercise/?muscles=${muscleIds}&equipment=2,3`,
+        `https://wger.de/api/v2/exercise/?muscles=${muscleIds}&equipment=${equipmentIds}&language=2`,
       );
-      setExerciseData(res.data.results);
+      function getUniqueListBy(arr, key) {
+        return [...new Map(arr.map(item => [item[key], item])).values()];
+      }
+      const filteredData = getUniqueListBy(res.data.results, 'id');
+      setExerciseData(filteredData);
     } catch (err) {
       setErrorMessage(err);
     }
