@@ -24,24 +24,13 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
     fetchExercises,
   } = useContext(UserContext);
 
-  const filterLanguage = exerciseData.filter(
-    (exercise: any) => exercise.language === 2,
-  );
-
-  // console.log(
-  //   'test call',
-  //   filterLanguage.map((exercise: any) => exercise.name),
-  // );
-  // console.log('muscles', selectedMuscles);
-  // console.log('equipment', selectedEquipment);
-
   const formatMessage = function () {
-    if (selectedMuscles.length === 0) {
+    if (!exerciseData) {
       return 'We were unable to retrieve any exercises for you :(';
-    } else if (selectedMuscles.length === 1) {
-      return `We've generated this ${filterLanguage.length} exercise for you!`;
+    } else if (exerciseData.length === 1) {
+      return `We've generated this ${exerciseData.length} exercise for you!`;
     } else {
-      return `We've generated these ${filterLanguage.length} exercises for you!`;
+      return `We've generated these ${exerciseData.length} exercises for you!`;
     }
   };
 

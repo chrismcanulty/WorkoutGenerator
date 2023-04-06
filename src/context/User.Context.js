@@ -55,6 +55,7 @@ const UserProvider = ({children}) => {
   };
 
   const fetchExercises = async () => {
+    // create temp muscle and equipment arr to use in api call to request filtered results
     let tempMuscleArr = [];
     for (let i = 0; i < selectedMuscles.length; i++) {
       const [filteredMuscleGroup] = muscleGroup.filter(
@@ -77,11 +78,24 @@ const UserProvider = ({children}) => {
       const res = await axios.get(
         `https://wger.de/api/v2/exercise/?muscles=${muscleIds}&equipment=${equipmentIds}&language=2`,
       );
+      // remove duplicates + limit returned results to user specified # of exercises, then set to state
       function getUniqueListBy(arr, key) {
         return [...new Map(arr.map(item => [item[key], item])).values()];
       }
+
+      function shuffleData(array) {
+        let i = array.length;
+        while (i--) {
+          const ri = Math.floor(Math.random() * i);
+          [array[i], array[ri]] = [array[ri], array[i]];
+        }
+        return array;
+      }
+
       const filteredData = getUniqueListBy(res.data.results, 'id');
-      setExerciseData(filteredData);
+      const shuffledData = shuffleData(filteredData);
+
+      setExerciseData(shuffledData.slice(0, numberOfExercises));
     } catch (err) {
       setErrorMessage(err);
     }
