@@ -1,6 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {View} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 
@@ -21,9 +21,8 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
     numberOfExercises,
     exerciseData,
     setExerciseData,
+    fetchExercises,
   } = useContext(UserContext);
-
-  const filterByMuscle = () => {};
 
   const filterLanguage = exerciseData.filter(
     (exercise: any) => exercise.language === 2,
@@ -45,6 +44,10 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
       return `We've generated these ${selectedMuscles.length} exercises for you!`;
     }
   };
+
+  useEffect(() => {
+    fetchExercises();
+  }, []);
 
   return (
     <View>

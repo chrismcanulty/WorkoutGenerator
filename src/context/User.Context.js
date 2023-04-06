@@ -55,9 +55,20 @@ const UserProvider = ({children}) => {
   };
 
   const fetchExercises = async () => {
+    // console.log('musclegroup', muscleGroup);
+    // console.log('selectedmuscles', selectedMuscles);
+    const temp = [];
+    for (let i = 0; i < selectedMuscles.length; i++) {
+      const [filteredMuscleGroup] = muscleGroup.filter(
+        muscle => muscle.name_en === selectedMuscles[i],
+      );
+      temp.push(filteredMuscleGroup.id);
+    }
+    const muscleIds = temp.join(',');
+    console.log('muscleIds', muscleIds);
     try {
       const res = await axios.get(
-        'https://wger.de/api/v2/exercise/?muscles=1&equipment=3',
+        `https://wger.de/api/v2/exercise/?muscles=${muscleIds}&equipment=2,3`,
       );
       setExerciseData(res.data.results);
     } catch (err) {
@@ -69,7 +80,6 @@ const UserProvider = ({children}) => {
     checkOnboarding();
     fetchMuscleGroup();
     fetchEquipmentTypes();
-    fetchExercises();
   }, []);
 
   return (
@@ -90,6 +100,7 @@ const UserProvider = ({children}) => {
           setNumberOfExercises,
           exerciseData,
           setExerciseData,
+          fetchExercises,
         }}>
         {children}
       </UserContext.Provider>

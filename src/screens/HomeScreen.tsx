@@ -86,6 +86,10 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
+  const setSelectedMusclesData = val => {
+    console.log(val);
+  };
+
   return (
     <>
       <ContainerWrapper>
