@@ -13,6 +13,7 @@ const UserProvider = ({children}) => {
   const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [selectedEquipment, setSelectedEquipment] = useState([]);
   const [numberOfExercises, setNumberOfExercises] = useState('0');
+  const [exerciseData, setExerciseData] = useState([]);
 
   const checkOnboarding = async () => {
     try {
@@ -53,10 +54,22 @@ const UserProvider = ({children}) => {
     return temp;
   };
 
+  const fetchExercises = async () => {
+    try {
+      const res = await axios.get(
+        'https://wger.de/api/v2/exercise/?muscles=1&equipment=3',
+      );
+      setExerciseData(res.data.results);
+    } catch (err) {
+      setErrorMessage(err);
+    }
+  };
+
   useEffect(() => {
     checkOnboarding();
     fetchMuscleGroup();
     fetchEquipmentTypes();
+    fetchExercises();
   }, []);
 
   return (
@@ -75,6 +88,8 @@ const UserProvider = ({children}) => {
           equipmentData,
           numberOfExercises,
           setNumberOfExercises,
+          exerciseData,
+          setExerciseData,
         }}>
         {children}
       </UserContext.Provider>
