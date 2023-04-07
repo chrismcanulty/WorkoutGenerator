@@ -56,28 +56,29 @@ const UserProvider = ({children}) => {
 
   const fetchExercises = async () => {
     // create temp muscle and equipment arr to use in api call to request filtered results
-    let tempMuscleArr = [];
-    for (let i = 0; i < selectedMuscles.length; i++) {
-      const [filteredMuscleGroup] = muscleGroup.filter(
-        muscle => muscle.name_en === selectedMuscles[i],
-      );
-      tempMuscleArr.push(filteredMuscleGroup.id);
-    }
-    const muscleIds = tempMuscleArr.join(',');
+    const filterParams = (selectArr, dataArr, name) => {
+      let tempArr = [];
+      for (let i = 0; i < selectArr.length; i++) {
+        const [filteredArr] = dataArr.filter(
+          item => item[name] === selectArr[i],
+        );
+        tempArr.push(filteredArr.id);
+      }
+      return tempArr.join(',');
+    };
 
-    let tempEquipmentArr = [];
-    for (let i = 0; i < selectedEquipment.length; i++) {
-      const [filteredEquipmentTypes] = equipmentTypes.filter(
-        equipment => equipment.name === selectedEquipment[i],
-      );
-      tempEquipmentArr.push(filteredEquipmentTypes.id);
-    }
-    const equipmentIds = tempEquipmentArr.join(',');
+    const muscleIds = filterParams(selectedMuscles, muscleGroup, 'name_en');
+    const equipmentIds = filterParams(
+      selectedEquipment,
+      equipmentTypes,
+      'name',
+    );
 
     try {
       const res = await axios.get(
         `https://wger.de/api/v2/exercise/?muscles=${muscleIds}&equipment=${equipmentIds}&language=2`,
       );
+
       // remove duplicates + limit returned results to user specified # of exercises, then set to state
       function getUniqueListBy(arr, key) {
         return [...new Map(arr.map(item => [item[key], item])).values()];

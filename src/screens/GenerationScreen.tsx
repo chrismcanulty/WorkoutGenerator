@@ -15,14 +15,7 @@ const Header = styled.Text`
 `;
 
 export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
-  const {
-    selectedMuscles,
-    selectedEquipment,
-    numberOfExercises,
-    exerciseData,
-    setExerciseData,
-    fetchExercises,
-  } = useContext(UserContext);
+  const {exerciseData, fetchExercises} = useContext(UserContext);
 
   const formatMessage = function () {
     if (!exerciseData) {
