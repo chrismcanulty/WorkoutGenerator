@@ -13,7 +13,6 @@ const UserProvider = ({children}) => {
   const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [selectedEquipment, setSelectedEquipment] = useState([]);
   const [numberOfExercises, setNumberOfExercises] = useState('0');
-  const [exerciseData, setExerciseData] = useState([]);
 
   const checkOnboarding = async () => {
     try {
@@ -124,9 +123,6 @@ const UserProvider = ({children}) => {
           equipmentData,
           numberOfExercises,
           setNumberOfExercises,
-          exerciseData,
-          setExerciseData,
-          fetchExercises,
         }}>
         {children}
       </UserContext.Provider>
