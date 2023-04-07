@@ -54,18 +54,30 @@ const UserProvider = ({children}) => {
     return temp;
   };
 
+  function shuffleData(array) {
+    let i = array.length;
+    while (i--) {
+      const ri = Math.floor(Math.random() * i);
+      [array[i], array[ri]] = [array[ri], array[i]];
+    }
+    return array;
+  }
+
+  const filterParams = (selectArr, dataArr, name) => {
+    let tempArr = [];
+    for (let i = 0; i < selectArr.length; i++) {
+      const [filteredArr] = dataArr.filter(item => item[name] === selectArr[i]);
+      tempArr.push(filteredArr.id);
+    }
+    return tempArr.join(',');
+  };
+
+  function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map(item => [item[key], item])).values()];
+  }
+
   const fetchExercises = async () => {
     // create temp muscle and equipment arr to use in api call to request filtered results
-    const filterParams = (selectArr, dataArr, name) => {
-      let tempArr = [];
-      for (let i = 0; i < selectArr.length; i++) {
-        const [filteredArr] = dataArr.filter(
-          item => item[name] === selectArr[i],
-        );
-        tempArr.push(filteredArr.id);
-      }
-      return tempArr.join(',');
-    };
 
     const muscleIds = filterParams(selectedMuscles, muscleGroup, 'name_en');
     const equipmentIds = filterParams(
@@ -80,18 +92,6 @@ const UserProvider = ({children}) => {
       );
 
       // remove duplicates + limit returned results to user specified # of exercises, then set to state
-      function getUniqueListBy(arr, key) {
-        return [...new Map(arr.map(item => [item[key], item])).values()];
-      }
-
-      function shuffleData(array) {
-        let i = array.length;
-        while (i--) {
-          const ri = Math.floor(Math.random() * i);
-          [array[i], array[ri]] = [array[ri], array[i]];
-        }
-        return array;
-      }
 
       const filteredData = getUniqueListBy(res.data.results, 'id');
       const shuffledData = shuffleData(filteredData);
