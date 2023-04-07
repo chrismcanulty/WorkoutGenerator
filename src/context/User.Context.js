@@ -13,6 +13,7 @@ const UserProvider = ({children}) => {
   const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [selectedEquipment, setSelectedEquipment] = useState([]);
   const [numberOfExercises, setNumberOfExercises] = useState('0');
+  const [exerciseData, setExerciseData] = useState([]);
 
   const checkOnboarding = async () => {
     try {
@@ -53,6 +54,53 @@ const UserProvider = ({children}) => {
     return temp;
   };
 
+  const fetchExercises = async () => {
+    // create temp muscle and equipment arr to use in api call to request filtered results
+    let tempMuscleArr = [];
+    for (let i = 0; i < selectedMuscles.length; i++) {
+      const [filteredMuscleGroup] = muscleGroup.filter(
+        muscle => muscle.name_en === selectedMuscles[i],
+      );
+      tempMuscleArr.push(filteredMuscleGroup.id);
+    }
+    const muscleIds = tempMuscleArr.join(',');
+
+    let tempEquipmentArr = [];
+    for (let i = 0; i < selectedEquipment.length; i++) {
+      const [filteredEquipmentTypes] = equipmentTypes.filter(
+        equipment => equipment.name === selectedEquipment[i],
+      );
+      tempEquipmentArr.push(filteredEquipmentTypes.id);
+    }
+    const equipmentIds = tempEquipmentArr.join(',');
+
+    try {
+      const res = await axios.get(
+        `https://wger.de/api/v2/exercise/?muscles=${muscleIds}&equipment=${equipmentIds}&language=2`,
+      );
+      // remove duplicates + limit returned results to user specified # of exercises, then set to state
+      function getUniqueListBy(arr, key) {
+        return [...new Map(arr.map(item => [item[key], item])).values()];
+      }
+
+      function shuffleData(array) {
+        let i = array.length;
+        while (i--) {
+          const ri = Math.floor(Math.random() * i);
+          [array[i], array[ri]] = [array[ri], array[i]];
+        }
+        return array;
+      }
+
+      const filteredData = getUniqueListBy(res.data.results, 'id');
+      const shuffledData = shuffleData(filteredData);
+
+      setExerciseData(shuffledData.slice(0, numberOfExercises));
+    } catch (err) {
+      setErrorMessage(err);
+    }
+  };
+
   useEffect(() => {
     checkOnboarding();
     fetchMuscleGroup();
@@ -75,6 +123,9 @@ const UserProvider = ({children}) => {
           equipmentData,
           numberOfExercises,
           setNumberOfExercises,
+          exerciseData,
+          setExerciseData,
+          fetchExercises,
         }}>
         {children}
       </UserContext.Provider>
