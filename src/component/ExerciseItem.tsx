@@ -3,6 +3,18 @@ import {View, Text, StyleSheet} from 'react-native';
 import {SequenceItem} from '../../types/data';
 import styled from 'styled-components/native';
 
+const ExerciseText = styled.Text`
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 24px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  text-align: center;
+`;
+
 export default function ExerciseItem({
   item,
   children,
@@ -11,24 +23,11 @@ export default function ExerciseItem({
   children?: ReactNode;
 }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.name}>{item.name}</Text>
+    <View>
+      <ExerciseText>{item.name}</ExerciseText>
+      {/* Add equipment, muscles, description */}
+      {/* <ExerciseText>{item.description}</ExerciseText> */}
       {children}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 10,
-    backgroundColor: '#fff',
-    borderColor: 'rgba(0,0,0,0.1)',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-  },
-  name: {
-    fontSize: 15,
-    marginBottom: 5,
-  },
-});
