@@ -1,8 +1,11 @@
 import React, {ReactNode} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {SequenceItem} from '../../types/data';
 import styled from 'styled-components/native';
 
+const ExerciseContainer = styled.View`
+  padding: 10px;
+`;
 const ExerciseText = styled.Text`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
@@ -23,11 +26,11 @@ export default function ExerciseItem({
   children?: ReactNode;
 }) {
   return (
-    <View>
+    <ExerciseContainer>
       <ExerciseText>{item.name}</ExerciseText>
       {/* Add equipment, muscles, description */}
       {/* <ExerciseText>{item.description}</ExerciseText> */}
       {children}
-    </View>
+    </ExerciseContainer>
   );
 }

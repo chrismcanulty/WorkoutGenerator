@@ -1,5 +1,5 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {FlatList} from 'react-native';
+import {FlatList, View} from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
@@ -18,6 +18,27 @@ const ContainerWrapper = styled.View`
   background-color: white;
   height: 100%;
 `;
+const Button = styled.TouchableOpacity`
+  font-size: 24px;
+  padding: 10px;
+`;
+const ButtonText = styled.Text`
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 24px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  text-align: center;
+`;
+const ButtonWrapper = styled.View`
+  background-color: white;
+  bottom: 80px;
+  position: absolute;
+  width: 100%;
+`;
 
 export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
   const {exerciseData, fetchExercises} = useContext(UserContext);
@@ -32,18 +53,29 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
+  const onPress = function () {
+    fetchExercises();
+  };
+
   useEffect(() => {
     fetchExercises();
   }, []);
 
   return (
-    <ContainerWrapper>
-      <Header>{formatMessage()}</Header>
-      <FlatList
-        data={exerciseData}
-        renderItem={({item}) => <ExerciseItem item={item} />}
-        keyExtractor={item => item.id}
-      />
-    </ContainerWrapper>
+    <>
+      <ContainerWrapper>
+        <Header>{formatMessage()}</Header>
+        <FlatList
+          data={exerciseData}
+          renderItem={({item}) => <ExerciseItem item={item} />}
+          keyExtractor={item => item.id}
+        />
+      </ContainerWrapper>
+      <ButtonWrapper>
+        <Button onPress={onPress}>
+          <ButtonText>Regenerate</ButtonText>
+        </Button>
+      </ButtonWrapper>
+    </>
   );
 }
