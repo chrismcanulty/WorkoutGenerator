@@ -3119,6 +3119,15 @@
   "resolved" "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
   "version" "2.0.0"
 
+"deprecated-react-native-prop-types@^2.3.0":
+  "integrity" "sha512-pWD0voFtNYxrVqvBMYf5gq3NA2GCpfodS1yNynTPc93AYA/KEMGeWDqqeUB6R2Z9ZofVhks2aeJXiuQqKNpesA=="
+  "resolved" "https://registry.npmjs.org/deprecated-react-native-prop-types/-/deprecated-react-native-prop-types-2.3.0.tgz"
+  "version" "2.3.0"
+  dependencies:
+    "@react-native/normalize-color" "*"
+    "invariant" "*"
+    "prop-types" "*"
+
 "deprecated-react-native-prop-types@^3.0.1":
   "integrity" "sha512-J0jCJcsk4hMlIb7xwOZKLfMpuJn6l8UtrPEzzQV5ewz5gvKNYakhBuq9h2rWX7YwHHJZFhU5W8ye7dB9oN8VcQ=="
   "resolved" "https://registry.npmjs.org/deprecated-react-native-prop-types/-/deprecated-react-native-prop-types-3.0.1.tgz"
@@ -6375,6 +6384,14 @@
   "version" "1.2.0"
   dependencies:
     "tinycolor2" "^1.4.1"
+
+"react-native-popover-view@^5.1.7":
+  "integrity" "sha512-Xa+zKYp9x62UNezT8o9SnqQaBQEHdGwGHZnFnA2bsXLneVRvvlBopNwMNj+p7N65qnPf3mmzWj+57ThtM1qFuw=="
+  "resolved" "https://registry.npmjs.org/react-native-popover-view/-/react-native-popover-view-5.1.7.tgz"
+  "version" "5.1.7"
+  dependencies:
+    "deprecated-react-native-prop-types" "^2.3.0"
+    "prop-types" "^15.8.1"
 
 "react-native-reanimated@^3.0.2":
   "integrity" "sha512-8Et90yTI9yxchGbDP79k391XZqc/64zNbASbGy8X3Vgv4EbZ1M3IkKwcIbZmbVwpA804VJ6V9nJAGUh9fP0LrA=="

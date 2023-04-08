@@ -1,5 +1,5 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
