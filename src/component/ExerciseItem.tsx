@@ -1,11 +1,12 @@
 import React, {ReactNode, useContext} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {SequenceItem, MuscleItem} from '../../types/data';
+import {SequenceItem} from '../../types/data';
 import styled from 'styled-components/native';
-import {FlatList} from 'react-native-gesture-handler';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
-import FilterMuscleGroup from './ExerciseInfo';
+import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
+
+const ExerciseContainer = styled.View``;
 
 const ExerciseText = styled.Text`
   border: 2px rgb(230, 230, 230);
@@ -52,20 +53,21 @@ export default function ExerciseItem({
           </>
         )}
       </Popover>
+      <Popover
+        from={
+          <TouchableOpacity>
+            <ExerciseText>Exercise info</ExerciseText>
+          </TouchableOpacity>
+        }>
+        {item?.description && (
+          <ExerciseContainer>
+            {/* Add equipment, muscles, description */}
+            {/* Display list of primary muscles */}
+            <ExerciseDetails item={item} />
+            {/* Display list of secondary muscles in one text element */}
+          </ExerciseContainer>
+        )}
+      </Popover>
     </>
-    // <ExerciseContainer>
-    //   <ExerciseText>{item.name}</ExerciseText>
-    //   {/* Add equipment, muscles, description */}
-    //   {children}
-    //   {/* Display list of primary muscles */}
-    //   <FlatList
-    //     data={item.muscles}
-    //     renderItem={({item}) => {
-    //       return <ExerciseText>Primary muscle(s): {item}</ExerciseText>;
-    //     }}
-    //     keyExtractor={item => item}
-    //   />
-    //   {/* Display list of secondary muscles in one text element */}
-    // </ExerciseContainer>
   );
 }
