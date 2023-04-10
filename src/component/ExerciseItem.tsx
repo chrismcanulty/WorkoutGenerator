@@ -5,10 +5,8 @@ import styled from 'styled-components/native';
 import {FlatList} from 'react-native-gesture-handler';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
+import FilterMuscleGroup from './ExerciseInfo';
 
-const ExerciseContainer = styled.View`
-  padding: 10px;
-`;
 const ExerciseText = styled.Text`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
@@ -20,54 +18,6 @@ const ExerciseText = styled.Text`
   padding: 10px;
   text-align: center;
 `;
-
-const PrimaryMuscleList = ({
-  item,
-  muscleGroup,
-}: {
-  item: SequenceItem;
-  muscleGroup: Array<MuscleItem>;
-}) => {
-  const muscleName = (id: number) => {
-    const targetMuscle = muscleGroup.filter(
-      (muscle: MuscleItem) => muscle.id === id,
-    )[0].name_en;
-    return targetMuscle;
-  };
-  return (
-    <FlatList
-      data={item.muscles}
-      renderItem={({item}) => {
-        return <ExerciseText>{muscleName(item)}</ExerciseText>;
-      }}
-      keyExtractor={item => item}
-    />
-  );
-};
-
-const SecondaryMuscleList = ({
-  item,
-  muscleGroup,
-}: {
-  item: SequenceItem;
-  muscleGroup: Array<MuscleItem>;
-}) => {
-  const muscleName = (id: number) => {
-    const targetMuscle = muscleGroup.filter(
-      (muscle: MuscleItem) => muscle.id === id,
-    )[0].name_en;
-    return targetMuscle;
-  };
-  return (
-    <FlatList
-      data={item.muscles_secondary}
-      renderItem={({item}) => {
-        return <ExerciseText>{muscleName(item)}</ExerciseText>;
-      }}
-      keyExtractor={item => item}
-    />
-  );
-};
 
 // filter muscleGroup data based on muscle id and return the muscle name
 
@@ -94,11 +44,11 @@ export default function ExerciseItem({
           </TouchableOpacity>
         }>
         <ExerciseText>Primary muscle(s): </ExerciseText>
-        <PrimaryMuscleList item={item} muscleGroup={muscleGroup} />
+        <FilterMuscleGroup item={item} muscleGroup={muscleGroup} />
         {item.muscles_secondary.length > 0 && (
           <>
             <ExerciseText>Secondary muscle(s): </ExerciseText>
-            <SecondaryMuscleList item={item} muscleGroup={muscleGroup} />
+            <FilterMuscleGroup item={item} muscleGroup={muscleGroup} />
           </>
         )}
       </Popover>
