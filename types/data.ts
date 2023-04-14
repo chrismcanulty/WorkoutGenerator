@@ -24,3 +24,7 @@ export interface MuscleItem {
   image_url_main: string;
   image_url_secondary: string;
 }
+
+export interface BorderBottom {
+  borderBottom: number;
+}

@@ -22,7 +22,7 @@ const ButtonText = styled.Text`
 `;
 const ButtonWrapper = styled.View`
   background-color: white;
-  bottom: 0px;
+  bottom: 5px;
   position: absolute;
   width: 100%;
   flex: 1;
@@ -39,12 +39,6 @@ const Header = styled.Text`
   margin-top: 30px;
   padding: 18px;
   text-align: center;
-`;
-const RedirectButton = styled.View`
-  background-color: white;
-  bottom: 15px;
-  position: absolute;
-  width: 100%;
 `;
 
 export default function GenerationScreen({navigation}: NativeStackHeaderProps) {

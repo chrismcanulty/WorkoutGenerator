@@ -3,7 +3,7 @@ import {SequenceItem, MuscleItem} from '../../types/data';
 import styled from 'styled-components/native';
 import {FlatList} from 'react-native-gesture-handler';
 
-const ExerciseText = styled.Text`
+const MuscleName = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 18px;
@@ -12,7 +12,6 @@ const ExerciseText = styled.Text`
   padding: 10px;
   text-align: left;
 `;
-
 const PopoverText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
@@ -40,7 +39,7 @@ export const FilterMuscleGroup = ({
     <FlatList
       data={item.muscles}
       renderItem={({item}) => {
-        return <ExerciseText>{muscleName(item)}</ExerciseText>;
+        return <MuscleName>{muscleName(item)}</MuscleName>;
       }}
       keyExtractor={item => item}
     />
