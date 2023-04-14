@@ -17,6 +17,8 @@ const Header = styled.Text`
 const ContainerWrapper = styled.View`
   background-color: white;
   height: 100%;
+  border-bottom-color: rgb(230, 230, 230);
+  border-bottom-width: 1px;
 `;
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -38,6 +40,16 @@ const ButtonWrapper = styled.View`
   bottom: 80px;
   position: absolute;
   width: 100%;
+`;
+const RedirectButton = styled.View`
+  background-color: white;
+  bottom: 15px;
+  position: absolute;
+  width: 100%;
+`;
+const ExercisesView = styled.View`
+  border-bottom-color: rgb(230, 230, 230);
+  border-bottom-width: 1px;
 `;
 
 export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
@@ -71,6 +83,11 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
           keyExtractor={item => item.id}
         />
       </ContainerWrapper>
+      <RedirectButton>
+        <Button onPress={() => navigation.navigate('Workouts')}>
+          <ButtonText>Start Workout</ButtonText>
+        </Button>
+      </RedirectButton>
       <ButtonWrapper>
         <Button onPress={onPress}>
           <ButtonText>Regenerate</ButtonText>

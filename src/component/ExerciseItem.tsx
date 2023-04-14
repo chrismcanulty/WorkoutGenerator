@@ -8,14 +8,15 @@ import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
 
 const ExerciseContainer = styled.View``;
 
+const ExerciseView = styled.View`
+  border-top-color: rgb(230, 230, 230);
+  border-top-width: 1px;
+`;
+
 const ExerciseText = styled.Text`
-  border: 2px rgb(230, 230, 230);
-  border-radius: 15px;
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 24px;
-  margin-left: 10px;
-  margin-right: 10px;
   padding: 10px;
   text-align: center;
 `;
@@ -34,7 +35,7 @@ export default function ExerciseItem({
   // console.log(item);
 
   return (
-    <>
+    <ExerciseView>
       <ExerciseText>{item.name}</ExerciseText>
       <Popover
         from={
@@ -66,6 +67,6 @@ export default function ExerciseItem({
           </ExerciseContainer>
         </Popover>
       )}
-    </>
+    </ExerciseView>
   );
 }
