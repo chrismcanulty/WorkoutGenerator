@@ -31,10 +31,6 @@ export default function ExerciseItem({
 }) {
   const {muscleGroup} = useContext(UserContext);
 
-  // console.log('item', muscleName(item.muscles[0]));
-  // console.log('muscleGroup', muscleGroup[0].id);
-  // item muscles is an array of numbers
-
   return (
     <>
       <ExerciseText>{item.name}</ExerciseText>

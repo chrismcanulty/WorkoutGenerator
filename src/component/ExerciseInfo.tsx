@@ -56,6 +56,5 @@ export const ExerciseDetails = ({item}: {item: SequenceItem}) => {
   const filterText = (text: string) => {
     return text.replace(/<[^>]*>?/gm, '');
   };
-  console.log('description', item.description);
   return <PopoverText>{filterText(item.description)}</PopoverText>;
 };
