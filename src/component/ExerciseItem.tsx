@@ -5,42 +5,61 @@ import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
 import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
+import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 
 const ExerciseContainer = styled.View``;
 
-const ExerciseView = styled.View`
-  border-top-color: rgb(230, 230, 230);
+interface Props {
+  borderBottom: number;
+}
+
+const ExerciseView = styled.View<Props>`
+  border-color: rgb(230, 230, 230);
   border-top-width: 1px;
+  border-bottom-width: ${props => props.borderBottom}px;
 `;
 
 const ExerciseText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
-  font-size: 24px;
+  font-size: 20px;
   padding: 10px;
-  text-align: center;
+  text-align: left;
+  margin-left: 20px;
 `;
-
-// filter muscleGroup data based on muscle id and return the muscle name
+const InfoText = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 14px;
+  text-align: left;
+  margin-left: 30px;
+  padding-bottom: 5px;
+`;
 
 export default function ExerciseItem({
   item,
+  isLastItem,
   children,
 }: {
   item: SequenceItem;
   children?: ReactNode;
+  isLastItem: boolean;
 }) {
   const {muscleGroup} = useContext(UserContext);
-
-  // console.log(item);
-
+  console.log('isLastItem', isLastItem);
   return (
-    <ExerciseView>
+    <ExerciseView borderBottom={isLastItem ? 1 : 0}>
       <ExerciseText>{item.name}</ExerciseText>
       <Popover
         from={
           <TouchableOpacity>
-            <ExerciseText>Muscle info</ExerciseText>
+            <InfoText>Muscle info</InfoText>
+            <PlannerIcon
+              name="clipboard-list"
+              size={30}
+              color={'gray'}
+              style={{marginLeft: 30}}
+            />
           </TouchableOpacity>
         }>
         <ExerciseText>Primary muscle(s): </ExerciseText>
@@ -56,14 +75,17 @@ export default function ExerciseItem({
         <Popover
           from={
             <TouchableOpacity>
-              <ExerciseText>Exercise info</ExerciseText>
+              <InfoText>Exercise info</InfoText>
+              <PlannerIcon
+                name="clipboard-list"
+                size={30}
+                color={'gray'}
+                style={{marginLeft: 30}}
+              />
             </TouchableOpacity>
           }>
           <ExerciseContainer>
-            {/* Add equipment, muscles, description */}
-            {/* Display list of primary muscles */}
             <ExerciseDetails item={item} />
-            {/* Display list of secondary muscles in one text element */}
           </ExerciseContainer>
         </Popover>
       )}

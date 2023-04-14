@@ -4,27 +4,23 @@ import styled from 'styled-components/native';
 import {FlatList} from 'react-native-gesture-handler';
 
 const ExerciseText = styled.Text`
-  border: 2px rgb(230, 230, 230);
-  border-radius: 15px;
-  color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
-  font-size: 24px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 10px;
-  text-align: center;
-`;
-
-const PopoverText = styled.Text`
-  border: 2px rgb(230, 230, 230);
-  border-radius: 15px;
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 18px;
   margin-left: 10px;
   margin-right: 10px;
   padding: 10px;
-  text-align: center;
+  text-align: left;
+`;
+
+const PopoverText = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 14px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  text-align: left;
 `;
 
 export const FilterMuscleGroup = ({
