@@ -2,7 +2,6 @@ import React from 'react';
 import {SequenceItem, MuscleItem} from '../../types/data';
 import styled from 'styled-components/native';
 import {FlatList} from 'react-native-gesture-handler';
-import {Text} from 'react-native';
 
 const ExerciseText = styled.Text`
   border: 2px rgb(230, 230, 230);

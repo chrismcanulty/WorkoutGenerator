@@ -31,6 +31,8 @@ export default function ExerciseItem({
 }) {
   const {muscleGroup} = useContext(UserContext);
 
+  // console.log(item);
+
   return (
     <>
       <ExerciseText>{item.name}</ExerciseText>
@@ -49,21 +51,21 @@ export default function ExerciseItem({
           </>
         )}
       </Popover>
-      <Popover
-        from={
-          <TouchableOpacity>
-            <ExerciseText>Exercise info</ExerciseText>
-          </TouchableOpacity>
-        }>
-        {item?.description && (
+      {item?.description && (
+        <Popover
+          from={
+            <TouchableOpacity>
+              <ExerciseText>Exercise info</ExerciseText>
+            </TouchableOpacity>
+          }>
           <ExerciseContainer>
             {/* Add equipment, muscles, description */}
             {/* Display list of primary muscles */}
             <ExerciseDetails item={item} />
             {/* Display list of secondary muscles in one text element */}
           </ExerciseContainer>
-        )}
-      </Popover>
+        </Popover>
+      )}
     </>
   );
 }
