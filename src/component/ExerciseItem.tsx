@@ -46,18 +46,17 @@ const MuscleText = styled.Text`
 export default function ExerciseItem({
   item,
   isLastItem,
-  children,
 }: {
   item: SequenceItem;
   children?: ReactNode;
   isLastItem: boolean;
 }) {
   const {muscleGroup} = useContext(UserContext);
-  console.log('isLastItem', isLastItem);
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
       <ExerciseText>{item.name}</ExerciseText>
       <Popover
+        arrowSize={{width: 0, height: 0}}
         from={
           <InfoButton>
             <InfoText>Muscle info</InfoText>
@@ -79,6 +78,7 @@ export default function ExerciseItem({
       </Popover>
       {item?.description && (
         <Popover
+          arrowSize={{width: 0, height: 0}}
           from={
             <InfoButton>
               <InfoText>Exercise info</InfoText>
