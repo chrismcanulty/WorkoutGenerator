@@ -1,5 +1,4 @@
 import React, {ReactNode, useContext} from 'react';
-import {TouchableOpacity} from 'react-native';
 import {SequenceItem} from '../../types/data';
 import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
@@ -11,11 +10,12 @@ import {BorderBottom} from '../../types/data';
 const ExerciseView = styled.View<BorderBottom>`
   border-color: rgb(230, 230, 230);
   border-top-width: 1px;
+  padding-bottom: 10px;
   border-bottom-width: ${props => props.borderBottom}px;
 `;
 const ExerciseText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat-Bold';
   font-size: 20px;
   padding: 10px;
   text-align: left;
@@ -28,14 +28,19 @@ const InfoText = styled.Text`
   text-align: left;
   margin-left: 30px;
   padding-bottom: 5px;
+  width: 30%;
+`;
+const InfoButton = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
 `;
 const MuscleText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
-  font-size: 20px;
-  padding: 10px;
+  font-size: 16px;
+  padding: 5px;
   text-align: left;
-  margin-left: 10px;
+  margin-left: 15px;
 `;
 
 export default function ExerciseItem({
@@ -54,15 +59,14 @@ export default function ExerciseItem({
       <ExerciseText>{item.name}</ExerciseText>
       <Popover
         from={
-          <TouchableOpacity style={{display: 'flex', flexDirection: 'row'}}>
+          <InfoButton>
             <InfoText>Muscle info</InfoText>
             <PlannerIcon
               name="info-circle"
               size={20}
-              color={'rgb(38, 38, 38)'}
-              style={{marginLeft: 30}}
+              color={'rgb(169,169,169)'}
             />
-          </TouchableOpacity>
+          </InfoButton>
         }>
         <MuscleText>Primary muscle(s): </MuscleText>
         <FilterMuscleGroup item={item} muscleGroup={muscleGroup} />
@@ -76,15 +80,14 @@ export default function ExerciseItem({
       {item?.description && (
         <Popover
           from={
-            <TouchableOpacity style={{display: 'flex', flexDirection: 'row'}}>
+            <InfoButton>
               <InfoText>Exercise info</InfoText>
               <PlannerIcon
                 name="info-circle"
                 size={20}
-                color={'rgb(38, 38, 38)'}
-                style={{marginLeft: 30}}
+                color={'rgb(169,169,169)'}
               />
-            </TouchableOpacity>
+            </InfoButton>
           }>
           <ExerciseDetails item={item} />
         </Popover>

@@ -6,11 +6,12 @@ import {FlatList} from 'react-native-gesture-handler';
 const MuscleName = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
-  font-size: 18px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 10px;
+  font-size: 14px;
+  margin-left: 20px;
   text-align: left;
+`;
+const MuscleList = styled.FlatList`
+  margin-bottom: 10px;
 `;
 const PopoverText = styled.Text`
   color: rgb(38, 38, 38);
@@ -36,10 +37,10 @@ export const FilterMuscleGroup = ({
     return targetMuscle[0].name_en || targetMuscle[0].name;
   };
   return (
-    <FlatList
+    <MuscleList
       data={item.muscles}
       renderItem={({item}) => {
-        return <MuscleName>{muscleName(item)}</MuscleName>;
+        return <MuscleName>· {muscleName(item)}</MuscleName>;
       }}
       keyExtractor={item => item}
     />
