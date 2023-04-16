@@ -28,7 +28,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   return (
     <View>
-      <Header>I am workouts screen</Header>
+      <Header>Workout Name</Header>
       <FlatList
         contentContainerStyle={{paddingBottom: 200}}
         data={exerciseData}

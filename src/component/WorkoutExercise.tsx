@@ -1,11 +1,13 @@
 import React, {ReactNode, useContext} from 'react';
-import {SequenceItem} from '../../types/data';
+import {SequenceItem, BorderBottom} from '../../types/data';
+import {FlatList, Text, View} from 'react-native';
 import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
 import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
-import {BorderBottom} from '../../types/data';
+import exerciseSet from '../utils/exerciseset';
+import ExerciseData from './ExerciseData';
 
 const ExerciseView = styled.View<BorderBottom>`
   border-color: rgb(230, 230, 230);
@@ -17,6 +19,13 @@ const ExerciseInfoView = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+const ExerciseSetText = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  text-align: left;
+  padding-bottom: 1px;
 `;
 const ExerciseTitleView = styled.View`
   background-color: rgb(200, 200, 200);
@@ -51,6 +60,14 @@ const MuscleText = styled.Text`
   text-align: left;
   margin-left: 15px;
 `;
+
+type ItemProps = {reps: number};
+
+const Item = ({reps}: ItemProps) => (
+  <View>
+    <Text>{reps}</Text>
+  </View>
+);
 
 export default function WorkoutExercise({
   item,
@@ -105,6 +122,27 @@ export default function WorkoutExercise({
           </Popover>
         )}
       </ExerciseInfoView>
+      <View style={{marginLeft: 30, marginRight: 30}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <ExerciseSetText>Set</ExerciseSetText>
+          <ExerciseSetText>Reps</ExerciseSetText>
+          <ExerciseSetText>Weight</ExerciseSetText>
+          <ExerciseSetText>Completion</ExerciseSetText>
+        </View>
+        <FlatList
+          data={exerciseSet}
+          renderItem={({item}) => <ExerciseData item={item} />}
+          keyExtractor={item => item.Set}
+          // data={exerciseSet}
+          // renderItem={({item}) => <Item reps={item.Reps} />}
+          // keyExtractor={item => item.Set}
+        />
+      </View>
     </ExerciseView>
   );
 }
