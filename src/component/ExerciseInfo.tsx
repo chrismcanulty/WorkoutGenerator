@@ -1,7 +1,6 @@
 import React from 'react';
 import {SequenceItem, MuscleItem} from '../../types/data';
 import styled from 'styled-components/native';
-import {FlatList} from 'react-native-gesture-handler';
 
 const MuscleName = styled.Text`
   color: rgb(38, 38, 38);
