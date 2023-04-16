@@ -5,19 +5,6 @@ import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import ExerciseItem from '../component/ExerciseItem';
 
-const Header = styled.Text`
-  color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Bold';
-  font-size: 24px;
-  margin: 20px;
-  margin-top: 30px;
-  padding: 18px;
-  text-align: center;
-`;
-const ContainerWrapper = styled.View`
-  background-color: white;
-  height: 100%;
-`;
 const Button = styled.TouchableOpacity`
   font-size: 24px;
   padding: 10px;
@@ -35,9 +22,23 @@ const ButtonText = styled.Text`
 `;
 const ButtonWrapper = styled.View`
   background-color: white;
-  bottom: 80px;
+  bottom: 5px;
   position: absolute;
   width: 100%;
+  flex: 1;
+`;
+const ContainerWrapper = styled.SafeAreaView`
+  background-color: white;
+  flex: 1;
+`;
+const Header = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Bold';
+  font-size: 24px;
+  margin: 20px;
+  margin-top: 30px;
+  padding: 18px;
+  text-align: center;
 `;
 
 export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
@@ -62,20 +63,27 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
   }, []);
 
   return (
-    <>
-      <ContainerWrapper>
-        <Header>{formatMessage()}</Header>
-        <FlatList
-          data={exerciseData}
-          renderItem={({item}) => <ExerciseItem item={item} />}
-          keyExtractor={item => item.id}
-        />
-      </ContainerWrapper>
+    <ContainerWrapper>
+      <Header>{formatMessage()}</Header>
+      <FlatList
+        contentContainerStyle={{paddingBottom: 200}}
+        data={exerciseData}
+        renderItem={({index, item}) => (
+          <ExerciseItem
+            item={item}
+            isLastItem={index === exerciseData.length - 1}
+          />
+        )}
+        keyExtractor={item => item.id}
+      />
       <ButtonWrapper>
+        <Button onPress={() => navigation.navigate('Workouts')}>
+          <ButtonText>Start Workout</ButtonText>
+        </Button>
         <Button onPress={onPress}>
           <ButtonText>Regenerate</ButtonText>
         </Button>
       </ButtonWrapper>
-    </>
+    </ContainerWrapper>
   );
 }

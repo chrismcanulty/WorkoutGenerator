@@ -1,69 +1,97 @@
 import React, {ReactNode, useContext} from 'react';
-import {TouchableOpacity} from 'react-native';
 import {SequenceItem} from '../../types/data';
 import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
 import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
+import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
+import {BorderBottom} from '../../types/data';
 
-const ExerciseContainer = styled.View``;
-
+const ExerciseView = styled.View<BorderBottom>`
+  border-color: rgb(230, 230, 230);
+  border-top-width: 1px;
+  padding-bottom: 10px;
+  border-bottom-width: ${props => props.borderBottom}px;
+`;
 const ExerciseText = styled.Text`
-  border: 2px rgb(230, 230, 230);
-  border-radius: 15px;
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Bold';
+  font-size: 20px;
+  padding: 10px;
+  text-align: left;
+  margin-left: 20px;
+`;
+const InfoText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
-  font-size: 24px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 10px;
-  text-align: center;
+  font-size: 14px;
+  text-align: left;
+  margin-left: 30px;
+  padding-bottom: 5px;
+  width: 30%;
 `;
-
-// filter muscleGroup data based on muscle id and return the muscle name
+const InfoButton = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+`;
+const MuscleText = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 16px;
+  padding: 5px;
+  text-align: left;
+  margin-left: 15px;
+`;
 
 export default function ExerciseItem({
   item,
-  children,
+  isLastItem,
 }: {
   item: SequenceItem;
   children?: ReactNode;
+  isLastItem: boolean;
 }) {
   const {muscleGroup} = useContext(UserContext);
-
   return (
-    <>
+    <ExerciseView borderBottom={isLastItem ? 1 : 0}>
       <ExerciseText>{item.name}</ExerciseText>
       <Popover
+        arrowSize={{width: 0, height: 0}}
         from={
-          <TouchableOpacity>
-            <ExerciseText>Muscle info</ExerciseText>
-          </TouchableOpacity>
+          <InfoButton>
+            <InfoText>Muscle info</InfoText>
+            <PlannerIcon
+              name="info-circle"
+              size={20}
+              color={'rgb(169,169,169)'}
+            />
+          </InfoButton>
         }>
-        <ExerciseText>Primary muscle(s): </ExerciseText>
+        <MuscleText>Primary muscle(s): </MuscleText>
         <FilterMuscleGroup item={item} muscleGroup={muscleGroup} />
         {item.muscles_secondary.length > 0 && (
           <>
-            <ExerciseText>Secondary muscle(s): </ExerciseText>
+            <MuscleText>Secondary muscle(s): </MuscleText>
             <FilterMuscleGroup item={item} muscleGroup={muscleGroup} />
           </>
         )}
       </Popover>
-      <Popover
-        from={
-          <TouchableOpacity>
-            <ExerciseText>Exercise info</ExerciseText>
-          </TouchableOpacity>
-        }>
-        {item?.description && (
-          <ExerciseContainer>
-            {/* Add equipment, muscles, description */}
-            {/* Display list of primary muscles */}
-            <ExerciseDetails item={item} />
-            {/* Display list of secondary muscles in one text element */}
-          </ExerciseContainer>
-        )}
-      </Popover>
-    </>
+      {item?.description && (
+        <Popover
+          arrowSize={{width: 0, height: 0}}
+          from={
+            <InfoButton>
+              <InfoText>Exercise info</InfoText>
+              <PlannerIcon
+                name="info-circle"
+                size={20}
+                color={'rgb(169,169,169)'}
+              />
+            </InfoButton>
+          }>
+          <ExerciseDetails item={item} />
+        </Popover>
+      )}
+    </ExerciseView>
   );
 }
