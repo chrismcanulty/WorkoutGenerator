@@ -1,6 +1,5 @@
 import React, {ReactNode, useContext} from 'react';
 import {SequenceItem} from '../../types/data';
-import {View} from 'react-native';
 import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
@@ -14,8 +13,15 @@ const ExerciseView = styled.View<BorderBottom>`
   padding-bottom: 10px;
   border-bottom-width: ${props => props.borderBottom}px;
 `;
+const ExerciseInfoView = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+const ExerciseTitleView = styled.View`
+  background-color: rgb(200, 200, 200);
+`;
 const ExerciseText = styled.Text`
-  background-color: gray;
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
   font-size: 20px;
@@ -35,6 +41,7 @@ const InfoText = styled.Text`
 const InfoButton = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
+  margin-top: 2px;
 `;
 const MuscleText = styled.Text`
   color: rgb(38, 38, 38);
@@ -56,15 +63,10 @@ export default function WorkoutExercise({
   const {muscleGroup} = useContext(UserContext);
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
-      <View style={{backgroundColor: 'gray'}}>
+      <ExerciseTitleView>
         <ExerciseText>{item.name}</ExerciseText>
-      </View>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
+      </ExerciseTitleView>
+      <ExerciseInfoView>
         <Popover
           arrowSize={{width: 0, height: 0}}
           from={
@@ -102,7 +104,7 @@ export default function WorkoutExercise({
             <ExerciseDetails item={item} />
           </Popover>
         )}
-      </View>
+      </ExerciseInfoView>
     </ExerciseView>
   );
 }
