@@ -8,6 +8,7 @@ import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import exerciseSet from '../utils/exerciseset';
 import ExerciseData from './ExerciseData';
+import {DataTable} from 'react-native-paper';
 
 const ExerciseView = styled.View<BorderBottom>`
   border-color: rgb(230, 230, 230);
@@ -60,14 +61,6 @@ const MuscleText = styled.Text`
   text-align: left;
   margin-left: 15px;
 `;
-
-type ItemProps = {reps: number};
-
-const Item = ({reps}: ItemProps) => (
-  <View>
-    <Text>{reps}</Text>
-  </View>
-);
 
 export default function WorkoutExercise({
   item,
@@ -122,27 +115,36 @@ export default function WorkoutExercise({
           </Popover>
         )}
       </ExerciseInfoView>
-      <View style={{marginLeft: 30, marginRight: 30}}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <ExerciseSetText>Set</ExerciseSetText>
-          <ExerciseSetText>Reps</ExerciseSetText>
-          <ExerciseSetText>Weight</ExerciseSetText>
-          <ExerciseSetText>Completion</ExerciseSetText>
-        </View>
-        <FlatList
-          data={exerciseSet}
-          renderItem={({item}) => <ExerciseData item={item} />}
-          keyExtractor={item => item.Set}
-          // data={exerciseSet}
-          // renderItem={({item}) => <Item reps={item.Reps} />}
-          // keyExtractor={item => item.Set}
+      <DataTable style={{marginLeft: 15}}>
+        <DataTable.Header>
+          <DataTable.Title>
+            <ExerciseSetText>Set</ExerciseSetText>
+          </DataTable.Title>
+          <DataTable.Title>
+            <ExerciseSetText>Reps</ExerciseSetText>
+          </DataTable.Title>
+          <DataTable.Title>
+            <ExerciseSetText>Weight</ExerciseSetText>
+          </DataTable.Title>
+          <DataTable.Title>
+            <ExerciseSetText>Completion</ExerciseSetText>
+          </DataTable.Title>
+        </DataTable.Header>
+        {exerciseSet.map(data => (
+          <ExerciseData item={data} />
+        ))}
+        {/* <ExerciseData item={exerciseSet[0]} />
+        <ExerciseData item={exerciseSet[1]} /> */}
+
+        <DataTable.Pagination
+          page={1}
+          numberOfPages={2}
+          onPageChange={page => {
+            console.log(page);
+          }}
+          label="1-3 of 6"
         />
-      </View>
+      </DataTable>
     </ExerciseView>
   );
 }

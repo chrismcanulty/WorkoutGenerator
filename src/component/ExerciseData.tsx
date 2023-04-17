@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {ExerciseSet} from '../../types/data';
-import {Text, View} from 'react-native';
 import styled from 'styled-components/native';
+import {DataTable} from 'react-native-paper';
 
 const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
@@ -18,16 +18,19 @@ export default function ExerciseData({
   children?: ReactNode;
 }) {
   return (
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-      }}>
-      <ExerciseSetText>{item.Set}</ExerciseSetText>
-      <ExerciseSetText>{item.Reps}</ExerciseSetText>
-      <ExerciseSetText>{item.Weight}</ExerciseSetText>
-      <ExerciseSetText>{item.Completion}</ExerciseSetText>
-    </View>
+    <DataTable.Row>
+      <DataTable.Cell>
+        <ExerciseSetText>{item.Set}</ExerciseSetText>
+      </DataTable.Cell>
+      <DataTable.Cell>
+        <ExerciseSetText>{item.Reps}</ExerciseSetText>
+      </DataTable.Cell>
+      <DataTable.Cell>
+        <ExerciseSetText>{item.Weight}</ExerciseSetText>
+      </DataTable.Cell>
+      <DataTable.Cell>
+        <ExerciseSetText>{item.Completion}</ExerciseSetText>
+      </DataTable.Cell>
+    </DataTable.Row>
   );
 }
