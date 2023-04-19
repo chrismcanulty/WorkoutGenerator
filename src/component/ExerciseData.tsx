@@ -2,6 +2,7 @@ import React, {ReactNode} from 'react';
 import {ExerciseSet} from '../../types/data';
 import styled from 'styled-components/native';
 import {DataTable} from 'react-native-paper';
+import CompleteIcon from 'react-native-vector-icons/FontAwesome5';
 
 const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
@@ -29,7 +30,11 @@ export default function ExerciseData({
         <ExerciseSetText>{item.Weight}</ExerciseSetText>
       </DataTable.Cell>
       <DataTable.Cell>
-        <ExerciseSetText>{item.Completion}</ExerciseSetText>
+        <CompleteIcon
+          name={item.Completion}
+          size={14}
+          color={'rgb(169,169,169)'}
+        />
       </DataTable.Cell>
     </DataTable.Row>
   );

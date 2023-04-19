@@ -1,6 +1,5 @@
 import React, {ReactNode, useContext} from 'react';
 import {SequenceItem, BorderBottom} from '../../types/data';
-import {FlatList, Text, View} from 'react-native';
 import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
@@ -9,6 +8,7 @@ import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import exerciseSet from '../utils/exerciseset';
 import ExerciseData from './ExerciseData';
 import {DataTable} from 'react-native-paper';
+import EditIcon from 'react-native-vector-icons/FontAwesome5';
 
 const ExerciseView = styled.View<BorderBottom>`
   border-color: rgb(230, 230, 230);
@@ -127,7 +127,7 @@ export default function WorkoutExercise({
             <ExerciseSetText>Weight</ExerciseSetText>
           </DataTable.Title>
           <DataTable.Title>
-            <ExerciseSetText>Completion</ExerciseSetText>
+            <EditIcon name="edit" size={14} color={'rgb(169,169,169)'} />
           </DataTable.Title>
         </DataTable.Header>
         {exerciseSet.map(data => (
@@ -135,15 +135,6 @@ export default function WorkoutExercise({
         ))}
         {/* <ExerciseData item={exerciseSet[0]} />
         <ExerciseData item={exerciseSet[1]} /> */}
-
-        <DataTable.Pagination
-          page={1}
-          numberOfPages={2}
-          onPageChange={page => {
-            console.log(page);
-          }}
-          label="1-3 of 6"
-        />
       </DataTable>
     </ExerciseView>
   );
