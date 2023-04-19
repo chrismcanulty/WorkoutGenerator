@@ -28,3 +28,10 @@ export interface MuscleItem {
 export interface BorderBottom {
   borderBottom: number;
 }
+
+export interface ExerciseSet {
+  Set: number;
+  Reps: number;
+  Weight: number;
+  Completion: string;
+}

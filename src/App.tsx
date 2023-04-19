@@ -8,6 +8,7 @@ import Navigation from './navigation';
 import {TailwindProvider} from 'tailwindcss-react-native';
 import SplashScreen from 'react-native-splash-screen';
 import UserProvider from './context/User.Context';
+import {Provider as PaperProvider} from 'react-native-paper';
 
 export default function App() {
   // const isLoaded = useCachedResources();
@@ -20,10 +21,12 @@ export default function App() {
   return (
     <UserProvider>
       <TailwindProvider>
-        <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar style="auto" />
-        </SafeAreaProvider>
+        <PaperProvider>
+          <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar style="auto" />
+          </SafeAreaProvider>
+        </PaperProvider>
       </TailwindProvider>
     </UserProvider>
   );
