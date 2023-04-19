@@ -1,8 +1,11 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {ExerciseSet} from '../../types/data';
 import styled from 'styled-components/native';
 import {DataTable} from 'react-native-paper';
 import CompleteIcon from 'react-native-vector-icons/FontAwesome5';
+import EditIcon from 'react-native-vector-icons/FontAwesome5';
+import DeleteIcon from 'react-native-vector-icons/FontAwesome5';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
@@ -18,6 +21,14 @@ export default function ExerciseData({
   item: ExerciseSet;
   children?: ReactNode;
 }) {
+  const [completeIcon, setCompleteIcon] = useState(item.Completion);
+
+  const onPress = () => {
+    completeIcon === 'check-circle'
+      ? setCompleteIcon('circle')
+      : setCompleteIcon('check-circle');
+  };
+
   return (
     <DataTable.Row>
       <DataTable.Cell>
@@ -30,11 +41,23 @@ export default function ExerciseData({
         <ExerciseSetText>{item.Weight}</ExerciseSetText>
       </DataTable.Cell>
       <DataTable.Cell>
-        <CompleteIcon
-          name={item.Completion}
-          size={14}
-          color={'rgb(169,169,169)'}
-        />
+        <TouchableOpacity onPress={onPress}>
+          <CompleteIcon
+            name={completeIcon}
+            size={14}
+            color={'rgb(169,169,169)'}
+          />
+        </TouchableOpacity>
+      </DataTable.Cell>
+      <DataTable.Cell>
+        <TouchableOpacity>
+          <EditIcon name="edit" size={14} color={'rgb(169,169,169)'} />
+        </TouchableOpacity>
+      </DataTable.Cell>
+      <DataTable.Cell>
+        <TouchableOpacity>
+          <DeleteIcon name="trash" size={14} color={'rgb(169,169,169)'} />
+        </TouchableOpacity>
       </DataTable.Cell>
     </DataTable.Row>
   );

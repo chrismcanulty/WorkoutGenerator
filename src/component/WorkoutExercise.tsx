@@ -8,7 +8,6 @@ import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import exerciseSet from '../utils/exerciseset';
 import ExerciseData from './ExerciseData';
 import {DataTable} from 'react-native-paper';
-import EditIcon from 'react-native-vector-icons/FontAwesome5';
 
 const ExerciseView = styled.View<BorderBottom>`
   border-color: rgb(230, 230, 230);
@@ -115,7 +114,7 @@ export default function WorkoutExercise({
           </Popover>
         )}
       </ExerciseInfoView>
-      <DataTable style={{marginLeft: 15}}>
+      <DataTable style={{marginLeft: 30}}>
         <DataTable.Header>
           <DataTable.Title>
             <ExerciseSetText>Set</ExerciseSetText>
@@ -127,7 +126,13 @@ export default function WorkoutExercise({
             <ExerciseSetText>Weight</ExerciseSetText>
           </DataTable.Title>
           <DataTable.Title>
-            <EditIcon name="edit" size={14} color={'rgb(169,169,169)'} />
+            <ExerciseSetText>Done</ExerciseSetText>
+          </DataTable.Title>
+          <DataTable.Title>
+            <ExerciseSetText>Edit</ExerciseSetText>
+          </DataTable.Title>
+          <DataTable.Title>
+            <ExerciseSetText>Delete</ExerciseSetText>
           </DataTable.Title>
         </DataTable.Header>
         {exerciseSet.map(data => (
