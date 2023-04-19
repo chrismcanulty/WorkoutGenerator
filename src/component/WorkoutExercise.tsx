@@ -5,9 +5,21 @@ import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
 import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
+import AddIcon from 'react-native-vector-icons/FontAwesome5';
 import exerciseSet from '../utils/exerciseset';
 import ExerciseData from './ExerciseData';
 import {DataTable} from 'react-native-paper';
+
+const AddText = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  text-align: right;
+  margin-left: 30px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  width: 80%;
+`;
 
 const ExerciseView = styled.View<BorderBottom>`
   border-color: rgb(230, 230, 230);
@@ -50,7 +62,7 @@ const InfoText = styled.Text`
 const InfoButton = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
-  margin-top: 2px;
+  margin-top: 4px;
 `;
 const MuscleText = styled.Text`
   color: rgb(38, 38, 38);
@@ -70,6 +82,7 @@ export default function WorkoutExercise({
   isLastItem: boolean;
 }) {
   const {muscleGroup} = useContext(UserContext);
+
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
       <ExerciseTitleView>
@@ -114,7 +127,7 @@ export default function WorkoutExercise({
           </Popover>
         )}
       </ExerciseInfoView>
-      <DataTable style={{marginLeft: 30}}>
+      <DataTable style={{marginLeft: 20}}>
         <DataTable.Header>
           <DataTable.Title>
             <ExerciseSetText>Set</ExerciseSetText>
@@ -138,9 +151,11 @@ export default function WorkoutExercise({
         {exerciseSet.map(data => (
           <ExerciseData item={data} />
         ))}
-        {/* <ExerciseData item={exerciseSet[0]} />
-        <ExerciseData item={exerciseSet[1]} /> */}
       </DataTable>
+      <InfoButton>
+        <AddText>Add set</AddText>
+        <AddIcon name="plus" size={14} color={'rgb(169,169,169)'} />
+      </InfoButton>
     </ExerciseView>
   );
 }

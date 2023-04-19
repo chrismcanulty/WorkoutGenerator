@@ -11,7 +11,7 @@ const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 12px;
-  text-align: left;
+  text-align: center;
   padding-bottom: 1px;
 `;
 
