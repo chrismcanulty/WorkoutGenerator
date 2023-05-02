@@ -83,6 +83,8 @@ export default function WorkoutExercise({
 }) {
   const {muscleGroup} = useContext(UserContext);
 
+  console.log('item', item.id);
+
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
       <ExerciseTitleView>
@@ -149,7 +151,7 @@ export default function WorkoutExercise({
           </DataTable.Title>
         </DataTable.Header>
         {exerciseSet.map(data => (
-          <ExerciseData item={data} />
+          <ExerciseData item={data} key={data.Set} />
         ))}
       </DataTable>
       <InfoButton>
