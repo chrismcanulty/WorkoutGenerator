@@ -1,4 +1,4 @@
-const exerciseSet = [
+const exerciseSet = () => [
   {
     Set: 1,
     Reps: 10,

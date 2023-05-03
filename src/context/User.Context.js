@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {node} from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import exerciseSet from '../utils/exerciseset';
 
 export const UserContext = React.createContext();
 
@@ -14,6 +15,7 @@ const UserProvider = ({children}) => {
   const [selectedEquipment, setSelectedEquipment] = useState([]);
   const [numberOfExercises, setNumberOfExercises] = useState('0');
   const [exerciseData, setExerciseData] = useState([]);
+  const [userSets, setUserSets] = useState(exerciseSet);
 
   const checkOnboarding = async () => {
     try {
@@ -126,6 +128,8 @@ const UserProvider = ({children}) => {
           setNumberOfExercises,
           fetchExercises,
           exerciseData,
+          userSets,
+          setUserSets,
         }}>
         {children}
       </UserContext.Provider>
