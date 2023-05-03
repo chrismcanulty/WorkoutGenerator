@@ -35,7 +35,8 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         data={exerciseData}
         renderItem={({index, item}) => (
           <WorkoutExercise
-            key={item.id}
+            key={+item.id}
+            workoutId={+item.id}
             item={item}
             isLastItem={index === exerciseData.length - 1}
           />

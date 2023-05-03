@@ -76,14 +76,15 @@ const MuscleText = styled.Text`
 export default function WorkoutExercise({
   item,
   isLastItem,
+  workoutId,
 }: {
+  workoutId: String;
   item: SequenceItem;
   children?: ReactNode;
   isLastItem: boolean;
 }) {
-  const {muscleGroup} = useContext(UserContext);
+  const {muscleGroup, workout} = useContext(UserContext);
   const [userSets, setUserSets] = useState(exerciseSet);
-
   const addSet = () => {
     const setNumber = userSets.length + 1;
     const newSet = {
@@ -160,9 +161,7 @@ export default function WorkoutExercise({
             <ExerciseSetText>Delete</ExerciseSetText>
           </DataTable.Title>
         </DataTable.Header>
-        {userSets.map(data => (
-          <ExerciseData item={data} key={data.Set} />
-        ))}
+        <ExerciseData item={workout[+workoutId]} workoutId={workoutId} />
       </DataTable>
       <InfoButton onPress={addSet}>
         <AddText>Add set</AddText>

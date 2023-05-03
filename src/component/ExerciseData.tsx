@@ -1,9 +1,9 @@
-import React, {ReactNode, useState} from 'react';
-import {ExerciseSet} from '../../types/data';
+import React, {useContext} from 'react';
 import styled from 'styled-components/native';
 import {DataTable} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {UserContext} from '../context/User.Context';
 
 const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
@@ -19,44 +19,42 @@ const WorkoutIcon = ({name}: {name: string}) => {
 
 export default function ExerciseData({
   item,
+  workoutId,
 }: {
-  item: ExerciseSet;
-  children?: ReactNode;
+  item: any;
+  workoutId: String;
 }) {
-  const [completeIcon, setCompleteIcon] = useState(item.Completion);
+  const {clickComplete} = useContext(UserContext);
 
-  const onPress = () => {
-    completeIcon === 'check-circle'
-      ? setCompleteIcon('circle')
-      : setCompleteIcon('check-circle');
-  };
-
-  return (
-    <DataTable.Row>
-      <DataTable.Cell>
-        <ExerciseSetText>{item.Set}</ExerciseSetText>
-      </DataTable.Cell>
-      <DataTable.Cell>
-        <ExerciseSetText>{item.Reps}</ExerciseSetText>
-      </DataTable.Cell>
-      <DataTable.Cell>
-        <ExerciseSetText>{item.Weight}</ExerciseSetText>
-      </DataTable.Cell>
-      <DataTable.Cell>
-        <TouchableOpacity onPress={onPress}>
-          <WorkoutIcon name={completeIcon} />
-        </TouchableOpacity>
-      </DataTable.Cell>
-      <DataTable.Cell>
-        <TouchableOpacity>
-          <WorkoutIcon name="edit" />
-        </TouchableOpacity>
-      </DataTable.Cell>
-      <DataTable.Cell>
-        <TouchableOpacity>
-          <WorkoutIcon name="trash" />
-        </TouchableOpacity>
-      </DataTable.Cell>
-    </DataTable.Row>
-  );
+  return item.map((row, index) => {
+    return (
+      <DataTable.Row key={index}>
+        <DataTable.Cell>
+          <ExerciseSetText>{row.Set}</ExerciseSetText>
+        </DataTable.Cell>
+        <DataTable.Cell>
+          <ExerciseSetText>{row.Reps}</ExerciseSetText>
+        </DataTable.Cell>
+        <DataTable.Cell>
+          <ExerciseSetText>{row.Weight}</ExerciseSetText>
+        </DataTable.Cell>
+        <DataTable.Cell>
+          <TouchableOpacity
+            onPress={() => clickComplete({row, index, workoutId})}>
+            <WorkoutIcon name={row.Completion} />
+          </TouchableOpacity>
+        </DataTable.Cell>
+        <DataTable.Cell>
+          <TouchableOpacity>
+            <WorkoutIcon name="edit" />
+          </TouchableOpacity>
+        </DataTable.Cell>
+        <DataTable.Cell>
+          <TouchableOpacity>
+            <WorkoutIcon name="trash" />
+          </TouchableOpacity>
+        </DataTable.Cell>
+      </DataTable.Row>
+    );
+  });
 }
