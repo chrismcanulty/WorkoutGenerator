@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {node} from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import exerciseSet from '../utils/exerciseset';
 
 export const UserContext = React.createContext();
 
@@ -14,6 +15,7 @@ const UserProvider = ({children}) => {
   const [selectedEquipment, setSelectedEquipment] = useState([]);
   const [numberOfExercises, setNumberOfExercises] = useState('0');
   const [exerciseData, setExerciseData] = useState([]);
+  const [workout, setWorkout] = useState({});
 
   const checkOnboarding = async () => {
     try {
@@ -76,9 +78,44 @@ const UserProvider = ({children}) => {
     return array;
   }
 
-  const fetchExercises = async () => {
-    // create temp muscle and equipment arr to use in api call to request filtered results
+  const defaultExercises = data => {
+    let allExercises = {};
+    data.map((_, index) => (allExercises[data[index].id] = [...exerciseSet]));
+    // for (let i = 0; i < data.length; i++) {
+    //   // array referencing. You were doing this
+    //   // allExercises[data[i].id] = exerciseSet so this basically means you are referencing to the SAME
+    //   // array but you actually want to make a copy of the array
+    //   // that's why when you update one, you update them all. It was a pointer reference
+    //   allExercises[data[i].id] = [...exerciseSet];
+    // }
+    setWorkout(allExercises);
+  };
 
+  const clickComplete = ({row, index, workoutId}) => {
+    const tempWorkout = {...workout};
+    const modifyComplete =
+      row.Completion === 'check-circle'
+        ? {...row, Completion: 'circle'}
+        : {...row, Completion: 'check-circle'};
+    tempWorkout[workoutId][index] = modifyComplete;
+    setWorkout(tempWorkout);
+  };
+
+  const addSet = ({workoutId}) => {
+    const tempWorkout = {...workout};
+    const setNumber = tempWorkout[workoutId].length + 1;
+    const newSet = {
+      Set: setNumber,
+      Reps: 10,
+      Weight: 0.0,
+      Completion: 'circle',
+    };
+    tempWorkout[workoutId].push(newSet);
+    console.log(tempWorkout[workoutId]);
+    setWorkout(tempWorkout);
+  };
+
+  const fetchExercises = async () => {
     const muscleIds = filterParams(selectedMuscles, muscleGroup, 'name_en');
     const equipmentIds = filterParams(
       selectedEquipment,
@@ -95,12 +132,25 @@ const UserProvider = ({children}) => {
 
       const filteredData = getUniqueListBy(res.data.results, 'id');
       const shuffledData = shuffleData(filteredData);
-
-      setExerciseData(shuffledData.slice(0, numberOfExercises));
+      const randomizedData = shuffledData.slice(0, numberOfExercises);
+      setExerciseData(randomizedData);
+      defaultExercises(randomizedData);
     } catch (err) {
       setErrorMessage(err);
     }
   };
+
+  // Need to create user context state for entireExercise (user workout)
+  // key value pair is going to be exercise id (item.id) and generic exerciseSet
+  // when user adds to the exercise set, identify the correct exercise set
+  // based on exercise id and use spread operator to add a new set to that
+  // exercise set only. This way state will persist if user navigates away
+  // and will be available when user wants to save to favourites
+  // const entireExercise = {
+  //   1: exerciseSet,
+  //   2: exerciseSet,
+  //   3: exerciseSet,
+  // };
 
   useEffect(() => {
     checkOnboarding();
@@ -126,6 +176,9 @@ const UserProvider = ({children}) => {
           setNumberOfExercises,
           fetchExercises,
           exerciseData,
+          workout,
+          clickComplete,
+          addSet,
         }}>
         {children}
       </UserContext.Provider>

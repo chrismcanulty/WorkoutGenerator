@@ -30,15 +30,17 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     <View>
       <Header>My Workout</Header>
       <FlatList
+        keyExtractor={item => item.id}
         contentContainerStyle={{paddingBottom: 200}}
         data={exerciseData}
         renderItem={({index, item}) => (
           <WorkoutExercise
+            key={+item.id}
+            workoutId={+item.id}
             item={item}
             isLastItem={index === exerciseData.length - 1}
           />
         )}
-        keyExtractor={item => item.id}
       />
     </View>
   );

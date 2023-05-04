@@ -1,4 +1,4 @@
-import React, {ReactNode, useContext} from 'react';
+import React, {ReactNode, useContext, useState} from 'react';
 import {SequenceItem, BorderBottom} from '../../types/data';
 import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
@@ -6,9 +6,9 @@ import {UserContext} from '../context/User.Context';
 import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import AddIcon from 'react-native-vector-icons/FontAwesome5';
-import exerciseSet from '../utils/exerciseset';
 import ExerciseData from './ExerciseData';
 import {DataTable} from 'react-native-paper';
+import exerciseSet from '../utils/exerciseset';
 
 const AddText = styled.Text`
   color: rgb(38, 38, 38);
@@ -76,12 +76,14 @@ const MuscleText = styled.Text`
 export default function WorkoutExercise({
   item,
   isLastItem,
+  workoutId,
 }: {
+  workoutId: String;
   item: SequenceItem;
   children?: ReactNode;
   isLastItem: boolean;
 }) {
-  const {muscleGroup} = useContext(UserContext);
+  const {muscleGroup, workout, addSet} = useContext(UserContext);
 
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
@@ -148,11 +150,9 @@ export default function WorkoutExercise({
             <ExerciseSetText>Delete</ExerciseSetText>
           </DataTable.Title>
         </DataTable.Header>
-        {exerciseSet.map(data => (
-          <ExerciseData item={data} />
-        ))}
+        <ExerciseData item={workout[+workoutId]} workoutId={workoutId} />
       </DataTable>
-      <InfoButton>
+      <InfoButton onPress={() => addSet({workoutId})}>
         <AddText>Add set</AddText>
         <AddIcon name="plus" size={14} color={'rgb(169,169,169)'} />
       </InfoButton>
