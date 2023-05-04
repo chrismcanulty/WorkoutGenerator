@@ -81,13 +81,6 @@ const UserProvider = ({children}) => {
   const defaultExercises = data => {
     let allExercises = {};
     data.map((_, index) => (allExercises[data[index].id] = [...exerciseSet]));
-    // for (let i = 0; i < data.length; i++) {
-    //   // array referencing. You were doing this
-    //   // allExercises[data[i].id] = exerciseSet so this basically means you are referencing to the SAME
-    //   // array but you actually want to make a copy of the array
-    //   // that's why when you update one, you update them all. It was a pointer reference
-    //   allExercises[data[i].id] = [...exerciseSet];
-    // }
     setWorkout(allExercises);
   };
 
@@ -111,7 +104,15 @@ const UserProvider = ({children}) => {
       Completion: 'circle',
     };
     tempWorkout[workoutId].push(newSet);
-    console.log(tempWorkout[workoutId]);
+    setWorkout(tempWorkout);
+  };
+
+  const deleteSet = ({index, workoutId}) => {
+    const tempWorkout = {...workout};
+    tempWorkout[workoutId].splice(index, 1);
+    tempWorkout[workoutId].map((set, index) => {
+      set.Set = index + 1;
+    });
     setWorkout(tempWorkout);
   };
 
@@ -179,6 +180,7 @@ const UserProvider = ({children}) => {
           workout,
           clickComplete,
           addSet,
+          deleteSet,
         }}>
         {children}
       </UserContext.Provider>

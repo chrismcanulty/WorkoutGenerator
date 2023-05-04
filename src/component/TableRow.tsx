@@ -26,9 +26,7 @@ export default function TableRow({
   index: Number;
   workoutId: String;
 }) {
-  const {clickComplete} = useContext(UserContext);
-
-  console.log('rowlalala', row);
+  const {clickComplete, deleteSet} = useContext(UserContext);
 
   return (
     <DataTable.Row>
@@ -53,7 +51,7 @@ export default function TableRow({
         </TouchableOpacity>
       </DataTable.Cell>
       <DataTable.Cell>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => deleteSet({index, workoutId})}>
           <WorkoutIcon name="trash" />
         </TouchableOpacity>
       </DataTable.Cell>
