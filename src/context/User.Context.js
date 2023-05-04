@@ -100,6 +100,20 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  const addSet = ({workoutId}) => {
+    const tempWorkout = {...workout};
+    const setNumber = tempWorkout[workoutId].length + 1;
+    const newSet = {
+      Set: setNumber,
+      Reps: 10,
+      Weight: 0.0,
+      Completion: 'circle',
+    };
+    tempWorkout[workoutId].push(newSet);
+    console.log(tempWorkout[workoutId]);
+    setWorkout(tempWorkout);
+  };
+
   const fetchExercises = async () => {
     const muscleIds = filterParams(selectedMuscles, muscleGroup, 'name_en');
     const equipmentIds = filterParams(
@@ -163,6 +177,7 @@ const UserProvider = ({children}) => {
           exerciseData,
           workout,
           clickComplete,
+          addSet,
         }}>
         {children}
       </UserContext.Provider>

@@ -83,18 +83,7 @@ export default function WorkoutExercise({
   children?: ReactNode;
   isLastItem: boolean;
 }) {
-  const {muscleGroup, workout} = useContext(UserContext);
-  const [userSets, setUserSets] = useState(exerciseSet);
-  const addSet = () => {
-    const setNumber = userSets.length + 1;
-    const newSet = {
-      Set: setNumber,
-      Reps: 10,
-      Weight: 0.0,
-      Completion: 'circle',
-    };
-    setUserSets([...userSets, newSet]);
-  };
+  const {muscleGroup, workout, addSet} = useContext(UserContext);
 
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
@@ -163,7 +152,7 @@ export default function WorkoutExercise({
         </DataTable.Header>
         <ExerciseData item={workout[+workoutId]} workoutId={workoutId} />
       </DataTable>
-      <InfoButton onPress={addSet}>
+      <InfoButton onPress={() => addSet({workoutId})}>
         <AddText>Add set</AddText>
         <AddIcon name="plus" size={14} color={'rgb(169,169,169)'} />
       </InfoButton>
