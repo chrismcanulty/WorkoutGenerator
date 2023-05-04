@@ -80,13 +80,14 @@ const UserProvider = ({children}) => {
 
   const defaultExercises = data => {
     let allExercises = {};
-    for (let i = 0; i < data.length; i++) {
-      // array referencing. You were doing this
-      // allExercises[data[i].id] = exerciseSet so this basically means you are referencing to the SAME
-      // array but you actually want to make a copy of the array
-      // that's why when you update one, you update them all. It was a pointer reference
-      allExercises[data[i].id] = [...exerciseSet];
-    }
+    data.map((_, index) => (allExercises[data[index].id] = [...exerciseSet]));
+    // for (let i = 0; i < data.length; i++) {
+    //   // array referencing. You were doing this
+    //   // allExercises[data[i].id] = exerciseSet so this basically means you are referencing to the SAME
+    //   // array but you actually want to make a copy of the array
+    //   // that's why when you update one, you update them all. It was a pointer reference
+    //   allExercises[data[i].id] = [...exerciseSet];
+    // }
     setWorkout(allExercises);
   };
 

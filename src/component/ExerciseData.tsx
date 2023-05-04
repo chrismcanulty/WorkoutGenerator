@@ -1,21 +1,6 @@
-import React, {useContext} from 'react';
-import styled from 'styled-components/native';
-import {DataTable} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {UserContext} from '../context/User.Context';
-
-const ExerciseSetText = styled.Text`
-  color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
-  font-size: 12px;
-  text-align: center;
-  padding-bottom: 1px;
-`;
-
-const WorkoutIcon = ({name}: {name: string}) => {
-  return <Icon name={name} size={14} color={'rgb(169,169,169)'} />;
-};
+import React from 'react';
+import TableRow from './TableRow';
+import {ExerciseSet} from '../../types/data';
 
 export default function ExerciseData({
   item,
@@ -24,37 +9,17 @@ export default function ExerciseData({
   item: any;
   workoutId: String;
 }) {
-  const {clickComplete} = useContext(UserContext);
-
-  return item.map((row, index) => {
+  return item.map((row: ExerciseSet, index: Number) => {
+    if (!row) {
+      return null;
+    }
     return (
-      <DataTable.Row key={index}>
-        <DataTable.Cell>
-          <ExerciseSetText>{row.Set}</ExerciseSetText>
-        </DataTable.Cell>
-        <DataTable.Cell>
-          <ExerciseSetText>{row.Reps}</ExerciseSetText>
-        </DataTable.Cell>
-        <DataTable.Cell>
-          <ExerciseSetText>{row.Weight}</ExerciseSetText>
-        </DataTable.Cell>
-        <DataTable.Cell>
-          <TouchableOpacity
-            onPress={() => clickComplete({row, index, workoutId})}>
-            <WorkoutIcon name={row.Completion} />
-          </TouchableOpacity>
-        </DataTable.Cell>
-        <DataTable.Cell>
-          <TouchableOpacity>
-            <WorkoutIcon name="edit" />
-          </TouchableOpacity>
-        </DataTable.Cell>
-        <DataTable.Cell>
-          <TouchableOpacity>
-            <WorkoutIcon name="trash" />
-          </TouchableOpacity>
-        </DataTable.Cell>
-      </DataTable.Row>
+      <TableRow
+        row={row}
+        index={index}
+        workoutId={workoutId}
+        key={`${index}`}
+      />
     );
   });
 }
