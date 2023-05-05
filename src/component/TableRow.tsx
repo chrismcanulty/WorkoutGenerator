@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {DataTable} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -9,8 +10,18 @@ const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 12px;
-  text-align: center;
+  text-align: left;
   padding-bottom: 1px;
+`;
+
+const EditText = styled.TextInput`
+  padding-bottom: 1px;
+  text-align: center;
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  flex: 1;
+  color: rgb(38, 38, 38);
+  background-color: 'rgb(169,169,169)';
 `;
 
 const WorkoutIcon = ({name}: {name: string}) => {
@@ -28,29 +39,49 @@ export default function TableRow({
 }) {
   const {clickComplete, deleteSet} = useContext(UserContext);
 
+  const [reps, onChangeReps] = React.useState('10');
+  const [weight, onChangeWeight] = React.useState('0');
+  const [isEditable, setIsEditable] = React.useState(false);
+
+  const editSet = () => {
+    isEditable ? setIsEditable(false) : setIsEditable(true);
+  };
+
   return (
     <DataTable.Row>
-      <DataTable.Cell>
+      <DataTable.Cell style={styles.cell}>
         <ExerciseSetText>{row.Set}</ExerciseSetText>
       </DataTable.Cell>
-      <DataTable.Cell>
-        <ExerciseSetText>{row.Reps}</ExerciseSetText>
-      </DataTable.Cell>
-      <DataTable.Cell>
-        <ExerciseSetText>{row.Weight}</ExerciseSetText>
-      </DataTable.Cell>
-      <DataTable.Cell>
+      {isEditable ? (
+        <EditText value={reps} onChangeText={onChangeReps} placeholder={'0'} />
+      ) : (
+        <DataTable.Cell style={styles.cell}>
+          <ExerciseSetText>{row.Reps}</ExerciseSetText>
+        </DataTable.Cell>
+      )}
+      {isEditable ? (
+        <EditText
+          value={weight}
+          onChangeText={onChangeWeight}
+          placeholder={'0'}
+        />
+      ) : (
+        <DataTable.Cell style={styles.cell}>
+          <ExerciseSetText>{row.Weight}</ExerciseSetText>
+        </DataTable.Cell>
+      )}
+      <DataTable.Cell style={styles.cell}>
         <TouchableOpacity
           onPress={() => clickComplete({row, index, workoutId})}>
           <WorkoutIcon name={row.Completion} />
         </TouchableOpacity>
       </DataTable.Cell>
-      <DataTable.Cell>
-        <TouchableOpacity>
+      <DataTable.Cell style={styles.cell}>
+        <TouchableOpacity onPress={editSet}>
           <WorkoutIcon name="edit" />
         </TouchableOpacity>
       </DataTable.Cell>
-      <DataTable.Cell>
+      <DataTable.Cell style={styles.cell}>
         <TouchableOpacity onPress={() => deleteSet({index, workoutId})}>
           <WorkoutIcon name="trash" />
         </TouchableOpacity>
@@ -58,3 +89,10 @@ export default function TableRow({
     </DataTable.Row>
   );
 }
+
+const styles = StyleSheet.create({
+  cell: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+});
