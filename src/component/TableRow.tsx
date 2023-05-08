@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import {DataTable} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -21,7 +21,7 @@ const EditText = styled.TextInput`
   font-size: 12px;
   flex: 1;
   color: rgb(38, 38, 38);
-  background-color: 'rgb(169,169,169)';
+  background-color: 'rgb(200,200,200)';
 `;
 
 const WorkoutIcon = ({name}: {name: string}) => {
@@ -37,29 +37,24 @@ export default function TableRow({
   index: Number;
   workoutId: String;
 }) {
-  const {clickComplete, deleteSet} = useContext(UserContext);
+  const {clickComplete, deleteSet, editSet} = useContext(UserContext);
 
-  const [reps, onChangeReps] = React.useState('10');
-  const [weight, onChangeWeight] = React.useState('0');
-  const [isEditable, setIsEditable] = React.useState(false);
-
-  const editSet = () => {
-    isEditable ? setIsEditable(false) : setIsEditable(true);
-  };
+  const [reps, onChangeReps] = useState('10');
+  const [weight, onChangeWeight] = useState('0');
 
   return (
     <DataTable.Row>
       <DataTable.Cell style={styles.cell}>
         <ExerciseSetText>{row.Set}</ExerciseSetText>
       </DataTable.Cell>
-      {isEditable ? (
+      {row.Edit ? (
         <EditText value={reps} onChangeText={onChangeReps} placeholder={'0'} />
       ) : (
         <DataTable.Cell style={styles.cell}>
           <ExerciseSetText>{row.Reps}</ExerciseSetText>
         </DataTable.Cell>
       )}
-      {isEditable ? (
+      {row.Edit ? (
         <EditText
           value={weight}
           onChangeText={onChangeWeight}
@@ -77,8 +72,13 @@ export default function TableRow({
         </TouchableOpacity>
       </DataTable.Cell>
       <DataTable.Cell style={styles.cell}>
-        <TouchableOpacity onPress={editSet}>
-          <WorkoutIcon name="edit" />
+        <TouchableOpacity
+          onPress={() => editSet({row, index, workoutId, reps, weight})}>
+          {row.Edit ? (
+            <WorkoutIcon name="check" />
+          ) : (
+            <WorkoutIcon name="edit" />
+          )}
         </TouchableOpacity>
       </DataTable.Cell>
       <DataTable.Cell style={styles.cell}>

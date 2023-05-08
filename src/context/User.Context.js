@@ -16,6 +16,7 @@ const UserProvider = ({children}) => {
   const [numberOfExercises, setNumberOfExercises] = useState('0');
   const [exerciseData, setExerciseData] = useState([]);
   const [workout, setWorkout] = useState({});
+  const [isEditable, setIsEditable] = useState(false);
 
   const checkOnboarding = async () => {
     try {
@@ -94,6 +95,16 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  const editSet = ({row, index, workoutId, reps, weight}) => {
+    const tempWorkout = {...workout};
+    const editRow =
+      row.Edit === true
+        ? {...row, Edit: false, Reps: reps, Weight: weight}
+        : {...row, Edit: true};
+    tempWorkout[workoutId][index] = editRow;
+    setWorkout(tempWorkout);
+  };
+
   const addSet = ({workoutId}) => {
     const tempWorkout = {...workout};
     const setNumber = tempWorkout[workoutId].length + 1;
@@ -141,18 +152,6 @@ const UserProvider = ({children}) => {
     }
   };
 
-  // Need to create user context state for entireExercise (user workout)
-  // key value pair is going to be exercise id (item.id) and generic exerciseSet
-  // when user adds to the exercise set, identify the correct exercise set
-  // based on exercise id and use spread operator to add a new set to that
-  // exercise set only. This way state will persist if user navigates away
-  // and will be available when user wants to save to favourites
-  // const entireExercise = {
-  //   1: exerciseSet,
-  //   2: exerciseSet,
-  //   3: exerciseSet,
-  // };
-
   useEffect(() => {
     checkOnboarding();
     fetchMuscleGroup();
@@ -181,6 +180,9 @@ const UserProvider = ({children}) => {
           clickComplete,
           addSet,
           deleteSet,
+          isEditable,
+          setIsEditable,
+          editSet,
         }}>
         {children}
       </UserContext.Provider>
