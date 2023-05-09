@@ -39,8 +39,36 @@ export default function TableRow({
 }) {
   const {clickComplete, deleteSet, editSet} = useContext(UserContext);
 
-  const [reps, onChangeReps] = useState('10');
-  const [weight, onChangeWeight] = useState('0');
+  const [reps, setReps] = useState('10');
+  const [weight, setWeight] = useState('0');
+
+  const onChangedReps = (text: string) => {
+    let newText = '';
+    let numbers = '0123456789';
+
+    for (var i = 0; i < text.length; i++) {
+      if (numbers.indexOf(text[i]) > -1) {
+        newText = newText + text[i];
+      } else {
+        alert('please enter numbers only');
+      }
+    }
+    setReps(newText);
+  };
+
+  const onChangedWeight = (text: string) => {
+    let newText = '';
+    let numbers = '0123456789';
+
+    for (let i = 0; i < text.length; i++) {
+      if (numbers.indexOf(text[i]) > -1) {
+        newText = newText + text[i];
+      } else {
+        alert('please enter numbers only');
+      }
+    }
+    setWeight(newText);
+  };
 
   return (
     <DataTable.Row>
@@ -48,7 +76,13 @@ export default function TableRow({
         <ExerciseSetText>{row.Set}</ExerciseSetText>
       </DataTable.Cell>
       {row.Edit ? (
-        <EditText value={reps} onChangeText={onChangeReps} placeholder={'0'} />
+        <EditText
+          value={reps}
+          keyboardType="numeric"
+          onChangeText={text => onChangedReps(text)}
+          placeholder={'0'}
+          maxLength={3}
+        />
       ) : (
         <DataTable.Cell style={styles.cell}>
           <ExerciseSetText>{row.Reps}</ExerciseSetText>
@@ -57,8 +91,10 @@ export default function TableRow({
       {row.Edit ? (
         <EditText
           value={weight}
-          onChangeText={onChangeWeight}
+          keyboardType="numeric"
+          onChangeText={text => onChangedWeight(text)}
           placeholder={'0'}
+          maxLength={3}
         />
       ) : (
         <DataTable.Cell style={styles.cell}>

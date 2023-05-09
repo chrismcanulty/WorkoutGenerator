@@ -95,7 +95,17 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  // need to add error handling - before setting reps and weight to tempworkout,
+  // check whether user input is a number - if not, do not allow state changes
+  // and display an error message
+
   const editSet = ({row, index, workoutId, reps, weight}) => {
+    if (reps === '') {
+      reps = '0';
+    }
+    if (weight === '') {
+      weight = '0';
+    }
     const tempWorkout = {...workout};
     const editRow =
       row.Edit === true
