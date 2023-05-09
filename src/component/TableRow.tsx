@@ -6,22 +6,22 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {UserContext} from '../context/User.Context';
 
+const EditText = styled.TextInput`
+  background-color: 'rgb(200,200,200)';
+  color: rgb(38, 38, 38);
+  flex: 1;
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  padding-bottom: 1px;
+  text-align: center;
+`;
+
 const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 12px;
+  padding-bottom: 1px;
   text-align: left;
-  padding-bottom: 1px;
-`;
-
-const EditText = styled.TextInput`
-  padding-bottom: 1px;
-  text-align: center;
-  font-family: 'Montserrat-Regular';
-  font-size: 12px;
-  flex: 1;
-  color: rgb(38, 38, 38);
-  background-color: 'rgb(200,200,200)';
 `;
 
 const WorkoutIcon = ({name}: {name: string}) => {
@@ -43,27 +43,17 @@ export default function TableRow({
   const [weight, setWeight] = useState('0');
 
   const onChangedReps = (text: string) => {
-    let newText = '';
-    let numbers = '0123456789';
+    isNaN(Number(text)) || text.includes('.')
+      ? (text = text.substr(0, text.length - 1))
+      : text;
 
-    for (var i = 0; i < text.length; i++) {
-      if (numbers.indexOf(text[i]) > -1) {
-        newText = newText + text[i];
-      }
-    }
-    setReps(newText);
+    setReps(text);
   };
 
   const onChangedWeight = (text: string) => {
-    let newText = '';
-    let numbers = '0123456789';
+    isNaN(Number(text)) ? (text = text.substr(0, text.length - 1)) : text;
 
-    for (let i = 0; i < text.length; i++) {
-      if (numbers.indexOf(text[i]) > -1) {
-        newText = newText + text[i];
-      }
-    }
-    setWeight(newText);
+    setWeight(text);
   };
 
   return (
@@ -78,7 +68,7 @@ export default function TableRow({
             keyboardType="numeric"
             onChangeText={text => onChangedReps(text)}
             placeholder={'0'}
-            maxLength={3}
+            maxLength={755}
           />
         ) : (
           <DataTable.Cell style={styles.cell}>
@@ -91,7 +81,7 @@ export default function TableRow({
             keyboardType="numeric"
             onChangeText={text => onChangedWeight(text)}
             placeholder={'0'}
-            maxLength={3}
+            maxLength={7}
           />
         ) : (
           <DataTable.Cell style={styles.cell}>

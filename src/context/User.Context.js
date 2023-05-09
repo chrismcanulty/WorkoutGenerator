@@ -99,12 +99,20 @@ const UserProvider = ({children}) => {
   // check whether user input is a number - if not, do not allow state changes
   // and display an error message
 
+  // add logic to remove trailing zeroes
+
   const editSet = ({row, index, workoutId, reps, weight}) => {
     if (reps === '') {
       reps = '0';
     }
+    if (reps.slice(-1) === '.') {
+      reps = reps.replace('.', '');
+    }
     if (weight === '') {
       weight = '0';
+    }
+    if (weight.slice(-1) === '.') {
+      weight = weight.replace('.', '');
     }
     const tempWorkout = {...workout};
     const editRow =
