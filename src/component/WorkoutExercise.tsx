@@ -1,5 +1,6 @@
-import React, {ReactNode, useContext, useState} from 'react';
+import React, {ReactNode, useContext} from 'react';
 import {SequenceItem, BorderBottom} from '../../types/data';
+import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import Popover from 'react-native-popover-view';
 import {UserContext} from '../context/User.Context';
@@ -8,7 +9,6 @@ import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import AddIcon from 'react-native-vector-icons/FontAwesome5';
 import ExerciseData from './ExerciseData';
 import {DataTable} from 'react-native-paper';
-import exerciseSet from '../utils/exerciseset';
 
 const AddText = styled.Text`
   color: rgb(38, 38, 38);
@@ -36,7 +36,7 @@ const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 12px;
-  text-align: left;
+  text-align: center;
   padding-bottom: 1px;
 `;
 const ExerciseTitleView = styled.View`
@@ -85,6 +85,8 @@ export default function WorkoutExercise({
 }) {
   const {muscleGroup, workout, addSet} = useContext(UserContext);
 
+  const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
+
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
       <ExerciseTitleView>
@@ -129,26 +131,15 @@ export default function WorkoutExercise({
           </Popover>
         )}
       </ExerciseInfoView>
-      <DataTable style={{marginLeft: 20}}>
+      <DataTable>
         <DataTable.Header>
-          <DataTable.Title>
-            <ExerciseSetText>Set</ExerciseSetText>
-          </DataTable.Title>
-          <DataTable.Title>
-            <ExerciseSetText>Reps</ExerciseSetText>
-          </DataTable.Title>
-          <DataTable.Title>
-            <ExerciseSetText>Weight</ExerciseSetText>
-          </DataTable.Title>
-          <DataTable.Title>
-            <ExerciseSetText>Done</ExerciseSetText>
-          </DataTable.Title>
-          <DataTable.Title>
-            <ExerciseSetText>Edit</ExerciseSetText>
-          </DataTable.Title>
-          <DataTable.Title>
-            <ExerciseSetText>Delete</ExerciseSetText>
-          </DataTable.Title>
+          {headers.map((header: String, index: Number) => {
+            return (
+              <DataTable.Title style={styles.title} key={`${index}`}>
+                <ExerciseSetText>{header}</ExerciseSetText>
+              </DataTable.Title>
+            );
+          })}
         </DataTable.Header>
         <ExerciseData item={workout[+workoutId]} workoutId={workoutId} />
       </DataTable>
@@ -159,3 +150,10 @@ export default function WorkoutExercise({
     </ExerciseView>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+});

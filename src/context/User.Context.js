@@ -16,6 +16,7 @@ const UserProvider = ({children}) => {
   const [numberOfExercises, setNumberOfExercises] = useState('0');
   const [exerciseData, setExerciseData] = useState([]);
   const [workout, setWorkout] = useState({});
+  const [isEditable, setIsEditable] = useState(false);
 
   const checkOnboarding = async () => {
     try {
@@ -81,13 +82,6 @@ const UserProvider = ({children}) => {
   const defaultExercises = data => {
     let allExercises = {};
     data.map((_, index) => (allExercises[data[index].id] = [...exerciseSet]));
-    // for (let i = 0; i < data.length; i++) {
-    //   // array referencing. You were doing this
-    //   // allExercises[data[i].id] = exerciseSet so this basically means you are referencing to the SAME
-    //   // array but you actually want to make a copy of the array
-    //   // that's why when you update one, you update them all. It was a pointer reference
-    //   allExercises[data[i].id] = [...exerciseSet];
-    // }
     setWorkout(allExercises);
   };
 
@@ -101,6 +95,34 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  // need to add error handling - before setting reps and weight to tempworkout,
+  // check whether user input is a number - if not, do not allow state changes
+  // and display an error message
+
+  // add logic to remove trailing zeroes
+
+  const editSet = ({row, index, workoutId, reps, weight}) => {
+    if (reps === '') {
+      reps = '0';
+    }
+    if (reps.slice(-1) === '.') {
+      reps = reps.replace('.', '');
+    }
+    if (weight === '') {
+      weight = '0';
+    }
+    if (weight.slice(-1) === '.') {
+      weight = weight.replace('.', '');
+    }
+    const tempWorkout = {...workout};
+    const editRow =
+      row.Edit === true
+        ? {...row, Edit: false, Reps: reps, Weight: weight}
+        : {...row, Edit: true};
+    tempWorkout[workoutId][index] = editRow;
+    setWorkout(tempWorkout);
+  };
+
   const addSet = ({workoutId}) => {
     const tempWorkout = {...workout};
     const setNumber = tempWorkout[workoutId].length + 1;
@@ -111,7 +133,15 @@ const UserProvider = ({children}) => {
       Completion: 'circle',
     };
     tempWorkout[workoutId].push(newSet);
-    console.log(tempWorkout[workoutId]);
+    setWorkout(tempWorkout);
+  };
+
+  const deleteSet = ({index, workoutId}) => {
+    const tempWorkout = {...workout};
+    tempWorkout[workoutId].splice(index, 1);
+    tempWorkout[workoutId].map((set, index) => {
+      set.Set = index + 1;
+    });
     setWorkout(tempWorkout);
   };
 
@@ -140,18 +170,6 @@ const UserProvider = ({children}) => {
     }
   };
 
-  // Need to create user context state for entireExercise (user workout)
-  // key value pair is going to be exercise id (item.id) and generic exerciseSet
-  // when user adds to the exercise set, identify the correct exercise set
-  // based on exercise id and use spread operator to add a new set to that
-  // exercise set only. This way state will persist if user navigates away
-  // and will be available when user wants to save to favourites
-  // const entireExercise = {
-  //   1: exerciseSet,
-  //   2: exerciseSet,
-  //   3: exerciseSet,
-  // };
-
   useEffect(() => {
     checkOnboarding();
     fetchMuscleGroup();
@@ -179,6 +197,10 @@ const UserProvider = ({children}) => {
           workout,
           clickComplete,
           addSet,
+          deleteSet,
+          isEditable,
+          setIsEditable,
+          editSet,
         }}>
         {children}
       </UserContext.Provider>
