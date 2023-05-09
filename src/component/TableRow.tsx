@@ -49,8 +49,6 @@ export default function TableRow({
     for (var i = 0; i < text.length; i++) {
       if (numbers.indexOf(text[i]) > -1) {
         newText = newText + text[i];
-      } else {
-        alert('please enter numbers only');
       }
     }
     setReps(newText);
@@ -63,66 +61,66 @@ export default function TableRow({
     for (let i = 0; i < text.length; i++) {
       if (numbers.indexOf(text[i]) > -1) {
         newText = newText + text[i];
-      } else {
-        alert('please enter numbers only');
       }
     }
     setWeight(newText);
   };
 
   return (
-    <DataTable.Row>
-      <DataTable.Cell style={styles.cell}>
-        <ExerciseSetText>{row.Set}</ExerciseSetText>
-      </DataTable.Cell>
-      {row.Edit ? (
-        <EditText
-          value={reps}
-          keyboardType="numeric"
-          onChangeText={text => onChangedReps(text)}
-          placeholder={'0'}
-          maxLength={3}
-        />
-      ) : (
+    <>
+      <DataTable.Row>
         <DataTable.Cell style={styles.cell}>
-          <ExerciseSetText>{row.Reps}</ExerciseSetText>
+          <ExerciseSetText>{row.Set}</ExerciseSetText>
         </DataTable.Cell>
-      )}
-      {row.Edit ? (
-        <EditText
-          value={weight}
-          keyboardType="numeric"
-          onChangeText={text => onChangedWeight(text)}
-          placeholder={'0'}
-          maxLength={3}
-        />
-      ) : (
+        {row.Edit ? (
+          <EditText
+            value={reps}
+            keyboardType="numeric"
+            onChangeText={text => onChangedReps(text)}
+            placeholder={'0'}
+            maxLength={3}
+          />
+        ) : (
+          <DataTable.Cell style={styles.cell}>
+            <ExerciseSetText>{row.Reps}</ExerciseSetText>
+          </DataTable.Cell>
+        )}
+        {row.Edit ? (
+          <EditText
+            value={weight}
+            keyboardType="numeric"
+            onChangeText={text => onChangedWeight(text)}
+            placeholder={'0'}
+            maxLength={3}
+          />
+        ) : (
+          <DataTable.Cell style={styles.cell}>
+            <ExerciseSetText>{row.Weight}</ExerciseSetText>
+          </DataTable.Cell>
+        )}
         <DataTable.Cell style={styles.cell}>
-          <ExerciseSetText>{row.Weight}</ExerciseSetText>
+          <TouchableOpacity
+            onPress={() => clickComplete({row, index, workoutId})}>
+            <WorkoutIcon name={row.Completion} />
+          </TouchableOpacity>
         </DataTable.Cell>
-      )}
-      <DataTable.Cell style={styles.cell}>
-        <TouchableOpacity
-          onPress={() => clickComplete({row, index, workoutId})}>
-          <WorkoutIcon name={row.Completion} />
-        </TouchableOpacity>
-      </DataTable.Cell>
-      <DataTable.Cell style={styles.cell}>
-        <TouchableOpacity
-          onPress={() => editSet({row, index, workoutId, reps, weight})}>
-          {row.Edit ? (
-            <WorkoutIcon name="check" />
-          ) : (
-            <WorkoutIcon name="edit" />
-          )}
-        </TouchableOpacity>
-      </DataTable.Cell>
-      <DataTable.Cell style={styles.cell}>
-        <TouchableOpacity onPress={() => deleteSet({index, workoutId})}>
-          <WorkoutIcon name="trash" />
-        </TouchableOpacity>
-      </DataTable.Cell>
-    </DataTable.Row>
+        <DataTable.Cell style={styles.cell}>
+          <TouchableOpacity
+            onPress={() => editSet({row, index, workoutId, reps, weight})}>
+            {row.Edit ? (
+              <WorkoutIcon name="check" />
+            ) : (
+              <WorkoutIcon name="edit" />
+            )}
+          </TouchableOpacity>
+        </DataTable.Cell>
+        <DataTable.Cell style={styles.cell}>
+          <TouchableOpacity onPress={() => deleteSet({index, workoutId})}>
+            <WorkoutIcon name="trash" />
+          </TouchableOpacity>
+        </DataTable.Cell>
+      </DataTable.Row>
+    </>
   );
 }
 
