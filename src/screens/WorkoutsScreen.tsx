@@ -5,6 +5,32 @@ import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';
 
+const Button = styled.TouchableOpacity`
+  font-size: 24px;
+  padding: 10px;
+`;
+const ButtonText = styled.Text`
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 24px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  text-align: center;
+`;
+const ButtonWrapper = styled.View`
+  background-color: white;
+  bottom: 5px;
+  position: absolute;
+  width: 100%;
+  flex: 1;
+`;
+const ContainerWrapper = styled.SafeAreaView`
+  background-color: white;
+  flex: 1;
+`;
 const Header = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
@@ -18,16 +44,8 @@ const Header = styled.Text`
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const {exerciseData} = useContext(UserContext);
 
-  // create new component to render in flatlist in place of exerciseitem component
-  // generate a list of sets for each exercise with completion status icon
-  // can mark off each set as complete by clicking
-  // from within the list toggle reps/distance and weight/time
-  // based on input of above, entry format of numbers will differ
-  // option to add set below last set in exercise with 'add set' button
-  // option to delete set below last set in exercise with 'delete set' button
-
   return (
-    <View>
+    <ContainerWrapper>
       <Header>My Workout</Header>
       <FlatList
         keyExtractor={item => item.id}
@@ -42,6 +60,14 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
           />
         )}
       />
-    </View>
+      <ButtonWrapper>
+        <Button>
+          <ButtonText>Add to favourites</ButtonText>
+        </Button>
+        <Button onPress={() => navigation.navigate('Root')}>
+          <ButtonText>Complete Workout</ButtonText>
+        </Button>
+      </ButtonWrapper>
+    </ContainerWrapper>
   );
 }
