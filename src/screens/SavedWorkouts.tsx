@@ -1,9 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {FlatList} from 'react-native';
-import React, {useContext} from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import {UserContext} from '../context/User.Context';
-import WorkoutExercise from '../component/WorkoutExercise';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -41,27 +38,10 @@ const Header = styled.Text`
   text-align: center;
 `;
 
-export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
-  const {exerciseData} = useContext(UserContext);
-
-  // onpress for Complete Workout Button needs to clear state as well - pull from user context
-
+export default function SavedWorkouts({navigation}: NativeStackHeaderProps) {
   return (
     <ContainerWrapper>
-      <Header>My Workout</Header>
-      <FlatList
-        keyExtractor={item => item.id}
-        contentContainerStyle={{paddingBottom: 200}}
-        data={exerciseData}
-        renderItem={({index, item}) => (
-          <WorkoutExercise
-            key={+item.id}
-            workoutId={+item.id}
-            item={item}
-            isLastItem={index === exerciseData.length - 1}
-          />
-        )}
-      />
+      <Header>Favourite Workouts</Header>
       <ButtonWrapper>
         <Button>
           <ButtonText>Add to favourites</ButtonText>
