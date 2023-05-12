@@ -17,6 +17,7 @@ const UserProvider = ({children}) => {
   const [exerciseData, setExerciseData] = useState([]);
   const [workout, setWorkout] = useState({});
   const [isEditable, setIsEditable] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const checkOnboarding = async () => {
     try {
@@ -33,6 +34,7 @@ const UserProvider = ({children}) => {
     try {
       const res = await axios.get('https://wger.de/api/v2/muscle/');
       setMuscleGroup(res.data.results);
+      setLoading(false);
     } catch (err) {
       setErrorMessage(err);
     }
@@ -145,6 +147,22 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  // reset state related to selected muscles, equipment, reps, workout, etc
+  // then navigate back to home screen
+
+  const clearWorkout = ({navigation}) => {
+    // unable to update state within this function directly - need to research another way
+    // to revert to initial state for muscles, equipment, reps and workout
+    setLoading(true);
+    setWorkout({});
+    setSelectedMuscles([]);
+    setSelectedEquipment([]);
+    setExerciseData([]);
+    setNumberOfExercises('0');
+    setLoading(false);
+    navigation.replace('Root');
+  };
+
   const fetchExercises = async () => {
     const muscleIds = filterParams(selectedMuscles, muscleGroup, 'name_en');
     const equipmentIds = filterParams(
@@ -201,6 +219,8 @@ const UserProvider = ({children}) => {
           isEditable,
           setIsEditable,
           editSet,
+          clearWorkout,
+          loading,
         }}>
         {children}
       </UserContext.Provider>

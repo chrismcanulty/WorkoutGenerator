@@ -43,11 +43,8 @@ export default function SavedWorkouts({navigation}: NativeStackHeaderProps) {
     <ContainerWrapper>
       <Header>Favourite Workouts</Header>
       <ButtonWrapper>
-        <Button>
-          <ButtonText>Add to favourites</ButtonText>
-        </Button>
-        <Button onPress={() => navigation.navigate('Generator')}>
-          <ButtonText>Complete Workout</ButtonText>
+        <Button onPress={() => navigation.push('Generator')}>
+          <ButtonText>Home</ButtonText>
         </Button>
       </ButtonWrapper>
     </ContainerWrapper>

@@ -42,7 +42,7 @@ const Header = styled.Text`
 `;
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
-  const {exerciseData} = useContext(UserContext);
+  const {exerciseData, clearWorkout} = useContext(UserContext);
 
   // onpress for Complete Workout Button needs to clear state as well - pull from user context
 
@@ -66,7 +66,10 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         <Button>
           <ButtonText>Add to favourites</ButtonText>
         </Button>
-        <Button onPress={() => navigation.navigate('Generator')}>
+        <Button
+          onPress={() => {
+            clearWorkout({navigation});
+          }}>
           <ButtonText>Complete Workout</ButtonText>
         </Button>
       </ButtonWrapper>

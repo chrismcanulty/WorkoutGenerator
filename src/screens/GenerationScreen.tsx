@@ -77,7 +77,7 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
         keyExtractor={item => item.id}
       />
       <ButtonWrapper>
-        <Button onPress={() => navigation.navigate('Workouts')}>
+        <Button onPress={() => navigation.push('Workouts')}>
           <ButtonText>Start Workout</ButtonText>
         </Button>
         <Button onPress={onPress}>
