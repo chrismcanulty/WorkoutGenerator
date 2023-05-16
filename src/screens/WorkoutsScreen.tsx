@@ -4,6 +4,7 @@ import React, {useContext} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -42,9 +43,18 @@ const Header = styled.Text`
 `;
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
-  const {exerciseData, clearWorkout} = useContext(UserContext);
+  const {exerciseData, clearWorkout, workout} = useContext(UserContext);
 
-  // onpress for Complete Workout Button needs to clear state as well - pull from user context
+  // first check contents of the workout when add to favourites button is pressed
+
+  const storeData = async (value: any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@storage_Key', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
 
   return (
     <ContainerWrapper>
@@ -63,7 +73,10 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         )}
       />
       <ButtonWrapper>
-        <Button>
+        <Button
+          onPress={() => {
+            storeData(workout);
+          }}>
           <ButtonText>Add to favourites</ButtonText>
         </Button>
         <Button

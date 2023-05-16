@@ -1,6 +1,8 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {FlatList, Text} from 'react-native';
 import styled from 'styled-components/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -38,12 +40,41 @@ const Header = styled.Text`
   text-align: center;
 `;
 
-export default function SavedWorkouts({navigation}: NativeStackHeaderProps) {
+export default function SavedWorkouts({
+  navigation,
+}: {
+  navigation: NativeStackHeaderProps;
+  children?: JSX.Element | JSX.Element[];
+}) {
+  const [favouriteWorkouts, setFavouriteWorkouts] = useState<string[]>([]);
+
+  const getData = async () => {
+    try {
+      const favourites = await AsyncStorage.getItem('@storage_Key');
+      if (favourites !== null) {
+        setFavouriteWorkouts([favourites]);
+      }
+    } catch (e) {
+      // read error
+    }
+
+    console.log('Done.');
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  console.log('fave', favouriteWorkouts);
+
   return (
     <ContainerWrapper>
       <Header>Favourite Workouts</Header>
+      {favouriteWorkouts.map((item, index) => {
+        return <Text key={index}>{item}</Text>;
+      })}
       <ButtonWrapper>
-        <Button onPress={() => navigation.push('Generator')}>
+        <Button onPress={() => navigation.push('Root')}>
           <ButtonText>Home</ButtonText>
         </Button>
       </ButtonWrapper>
