@@ -56,6 +56,8 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
+  console.log('exercise data lala', exerciseData);
+
   return (
     <ContainerWrapper>
       <Header>My Workout</Header>
@@ -75,7 +77,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       <ButtonWrapper>
         <Button
           onPress={() => {
-            storeData(workout);
+            storeData(exerciseData);
           }}>
           <ButtonText>Add to favourites</ButtonText>
         </Button>

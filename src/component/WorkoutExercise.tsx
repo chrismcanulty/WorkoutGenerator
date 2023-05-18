@@ -141,7 +141,7 @@ export default function WorkoutExercise({
             );
           })}
         </DataTable.Header>
-        <ExerciseData item={workout[+workoutId]} workoutId={workoutId} />
+        {/* <ExerciseData item={workout[+workoutId]} workoutId={workoutId} /> */}
       </DataTable>
       <InfoButton onPress={() => addSet({workoutId})}>
         <AddText>Add set</AddText>

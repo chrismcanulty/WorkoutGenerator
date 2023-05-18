@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, Text} from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import WorkoutExercise from '../component/WorkoutExercise';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -46,13 +47,28 @@ export default function SavedWorkouts({
   navigation: NativeStackHeaderProps;
   children?: JSX.Element | JSX.Element[];
 }) {
-  const [favouriteWorkouts, setFavouriteWorkouts] = useState<string[]>([]);
+  const [favouriteWorkouts, setFavouriteWorkouts] = useState([]);
+
+  // currently data is stringified in one large object
+  // the object contains key value pairs of workoutId and an array of ExerciseSet objects
+  // goal is to parse the large object, then populate an array of objects
+  // with key value pairs of workoutId and array of ExerciseSet objects
+  // want to be able to use flatlist of workout exercises similar to WorkoutsScreen
+  // double check the data in that screen and mimic the format before passing in
+
+  // want to render exercise name, muscle and exerciso info
+  // and the saved sets for the exercise similar to WorkoutsScreen
+  // may need separate API calls to retrieve above info, and use saved
+  // favourites data to populate the table
 
   const getData = async () => {
     try {
-      const favourites = await AsyncStorage.getItem('@storage_Key');
-      if (favourites !== null) {
-        setFavouriteWorkouts([favourites]);
+      let values = await AsyncStorage.getItem('@storage_Key');
+      console.log('valuesvalues', typeof values);
+      if (values !== null) {
+        const favourites = JSON.parse(values);
+        console.log('faves la', favourites.length);
+        setFavouriteWorkouts(favourites);
       }
     } catch (e) {
       // read error
@@ -65,14 +81,28 @@ export default function SavedWorkouts({
     getData();
   }, []);
 
-  console.log('fave', favouriteWorkouts);
+  console.log('favelength', favouriteWorkouts.length);
+
+  if (favouriteWorkouts.length === 0) {
+    return null;
+  }
 
   return (
     <ContainerWrapper>
       <Header>Favourite Workouts</Header>
-      {favouriteWorkouts.map((item, index) => {
-        return <Text key={index}>{item}</Text>;
-      })}
+      <FlatList
+        keyExtractor={item => item.id}
+        contentContainerStyle={{paddingBottom: 200}}
+        data={favouriteWorkouts}
+        renderItem={({index, item}) => (
+          <WorkoutExercise
+            key={+item.id}
+            workoutId={+item.id}
+            item={item}
+            isLastItem={index === favouriteWorkouts.length - 1}
+          />
+        )}
+      />
       <ButtonWrapper>
         <Button onPress={() => navigation.push('Root')}>
           <ButtonText>Home</ButtonText>
