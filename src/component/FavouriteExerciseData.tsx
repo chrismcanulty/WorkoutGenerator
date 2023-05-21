@@ -1,8 +1,8 @@
 import React from 'react';
-import TableRow from './TableRow';
+import FavouriteTableRow from './FavouriteTableRow';
 import {ExerciseSet} from '../../types/data';
 
-export default function ExerciseData({
+export default function FavouriteExerciseData({
   item,
   workoutId,
 }: {
@@ -16,7 +16,7 @@ export default function ExerciseData({
       return null;
     }
     return (
-      <TableRow
+      <FavouriteTableRow
         row={row}
         index={index}
         workoutId={workoutId}

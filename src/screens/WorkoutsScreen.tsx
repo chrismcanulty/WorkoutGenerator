@@ -47,16 +47,27 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   // first check contents of the workout when add to favourites button is pressed
 
-  const storeData = async (value: any) => {
+  console.log('exerciseData', exerciseData);
+  console.log('workout', workout);
+  console.log('date identifier', Date.now() + Math.random());
+
+  const storeExerciseData = async (value: any) => {
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@storage_Key', jsonValue);
+      await AsyncStorage.setItem('@exercise_key', jsonValue);
     } catch (e) {
       // saving error
     }
   };
 
-  console.log('exercise data lala', exerciseData);
+  const storeWorkoutData = async (value: any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@workout_key', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
 
   return (
     <ContainerWrapper>
@@ -77,7 +88,8 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       <ButtonWrapper>
         <Button
           onPress={() => {
-            storeData(exerciseData);
+            storeExerciseData(exerciseData);
+            storeWorkoutData(workout);
           }}>
           <ButtonText>Add to favourites</ButtonText>
         </Button>

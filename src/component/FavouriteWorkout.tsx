@@ -1,4 +1,4 @@
-import React, {ReactNode, useContext} from 'react';
+import React, {ReactNode, useContext, useEffect} from 'react';
 import {SequenceItem, BorderBottom} from '../../types/data';
 import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
@@ -7,8 +7,9 @@ import {UserContext} from '../context/User.Context';
 import {FilterMuscleGroup, ExerciseDetails} from './ExerciseInfo';
 import PlannerIcon from 'react-native-vector-icons/FontAwesome5';
 import AddIcon from 'react-native-vector-icons/FontAwesome5';
-import ExerciseData from './ExerciseData';
+import FavouriteExerciseData from './FavouriteExerciseData';
 import {DataTable} from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddText = styled.Text`
   color: rgb(38, 38, 38);
@@ -73,7 +74,7 @@ const MuscleText = styled.Text`
   margin-left: 15px;
 `;
 
-export default function WorkoutExercise({
+export default function FavouriteWorkout({
   item,
   isLastItem,
   workoutId,
@@ -83,11 +84,36 @@ export default function WorkoutExercise({
   children?: ReactNode;
   isLastItem: boolean;
 }) {
-  const {muscleGroup, workout, addSet} = useContext(UserContext);
+  const {
+    muscleGroup,
+    favouriteWorkoutData,
+    setFavouriteWorkoutData,
+    addFavouriteSet,
+  } = useContext(UserContext);
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
 
-  console.log('workout', workout);
+  // need to save workout data in async storage and be able to link to exercises
+  // which are rendered on the screen
+  // create a workout id based on position within favourite workout array
+
+  const getFavouriteWorkoutData = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@workout_key');
+      if (values !== null) {
+        const favourites = JSON.parse(values);
+        setFavouriteWorkoutData(favourites);
+      }
+    } catch (e) {
+      // read error
+    }
+
+    console.log('Done.');
+  };
+
+  useEffect(() => {
+    getFavouriteWorkoutData();
+  }, []);
 
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
@@ -143,9 +169,12 @@ export default function WorkoutExercise({
             );
           })}
         </DataTable.Header>
-        <ExerciseData item={workout[+workoutId]} workoutId={workoutId} />
+        <FavouriteExerciseData
+          item={favouriteWorkoutData[+workoutId]}
+          workoutId={workoutId}
+        />
       </DataTable>
-      <InfoButton onPress={() => addSet({workoutId})}>
+      <InfoButton onPress={() => addFavouriteSet({workoutId})}>
         <AddText>Add set</AddText>
         <AddIcon name="plus" size={14} color={'rgb(169,169,169)'} />
       </InfoButton>
