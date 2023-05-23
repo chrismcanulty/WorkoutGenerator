@@ -89,6 +89,7 @@ export default function FavouriteWorkout({
     favouriteWorkoutData,
     setFavouriteWorkoutData,
     addFavouriteSet,
+    favouriteExerciseData,
   } = useContext(UserContext);
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
@@ -114,6 +115,14 @@ export default function FavouriteWorkout({
   useEffect(() => {
     getFavouriteWorkoutData();
   }, []);
+
+  if (favouriteExerciseData.length === 0) {
+    return null;
+  }
+
+  if (favouriteWorkoutData.length === 0) {
+    return null;
+  }
 
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
