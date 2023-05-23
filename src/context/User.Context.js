@@ -157,6 +157,7 @@ const UserProvider = ({children}) => {
         : {...row, Edit: true};
     tempWorkout[workoutId][index] = editRow;
     setFavouriteWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout);
   };
 
   const addSet = ({workoutId}) => {
@@ -172,6 +173,15 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  const storeWorkoutData = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@workout_key', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
+
   const addFavouriteSet = ({workoutId}) => {
     const tempWorkout = {...favouriteWorkoutData};
     const setNumber = tempWorkout[workoutId].length + 1;
@@ -183,6 +193,7 @@ const UserProvider = ({children}) => {
     };
     tempWorkout[workoutId].push(newSet);
     setFavouriteWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout);
   };
 
   const deleteSet = ({index, workoutId}) => {
@@ -201,6 +212,7 @@ const UserProvider = ({children}) => {
       set.Set = index + 1;
     });
     setFavouriteWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout);
   };
 
   // reset state related to selected muscles, equipment, reps, workout, etc
