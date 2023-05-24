@@ -87,8 +87,6 @@ export default function WorkoutExercise({
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
 
-  console.log('workout', workout);
-
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
       <ExerciseTitleView>

@@ -47,9 +47,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   // first check contents of the workout when add to favourites button is pressed
 
-  console.log('exerciseData', exerciseData);
-  console.log('workout', workout);
-  console.log('date identifier', Date.now() + Math.random());
+  // console.log('date identifier', Date.now() + Math.random());
 
   const storeExerciseData = async (value: any) => {
     try {

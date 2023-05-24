@@ -9,8 +9,6 @@ export default function ExerciseData({
   item: any;
   workoutId: String;
 }) {
-  console.log('item is?', item);
-
   return item.map((row: ExerciseSet, index: Number) => {
     if (!row) {
       return null;

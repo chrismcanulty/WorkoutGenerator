@@ -66,8 +66,6 @@ export default function SavedWorkouts({
     } catch (e) {
       // read error
     }
-
-    console.log('Done.');
   };
 
   const getFavouriteWorkoutData = async () => {
@@ -80,8 +78,6 @@ export default function SavedWorkouts({
     } catch (e) {
       // read error
     }
-
-    console.log('Done.');
   };
 
   useEffect(() => {
@@ -89,11 +85,7 @@ export default function SavedWorkouts({
     getFavouriteWorkoutData();
   }, []);
 
-  if (favouriteExerciseData.length === 0) {
-    return null;
-  }
-
-  if (favouriteWorkoutData.length === 0) {
+  if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
     return null;
   }
 

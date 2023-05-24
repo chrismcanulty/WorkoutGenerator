@@ -108,19 +108,13 @@ export default function FavouriteWorkout({
     } catch (e) {
       // read error
     }
-
-    console.log('Done.');
   };
 
   useEffect(() => {
     getFavouriteWorkoutData();
   }, []);
 
-  if (favouriteExerciseData.length === 0) {
-    return null;
-  }
-
-  if (favouriteWorkoutData.length === 0) {
+  if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
     return null;
   }
 
