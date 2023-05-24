@@ -17,6 +17,7 @@ import RepsScreen from '../screens/RepsScreen';
 import {UserContext} from '../context/User.Context';
 import GenerationScreen from '../screens/GenerationScreen';
 import SavedWorkouts from '../screens/SavedWorkouts';
+import FavouriteWorkoutsList from '../screens/FavouriteWorkoutsList';
 
 export default function Navigation({
   colorScheme,
@@ -74,8 +75,8 @@ function RootNavigator() {
             options={{title: ''}}
           />
           <Stack.Screen
-            name="SavedWorkouts"
-            component={SavedWorkouts}
+            name="FavouriteWorkoutsList"
+            component={FavouriteWorkoutsList}
             options={{title: ''}}
           />
         </Stack.Group>
@@ -99,8 +100,8 @@ function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Workouts"
-        component={SavedWorkouts}
+        name="Favourites"
+        component={FavouriteWorkoutsList}
         options={{
           unmountOnBlur: true,
           tabBarIcon: ({color, size}) => (

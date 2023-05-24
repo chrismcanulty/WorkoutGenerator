@@ -45,14 +45,62 @@ const Header = styled.Text`
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const {exerciseData, clearWorkout, workout} = useContext(UserContext);
 
-  // first check contents of the workout when add to favourites button is pressed
-
   // console.log('date identifier', Date.now() + Math.random());
+
+  // create and store same token to attach to both exercise and workout data
+  //
+
+  const randomToken = () => {
+    return Date.now() + Math.random();
+  };
+
+  const newFavouriteToken = randomToken();
+
+  // need to get all the values of @favourite-token array, then spread operate and add
+  // to this array. Once complete, set the updated value to @favourite-token via Async storage
+
+  const getFavouriteTokens = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@favourite-token');
+      if (values !== null) {
+        const favouriteTokens = JSON.parse(values);
+        return favouriteTokens;
+      }
+      return [];
+    } catch (e) {
+      // read error
+    }
+  };
+
+  const saveToken = async () => {
+    try {
+      // first get favourite tokens stored in async storage, if any
+      let values = await getFavouriteTokens();
+      let updatedFavourites = [...values];
+      // remove oldest workout token from array if there are too many favourite workouts
+      if (updatedFavourites.length >= 10) {
+        updatedFavourites.shift();
+        // also need to remove excess exerise list/workouts
+      }
+      // add new favourite workout token to the list
+      // updatedFavourites.shift();
+      // updatedFavourites.shift();
+      updatedFavourites.push(newFavouriteToken);
+      const jsonValue = JSON.stringify(updatedFavourites);
+      console.log('myfaves', updatedFavourites);
+      await AsyncStorage.setItem('@favourite-token', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
 
   const storeExerciseData = async (value: any) => {
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@exercise_key', jsonValue);
+      await AsyncStorage.setItem(
+        `@exercise_key-${newFavouriteToken}`,
+        jsonValue,
+      );
     } catch (e) {
       // saving error
     }
@@ -61,7 +109,10 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const storeWorkoutData = async (value: any) => {
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@workout_key', jsonValue);
+      await AsyncStorage.setItem(
+        `@workout_key-${newFavouriteToken}`,
+        jsonValue,
+      );
     } catch (e) {
       // saving error
     }
@@ -88,6 +139,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
           onPress={() => {
             storeExerciseData(exerciseData);
             storeWorkoutData(workout);
+            saveToken();
           }}>
           <ButtonText>Add to favourites</ButtonText>
         </Button>

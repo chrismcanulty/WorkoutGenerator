@@ -1,6 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import React, {useEffect, useContext} from 'react';
-import {FlatList} from 'react-native';
+import React, {useEffect, useState, useContext} from 'react';
+import {FlatList, StatusBar, StyleSheet, Text, View} from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserContext} from '../context/User.Context';
@@ -42,68 +42,44 @@ const Header = styled.Text`
   text-align: center;
 `;
 
-export default function SavedWorkouts({
+export default function FavouriteWorkoutsList({
   navigation,
 }: {
   navigation: NativeStackHeaderProps;
   children?: JSX.Element | JSX.Element[];
 }) {
-  const {
-    favouriteWorkoutData,
-    setFavouriteWorkoutData,
-    favouriteExerciseData,
-    setFavouriteExerciseData,
-  } = useContext(UserContext);
+  const [favouriteTokens, setFavouriteTokens] = useState([]);
 
-  const getFavouriteExerciseData = async () => {
+  const getFavouriteTokens = async () => {
     try {
-      let values = await AsyncStorage.getItem('@exercise_key');
+      let values = await AsyncStorage.getItem('@favourite-token');
       if (values !== null) {
-        const favourites = JSON.parse(values);
-        setFavouriteExerciseData(favourites);
+        const favouriteTokens = JSON.parse(values);
+        setFavouriteTokens(favouriteTokens);
+        return favouriteTokens;
       }
+      return [];
     } catch (e) {
       // read error
     }
   };
 
-  const getFavouriteWorkoutData = async () => {
-    try {
-      let values = await AsyncStorage.getItem('@workout_key');
-      if (values !== null) {
-        const parsedValues = JSON.parse(values);
-        setFavouriteWorkoutData(parsedValues);
-      }
-    } catch (e) {
-      // read error
-    }
-  };
+  // if (favouriteTokens.length === 0) {
+  //   return null;
+  // }
 
   useEffect(() => {
-    getFavouriteExerciseData();
-    getFavouriteWorkoutData();
+    getFavouriteTokens();
   }, []);
-
-  if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
-    return null;
-  }
 
   return (
     <ContainerWrapper>
       <Header>Favourite Workouts</Header>
       <FlatList
-        keyExtractor={item => item.id}
+        keyExtractor={item => item}
         contentContainerStyle={{paddingBottom: 200}}
-        data={favouriteExerciseData}
-        renderItem={({index, item}) => (
-          <FavouriteWorkout
-            favouriteWorkout={favouriteWorkoutData}
-            key={+item.id}
-            workoutId={+item.id}
-            item={item}
-            isLastItem={index === favouriteExerciseData.length - 1}
-          />
-        )}
+        data={favouriteTokens}
+        renderItem={({item}) => <Text>{item}</Text>}
       />
       <ButtonWrapper>
         <Button onPress={() => navigation.push('Root')}>
