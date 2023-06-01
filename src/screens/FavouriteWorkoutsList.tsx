@@ -1,6 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import React, {useEffect, useState, useContext} from 'react';
-import {FlatList, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {FlatList, TouchableOpacity, Text} from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserContext} from '../context/User.Context';
@@ -54,8 +54,8 @@ export default function FavouriteWorkoutsList({
     try {
       let values = await AsyncStorage.getItem('@favourite-token');
       if (values !== null) {
-        const favouriteTokens = JSON.parse(values);
-        setFavouriteTokens(favouriteTokens);
+        const tokens = JSON.parse(values);
+        setFavouriteTokens(tokens);
         return favouriteTokens;
       }
       return [];
@@ -64,13 +64,17 @@ export default function FavouriteWorkoutsList({
     }
   };
 
-  // if (favouriteTokens.length === 0) {
-  //   return null;
-  // }
-
   useEffect(() => {
     getFavouriteTokens();
   }, []);
+
+  if (favouriteTokens.length === 0) {
+    return null;
+  }
+
+  // figure out a way to get list of workouts to render based on token id
+  // once you click on the token id, the appropriate workout will render
+  // based on data stored in async storage
 
   return (
     <ContainerWrapper>
@@ -79,7 +83,11 @@ export default function FavouriteWorkoutsList({
         keyExtractor={item => item}
         contentContainerStyle={{paddingBottom: 200}}
         data={favouriteTokens}
-        renderItem={({item}) => <Text>{item}</Text>}
+        renderItem={({item}) => (
+          <Button onPress={() => navigation.push('SavedWorkouts')}>
+            <ButtonText>{item}</ButtonText>
+          </Button>
+        )}
       />
       <ButtonWrapper>
         <Button onPress={() => navigation.push('Root')}>

@@ -79,6 +79,11 @@ function RootNavigator() {
             component={FavouriteWorkoutsList}
             options={{title: ''}}
           />
+          <Stack.Screen
+            name="SavedWorkouts"
+            component={SavedWorkouts}
+            options={{title: ''}}
+          />
         </Stack.Group>
       )}
     </Stack.Navigator>
