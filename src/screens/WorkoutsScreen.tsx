@@ -86,8 +86,8 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       // updatedFavourites.shift();
       // updatedFavourites.shift();
       updatedFavourites.push(newFavouriteToken);
+      console.log('favelist', updatedFavourites);
       const jsonValue = JSON.stringify(updatedFavourites);
-      console.log('myfaves', updatedFavourites);
       await AsyncStorage.setItem('@favourite-token', jsonValue);
     } catch (e) {
       // saving error

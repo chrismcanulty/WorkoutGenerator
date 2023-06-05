@@ -1,6 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import React, {useEffect, useContext} from 'react';
-import {FlatList} from 'react-native';
+import React, {useEffect, useContext, useState} from 'react';
+import {FlatList, Text} from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserContext} from '../context/User.Context';
@@ -55,10 +55,30 @@ export default function SavedWorkouts({
     setFavouriteExerciseData,
   } = useContext(UserContext);
 
+  const [favouriteTokens, setFavouriteTokens] = useState([]);
+
+  const getFavouriteTokens = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@favourite-token');
+      if (values !== null) {
+        const tokens = JSON.parse(values);
+        setFavouriteTokens(tokens);
+        return favouriteTokens;
+      }
+      return [];
+    } catch (e) {
+      // read error
+    }
+  };
+
   const getFavouriteExerciseData = async () => {
     try {
-      let values = await AsyncStorage.getItem('@exercise_key');
-      if (values !== null) {
+      let tokens = await getFavouriteTokens();
+      // need to add token to end of async storage get item
+      let values = await AsyncStorage.getItem(
+        `@exercise_key-${favouriteTokens[0]}`,
+      );
+      if (values !== null && tokens !== null) {
         const favourites = JSON.parse(values);
         setFavouriteExerciseData(favourites);
       }
@@ -69,8 +89,12 @@ export default function SavedWorkouts({
 
   const getFavouriteWorkoutData = async () => {
     try {
-      let values = await AsyncStorage.getItem('@workout_key');
-      if (values !== null) {
+      let tokens = await getFavouriteTokens();
+      // need to add token to end of async storage get item
+      let values = await AsyncStorage.getItem(
+        `@workout_key-${favouriteTokens[0]}`,
+      );
+      if (values !== null && tokens !== null) {
         const parsedValues = JSON.parse(values);
         setFavouriteWorkoutData(parsedValues);
       }
@@ -82,6 +106,7 @@ export default function SavedWorkouts({
   useEffect(() => {
     getFavouriteExerciseData();
     getFavouriteWorkoutData();
+    getFavouriteTokens();
   }, []);
 
   if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
@@ -90,7 +115,8 @@ export default function SavedWorkouts({
 
   return (
     <ContainerWrapper>
-      <Header>Favourite Workouts</Header>
+      {/* <Text>{favouriteTokens}</Text> */}
+      <Header>favouriteWorkouts</Header>
       <FlatList
         keyExtractor={item => item.id}
         contentContainerStyle={{paddingBottom: 200}}

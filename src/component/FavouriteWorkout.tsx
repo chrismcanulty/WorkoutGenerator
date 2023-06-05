@@ -1,4 +1,4 @@
-import React, {ReactNode, useContext, useEffect} from 'react';
+import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import {SequenceItem, BorderBottom} from '../../types/data';
 import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
@@ -98,12 +98,32 @@ export default function FavouriteWorkout({
   // which are rendered on the screen
   // create a workout id based on position within favourite workout array
 
+  const [favouriteTokens, setFavouriteTokens] = useState([]);
+
+  const getFavouriteTokens = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@favourite-token');
+      if (values !== null) {
+        const tokens = JSON.parse(values);
+        setFavouriteTokens(tokens);
+        return favouriteTokens;
+      }
+      return [];
+    } catch (e) {
+      // read error
+    }
+  };
+
   const getFavouriteWorkoutData = async () => {
     try {
-      let values = await AsyncStorage.getItem('@workout_key');
-      if (values !== null) {
-        const favourites = JSON.parse(values);
-        setFavouriteWorkoutData(favourites);
+      let tokens = await getFavouriteTokens();
+      // need to add token to end of async storage get item
+      let values = await AsyncStorage.getItem(
+        `@workout_key-${favouriteTokens[0]}`,
+      );
+      if (values !== null && tokens !== null) {
+        const parsedValues = JSON.parse(values);
+        setFavouriteWorkoutData(parsedValues);
       }
     } catch (e) {
       // read error
@@ -112,6 +132,7 @@ export default function FavouriteWorkout({
 
   useEffect(() => {
     getFavouriteWorkoutData();
+    getFavouriteTokens();
   }, []);
 
   if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
