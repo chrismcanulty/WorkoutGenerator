@@ -90,6 +90,8 @@ export default function FavouriteWorkout({
     setFavouriteWorkoutData,
     addFavouriteSet,
     favouriteExerciseData,
+    getFavouriteTokens,
+    favouriteTokens,
   } = useContext(UserContext);
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
@@ -98,42 +100,41 @@ export default function FavouriteWorkout({
   // which are rendered on the screen
   // create a workout id based on position within favourite workout array
 
-  const [favouriteTokens, setFavouriteTokens] = useState([]);
+  // const [favouriteTokens, setFavouriteTokens] = useState([]);
 
-  const getFavouriteTokens = async () => {
-    try {
-      let values = await AsyncStorage.getItem('@favourite-token');
-      if (values !== null) {
-        const tokens = JSON.parse(values);
-        setFavouriteTokens(tokens);
-        return favouriteTokens;
-      }
-      return [];
-    } catch (e) {
-      // read error
-    }
-  };
+  // const getFavouriteTokens = async () => {
+  //   try {
+  //     let values = await AsyncStorage.getItem('@favourite-token');
+  //     if (values !== null) {
+  //       const tokens = JSON.parse(values);
+  //       setFavouriteTokens(tokens);
+  //       return favouriteTokens;
+  //     }
+  //     return [];
+  //   } catch (e) {
+  //     // read error
+  //   }
+  // };
 
-  const getFavouriteWorkoutData = async () => {
-    try {
-      let tokens = await getFavouriteTokens();
-      // need to add token to end of async storage get item
-      let values = await AsyncStorage.getItem(
-        `@workout_key-${favouriteTokens[0]}`,
-      );
-      if (values !== null && tokens !== null) {
-        const parsedValues = JSON.parse(values);
-        setFavouriteWorkoutData(parsedValues);
-      }
-    } catch (e) {
-      // read error
-    }
-  };
+  // const getFavouriteWorkoutData = async () => {
+  //   try {
+  //     // need to add token to end of async storage get item
+  //     let values = await AsyncStorage.getItem(
+  //       `@workout_key-${favouriteTokens[0]}`,
+  //     );
+  //     if (values !== null) {
+  //       const parsedValues = JSON.parse(values);
+  //       setFavouriteWorkoutData(parsedValues);
+  //     }
+  //   } catch (e) {
+  //     // read error
+  //   }
+  // };
 
-  useEffect(() => {
-    getFavouriteWorkoutData();
-    getFavouriteTokens();
-  }, []);
+  // useEffect(() => {
+  //   getFavouriteWorkoutData();
+  //   getFavouriteTokens();
+  // }, []);
 
   if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
     return null;

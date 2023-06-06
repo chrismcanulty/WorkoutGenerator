@@ -20,6 +20,22 @@ const UserProvider = ({children}) => {
   const [loading, setLoading] = useState(true);
   const [favouriteWorkoutData, setFavouriteWorkoutData] = useState([]);
   const [favouriteExerciseData, setFavouriteExerciseData] = useState([]);
+  const [favouriteTokens, setFavouriteTokens] = useState([]);
+
+  const getFavouriteTokens = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@favourite-token');
+      console.log('getFavTokens', values);
+      if (values !== null) {
+        const tokens = JSON.parse(values);
+        setFavouriteTokens(tokens);
+        return favouriteTokens;
+      }
+      return [];
+    } catch (e) {
+      // read error
+    }
+  };
 
   const checkOnboarding = async () => {
     try {
@@ -297,6 +313,8 @@ const UserProvider = ({children}) => {
           favouriteClickComplete,
           favouriteDeleteSet,
           favouriteEditSet,
+          getFavouriteTokens,
+          favouriteTokens,
         }}>
         {children}
       </UserContext.Provider>

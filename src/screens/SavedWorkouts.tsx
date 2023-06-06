@@ -53,32 +53,39 @@ export default function SavedWorkouts({
     setFavouriteWorkoutData,
     favouriteExerciseData,
     setFavouriteExerciseData,
+    getFavouriteTokens,
+    favouriteTokens,
   } = useContext(UserContext);
 
-  const [favouriteTokens, setFavouriteTokens] = useState([]);
+  // const [favouriteTokens, setFavouriteTokens] = useState([]);
 
-  const getFavouriteTokens = async () => {
-    try {
-      let values = await AsyncStorage.getItem('@favourite-token');
-      if (values !== null) {
-        const tokens = JSON.parse(values);
-        setFavouriteTokens(tokens);
-        return favouriteTokens;
-      }
-      return [];
-    } catch (e) {
-      // read error
-    }
-  };
+  // const getFavouriteTokens = async () => {
+  //   try {
+  //     let values = await AsyncStorage.getItem('@favourite-token');
+  //     if (values !== null) {
+  //       const tokens = JSON.parse(values);
+  //       setFavouriteTokens(tokens);
+  //       return favouriteTokens;
+  //     }
+  //     return [];
+  //   } catch (e) {
+  //     // read error
+  //   }
+  // };
 
   const getFavouriteExerciseData = async () => {
+    console.log(
+      'favourite tokens',
+      favouriteTokens,
+      `@exercise_key-${favouriteTokens[0]}`,
+    );
     try {
-      let tokens = await getFavouriteTokens();
       // need to add token to end of async storage get item
       let values = await AsyncStorage.getItem(
         `@exercise_key-${favouriteTokens[0]}`,
       );
-      if (values !== null && tokens !== null) {
+      console.log('values', values);
+      if (values !== null) {
         const favourites = JSON.parse(values);
         setFavouriteExerciseData(favourites);
       }
@@ -90,6 +97,7 @@ export default function SavedWorkouts({
   const getFavouriteWorkoutData = async () => {
     try {
       let tokens = await getFavouriteTokens();
+      console.log('faveslist', favouriteTokens);
       // need to add token to end of async storage get item
       let values = await AsyncStorage.getItem(
         `@workout_key-${favouriteTokens[0]}`,
@@ -104,9 +112,9 @@ export default function SavedWorkouts({
   };
 
   useEffect(() => {
+    getFavouriteTokens();
     getFavouriteExerciseData();
     getFavouriteWorkoutData();
-    getFavouriteTokens();
   }, []);
 
   if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
@@ -132,7 +140,11 @@ export default function SavedWorkouts({
         )}
       />
       <ButtonWrapper>
-        <Button onPress={() => navigation.push('Root')}>
+        <Button
+          onPress={() => {
+            setFavouriteExerciseData([]);
+            navigation.push('Root');
+          }}>
           <ButtonText>Home</ButtonText>
         </Button>
       </ButtonWrapper>

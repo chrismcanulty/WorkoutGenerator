@@ -48,21 +48,7 @@ export default function FavouriteWorkoutsList({
   navigation: NativeStackHeaderProps;
   children?: JSX.Element | JSX.Element[];
 }) {
-  const [favouriteTokens, setFavouriteTokens] = useState([]);
-
-  const getFavouriteTokens = async () => {
-    try {
-      let values = await AsyncStorage.getItem('@favourite-token');
-      if (values !== null) {
-        const tokens = JSON.parse(values);
-        setFavouriteTokens(tokens);
-        return favouriteTokens;
-      }
-      return [];
-    } catch (e) {
-      // read error
-    }
-  };
+  const {getFavouriteTokens, favouriteTokens} = useContext(UserContext);
 
   useEffect(() => {
     getFavouriteTokens();
@@ -83,8 +69,11 @@ export default function FavouriteWorkoutsList({
         keyExtractor={item => item}
         contentContainerStyle={{paddingBottom: 200}}
         data={favouriteTokens}
-        renderItem={({item}) => (
-          <Button onPress={() => navigation.push('SavedWorkouts')}>
+        renderItem={({index, item}) => (
+          <Button
+            onPress={() =>
+              navigation.push('SavedWorkouts', {token: favouriteTokens[index]})
+            }>
             <ButtonText>{item}</ButtonText>
           </Button>
         )}
