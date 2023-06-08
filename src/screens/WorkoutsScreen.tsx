@@ -45,12 +45,6 @@ const Header = styled.Text`
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const {exerciseData, clearWorkout, workout} = useContext(UserContext);
 
-  // create and store same token to attach to both exercise and workout data
-  //
-
-  // need to get all the values of @favourite-token array, then spread operate and add
-  // to this array. Once complete, set the updated value to @favourite-token via Async storage
-
   const getFavouriteTokens = async () => {
     try {
       let values = await AsyncStorage.getItem('@favourite-token');
@@ -76,19 +70,17 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       let values = await getFavouriteTokens();
       let updatedFavourites = [...values];
       // remove oldest workout token from array if there are too many favourite workouts
-      // for now set to one for simplicity
-      if (updatedFavourites.length >= 1) {
+      // for now set to three for simplicity
+      if (updatedFavourites.length >= 3) {
         updatedFavourites.shift();
         // also need to remove excess exerise list/workouts
       }
       // add new favourite workout token to the list
       updatedFavourites.push(newFavouriteToken);
-      console.log('favelist', updatedFavourites);
       const jsonValue = JSON.stringify(updatedFavourites);
       await AsyncStorage.setItem('@favourite-token', jsonValue);
       try {
         const exerciseJson = JSON.stringify(exerciseData);
-        console.log('exerciseJson', exerciseJson);
         await AsyncStorage.setItem(
           `@exercise_key-${newFavouriteToken}`,
           exerciseJson,
@@ -96,7 +88,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
         try {
           const workoutJson = JSON.stringify(workout);
-          console.log('workoutJson', workoutJson);
 
           await AsyncStorage.setItem(
             `@workout_key-${newFavouriteToken}`,
@@ -108,30 +99,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       } catch (e) {
         // saving error
       }
-    } catch (e) {
-      // saving error
-    }
-  };
-
-  const storeExerciseData = async (value: any) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(
-        `@exercise_key-${newFavouriteToken}`,
-        jsonValue,
-      );
-    } catch (e) {
-      // saving error
-    }
-  };
-
-  const storeWorkoutData = async (value: any) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(
-        `@workout_key-${newFavouriteToken}`,
-        jsonValue,
-      );
     } catch (e) {
       // saving error
     }

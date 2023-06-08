@@ -1,10 +1,8 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import React, {useEffect, useState, useContext} from 'react';
-import {FlatList, TouchableOpacity, Text} from 'react-native';
+import React, {useEffect, useContext} from 'react';
+import {FlatList} from 'react-native';
 import styled from 'styled-components/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserContext} from '../context/User.Context';
-import FavouriteWorkout from '../component/FavouriteWorkout';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -72,7 +70,9 @@ export default function FavouriteWorkoutsList({
         renderItem={({index, item}) => (
           <Button
             onPress={() =>
-              navigation.push('SavedWorkouts', {token: favouriteTokens[index]})
+              navigation.push('SavedWorkouts', {
+                token: favouriteTokens[index],
+              })
             }>
             <ButtonText>{item}</ButtonText>
           </Button>

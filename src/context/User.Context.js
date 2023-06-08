@@ -25,7 +25,6 @@ const UserProvider = ({children}) => {
   const getFavouriteTokens = async () => {
     try {
       let values = await AsyncStorage.getItem('@favourite-token');
-      console.log('getFavTokens', values);
       if (values !== null) {
         const tokens = JSON.parse(values);
         setFavouriteTokens(tokens);

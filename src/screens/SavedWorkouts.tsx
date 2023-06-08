@@ -44,8 +44,10 @@ const Header = styled.Text`
 
 export default function SavedWorkouts({
   navigation,
+  route,
 }: {
   navigation: NativeStackHeaderProps;
+  route: any;
   children?: JSX.Element | JSX.Element[];
 }) {
   const {
@@ -54,37 +56,13 @@ export default function SavedWorkouts({
     favouriteExerciseData,
     setFavouriteExerciseData,
     getFavouriteTokens,
-    favouriteTokens,
   } = useContext(UserContext);
 
-  // const [favouriteTokens, setFavouriteTokens] = useState([]);
-
-  // const getFavouriteTokens = async () => {
-  //   try {
-  //     let values = await AsyncStorage.getItem('@favourite-token');
-  //     if (values !== null) {
-  //       const tokens = JSON.parse(values);
-  //       setFavouriteTokens(tokens);
-  //       return favouriteTokens;
-  //     }
-  //     return [];
-  //   } catch (e) {
-  //     // read error
-  //   }
-  // };
+  const token = route.params.token;
 
   const getFavouriteExerciseData = async () => {
-    console.log(
-      'favourite tokens',
-      favouriteTokens,
-      `@exercise_key-${favouriteTokens[0]}`,
-    );
     try {
-      // need to add token to end of async storage get item
-      let values = await AsyncStorage.getItem(
-        `@exercise_key-${favouriteTokens[0]}`,
-      );
-      console.log('values', values);
+      let values = await AsyncStorage.getItem(`@exercise_key-${token}`);
       if (values !== null) {
         const favourites = JSON.parse(values);
         setFavouriteExerciseData(favourites);
@@ -97,11 +75,7 @@ export default function SavedWorkouts({
   const getFavouriteWorkoutData = async () => {
     try {
       let tokens = await getFavouriteTokens();
-      console.log('faveslist', favouriteTokens);
-      // need to add token to end of async storage get item
-      let values = await AsyncStorage.getItem(
-        `@workout_key-${favouriteTokens[0]}`,
-      );
+      let values = await AsyncStorage.getItem(`@workout_key-${token}`);
       if (values !== null && tokens !== null) {
         const parsedValues = JSON.parse(values);
         setFavouriteWorkoutData(parsedValues);
