@@ -1,12 +1,5 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {
-  Alert,
-  Dimensions,
-  FlatList,
-  Modal,
-  View,
-  TextInput,
-} from 'react-native';
+import {Alert, Dimensions, FlatList, Modal, View} from 'react-native';
 import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
@@ -49,20 +42,44 @@ const Header = styled.Text`
   text-align: center;
 `;
 const InnerModalView = styled.View`
-  padding: 20px;
   background-color: #fff;
+  border-radius: 15px;
+  height: ${Dimensions.get('window').height * 0.5}px;
+  padding: 10px;
   width: ${Dimensions.get('window').width * 0.9}px;
-  height: ${Dimensions.get('window').height * 0.35}px;
 `;
 const OuterModalView = styled.View`
-  flex: 1;
-  justify-content: center;
   align-items: center;
   background-color: rgba(80, 80, 80, 0.1);
+  flex: 1;
+  justify-content: center;
+`;
+const ModalHeader = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Bold';
+  font-size: 24px;
+  margin: 20px;
+  padding: 18px;
+  text-align: center;
+`;
+const ModalTextInput = styled.TextInput`
+  border: 2px rgb(230, 230, 230);
+  border-radius: 15px;
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 24px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  text-align: center;
+`;
+const ModalView = styled.View`
+  padding: 10px;
 `;
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [text, onChangeText] = useState('');
   const {exerciseData, clearWorkout, workout} = useContext(UserContext);
 
   const getFavouriteTokens = async () => {
@@ -140,9 +157,19 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         }}>
         <OuterModalView>
           <InnerModalView>
-            <Header>Hello</Header>
+            <ModalHeader>Input workout name</ModalHeader>
+            <ModalView>
+              <ModalTextInput
+                onChangeText={onChangeText}
+                value={text}
+                placeholder="My workout"
+              />
+            </ModalView>
             <Button onPress={() => setModalVisible(false)}>
-              <ButtonText>Modal</ButtonText>
+              <ButtonText>Confirm</ButtonText>
+            </Button>
+            <Button onPress={() => setModalVisible(false)}>
+              <ButtonText>Cancel</ButtonText>
             </Button>
           </InnerModalView>
         </OuterModalView>
