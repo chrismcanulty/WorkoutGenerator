@@ -1,6 +1,13 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {FlatList} from 'react-native';
-import React, {useContext} from 'react';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  Modal,
+  View,
+  TextInput,
+} from 'react-native';
+import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';
@@ -41,8 +48,21 @@ const Header = styled.Text`
   padding: 18px;
   text-align: center;
 `;
+const InnerModalView = styled.View`
+  padding: 20px;
+  background-color: #fff;
+  width: ${Dimensions.get('window').width * 0.9}px;
+  height: ${Dimensions.get('window').height * 0.35}px;
+`;
+const OuterModalView = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(80, 80, 80, 0.1);
+`;
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
+  const [modalVisible, setModalVisible] = useState(false);
   const {exerciseData, clearWorkout, workout} = useContext(UserContext);
 
   const getFavouriteTokens = async () => {
@@ -104,8 +124,29 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
+  // need to add text input box, have logic that saves token once
+  // text input form has been completed
+  // save workout name as key value pair with workout token?
+
   return (
     <ContainerWrapper>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <OuterModalView>
+          <InnerModalView>
+            <Header>Hello</Header>
+            <Button onPress={() => setModalVisible(false)}>
+              <ButtonText>Modal</ButtonText>
+            </Button>
+          </InnerModalView>
+        </OuterModalView>
+      </Modal>
       <Header>My Workout</Header>
       <FlatList
         keyExtractor={item => item.id}
@@ -121,11 +162,12 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         )}
       />
       <ButtonWrapper>
+        <Button onPress={() => setModalVisible(true)}>
+          <ButtonText>Modal</ButtonText>
+        </Button>
         <Button
           onPress={async () => {
             await saveToken();
-            // storeExerciseData(exerciseData);
-            // storeWorkoutData(workout);
           }}>
           <ButtonText>Add to favourites</ButtonText>
         </Button>
