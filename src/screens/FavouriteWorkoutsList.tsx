@@ -46,19 +46,28 @@ export default function FavouriteWorkoutsList({
   navigation: NativeStackHeaderProps;
   children?: JSX.Element | JSX.Element[];
 }) {
-  const {getFavouriteTokens, favouriteTokens} = useContext(UserContext);
+  const {getFavouriteTokens, favouriteTokens, getWorkoutNames, workoutNames} =
+    useContext(UserContext);
 
   useEffect(() => {
     getFavouriteTokens();
+    getWorkoutNames();
   }, []);
 
-  if (favouriteTokens.length === 0) {
+  if (favouriteTokens.length === 0 || workoutNames.length === 0) {
     return null;
   }
 
   // figure out a way to get list of workouts to render based on token id
   // once you click on the token id, the appropriate workout will render
   // based on data stored in async storage
+
+  // console.log(
+  //   'names',
+  //   workoutNames.find((x: any) => x.token === 1686792384515.1414),
+  // );
+
+  console.log(workoutNames);
 
   return (
     <ContainerWrapper>
@@ -72,9 +81,13 @@ export default function FavouriteWorkoutsList({
             onPress={() =>
               navigation.push('SavedWorkouts', {
                 token: favouriteTokens[index],
+                title: workoutNames.find((x: any) => x.token === item).title,
               })
             }>
-            <ButtonText>{item}</ButtonText>
+            <ButtonText>
+              {workoutNames.find((x: any) => x.token === item).title}
+              {/* {item} */}
+            </ButtonText>
           </Button>
         )}
       />

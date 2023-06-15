@@ -22,6 +22,7 @@ const UserProvider = ({children}) => {
   const [favouriteExerciseData, setFavouriteExerciseData] = useState([]);
   const [favouriteTokens, setFavouriteTokens] = useState([]);
   const [title, setTitle] = useState('My workout');
+  const [workoutNames, setWorkoutNames] = useState([]);
 
   const getFavouriteTokens = async () => {
     try {
@@ -30,6 +31,20 @@ const UserProvider = ({children}) => {
         const tokens = JSON.parse(values);
         setFavouriteTokens(tokens);
         return favouriteTokens;
+      }
+      return [];
+    } catch (e) {
+      // read error
+    }
+  };
+
+  const getWorkoutNames = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@workout-names');
+      if (values !== null) {
+        const names = JSON.parse(values);
+        setWorkoutNames(names);
+        return workoutNames;
       }
       return [];
     } catch (e) {
@@ -317,6 +332,9 @@ const UserProvider = ({children}) => {
           favouriteTokens,
           title,
           setTitle,
+          workoutNames,
+          setWorkoutNames,
+          getWorkoutNames,
         }}>
         {children}
       </UserContext.Provider>

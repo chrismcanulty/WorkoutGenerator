@@ -60,6 +60,8 @@ export default function SavedWorkouts({
 
   const token = route.params.token;
 
+  const title = route.params.title;
+
   const getFavouriteExerciseData = async () => {
     try {
       let values = await AsyncStorage.getItem(`@exercise_key-${token}`);
@@ -97,8 +99,8 @@ export default function SavedWorkouts({
 
   return (
     <ContainerWrapper>
-      {/* <Text>{favouriteTokens}</Text> */}
-      <Header>favouriteWorkouts</Header>
+      {/* <Text>{title}</Text> */}
+      <Header>{title}</Header>
       <FlatList
         keyExtractor={item => item.id}
         contentContainerStyle={{paddingBottom: 200}}
