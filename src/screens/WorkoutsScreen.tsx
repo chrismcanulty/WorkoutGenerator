@@ -80,7 +80,17 @@ const ModalView = styled.View`
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = useState('');
-  const {exerciseData, clearWorkout, workout} = useContext(UserContext);
+  const {exerciseData, clearWorkout, workout, title, setTitle} =
+    useContext(UserContext);
+
+  const onConfirm = () => {
+    setModalVisible(false);
+    setTitle(text);
+  };
+
+  const onCancel = () => {
+    setModalVisible(false);
+  };
 
   const getFavouriteTokens = async () => {
     try {
@@ -165,16 +175,16 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
                 placeholder="My workout"
               />
             </ModalView>
-            <Button onPress={() => setModalVisible(false)}>
+            <Button onPress={onConfirm}>
               <ButtonText>Confirm</ButtonText>
             </Button>
-            <Button onPress={() => setModalVisible(false)}>
+            <Button onPress={onCancel}>
               <ButtonText>Cancel</ButtonText>
             </Button>
           </InnerModalView>
         </OuterModalView>
       </Modal>
-      <Header>My Workout</Header>
+      <Header>{title}</Header>
       <FlatList
         keyExtractor={item => item.id}
         contentContainerStyle={{paddingBottom: 200}}

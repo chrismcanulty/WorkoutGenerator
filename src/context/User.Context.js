@@ -21,6 +21,7 @@ const UserProvider = ({children}) => {
   const [favouriteWorkoutData, setFavouriteWorkoutData] = useState([]);
   const [favouriteExerciseData, setFavouriteExerciseData] = useState([]);
   const [favouriteTokens, setFavouriteTokens] = useState([]);
+  const [title, setTitle] = useState('My workout');
 
   const getFavouriteTokens = async () => {
     try {
@@ -314,6 +315,8 @@ const UserProvider = ({children}) => {
           favouriteEditSet,
           getFavouriteTokens,
           favouriteTokens,
+          title,
+          setTitle,
         }}>
         {children}
       </UserContext.Provider>
