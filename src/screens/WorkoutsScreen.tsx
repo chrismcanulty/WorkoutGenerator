@@ -191,10 +191,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
-  // need to add text input box, have logic that saves token once
-  // text input form has been completed
-  // save workout name as key value pair with workout token?
-
   return (
     <ContainerWrapper>
       <Modal

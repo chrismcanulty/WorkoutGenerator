@@ -54,20 +54,15 @@ export default function FavouriteWorkoutsList({
     getWorkoutNames();
   }, []);
 
-  if (favouriteTokens.length === 0 || workoutNames.length === 0) {
+  if (
+    !favouriteTokens ||
+    favouriteTokens.length === 0 ||
+    !workoutNames ||
+    workoutNames.length === 0
+  ) {
+    // create dummy component based on below informing user there are no favourites yet
     return null;
   }
-
-  // figure out a way to get list of workouts to render based on token id
-  // once you click on the token id, the appropriate workout will render
-  // based on data stored in async storage
-
-  // console.log(
-  //   'names',
-  //   workoutNames.find((x: any) => x.token === 1686792384515.1414),
-  // );
-
-  console.log(workoutNames);
 
   return (
     <ContainerWrapper>
