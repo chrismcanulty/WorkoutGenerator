@@ -49,10 +49,6 @@ export default function FavouriteWorkoutsList({
   const {getFavouriteTokens, favouriteTokens, getWorkoutNames, workoutNames} =
     useContext(UserContext);
 
-  const getWorkoutName = async (item: String) => {
-    await workoutNames.find((x: any) => x.token === item).title;
-  };
-
   useEffect(() => {
     getFavouriteTokens();
     getWorkoutNames();

@@ -258,6 +258,7 @@ const UserProvider = ({children}) => {
     setSelectedEquipment([]);
     setExerciseData([]);
     setNumberOfExercises('0');
+    setTitle('My workout');
     setLoading(false);
     navigation.replace('Root');
   };

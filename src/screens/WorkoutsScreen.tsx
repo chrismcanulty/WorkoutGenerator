@@ -1,6 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {Alert, Dimensions, FlatList, Modal, View} from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';
@@ -83,9 +83,16 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const {exerciseData, clearWorkout, workout, title, setTitle} =
     useContext(UserContext);
 
-  const onConfirm = () => {
-    setModalVisible(false);
+  const onConfirm = async () => {
     setTitle(text);
+    await saveToken();
+    setModalVisible(false);
+  };
+
+  const modalPopup = () => {
+    const titleText = text || 'My workout';
+    setTitle(titleText);
+    setModalVisible(true);
   };
 
   const onCancel = () => {
@@ -124,6 +131,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     };
 
     const newFavouriteToken = randomToken();
+    setTitle(text);
 
     try {
       let values = await getWorkoutNames();
@@ -132,7 +140,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         updatedWorkoutNames.shift();
       }
 
-      updatedWorkoutNames.push({token: newFavouriteToken, title: title});
+      updatedWorkoutNames.push({token: newFavouriteToken, title: text});
       const jsonValue = JSON.stringify(updatedWorkoutNames);
       await AsyncStorage.setItem('@workout-names', jsonValue);
     } catch (e) {
@@ -178,9 +186,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
-  // modal should pop up first when user adds to favourites
-  // once confirm button is clicked on the modal, call appropriate functions to save data and close modal
-
   return (
     <ContainerWrapper>
       <Modal
@@ -225,13 +230,14 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         )}
       />
       <ButtonWrapper>
-        <Button onPress={() => setModalVisible(true)}>
+        {/* <Button onPress={() => setModalVisible(true)}>
           <ButtonText>Modal</ButtonText>
-        </Button>
+        </Button> */}
         <Button
-          onPress={async () => {
-            await saveToken();
-          }}>
+          // onPress={async () => {
+          //   await saveToken();
+          // }}
+          onPress={modalPopup}>
           <ButtonText>Add to favourites</ButtonText>
         </Button>
         <Button
