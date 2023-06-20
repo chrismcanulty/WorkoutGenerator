@@ -80,15 +80,8 @@ const ModalView = styled.View`
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = useState('');
-  const {
-    exerciseData,
-    clearWorkout,
-    workout,
-    title,
-    setTitle,
-    workoutNames,
-    setWorkoutNames,
-  } = useContext(UserContext);
+  const {exerciseData, clearWorkout, workout, title, setTitle} =
+    useContext(UserContext);
 
   const onConfirm = () => {
     setModalVisible(false);
@@ -132,12 +125,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
     const newFavouriteToken = randomToken();
 
-    // const addTitle = () => {
-    //   const copyNames = [...workoutNames];
-    //   copyNames.push({token: newFavouriteToken, title: title});
-    //   setWorkoutNames(copyNames);
-    // };
-
     try {
       let values = await getWorkoutNames();
       let updatedWorkoutNames = [...values];
@@ -149,7 +136,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       const jsonValue = JSON.stringify(updatedWorkoutNames);
       await AsyncStorage.setItem('@workout-names', jsonValue);
     } catch (e) {
-      // savings error
+      // saving error
     }
 
     try {
@@ -190,6 +177,9 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       // saving error
     }
   };
+
+  // modal should pop up first when user adds to favourites
+  // once confirm button is clicked on the modal, call appropriate functions to save data and close modal
 
   return (
     <ContainerWrapper>

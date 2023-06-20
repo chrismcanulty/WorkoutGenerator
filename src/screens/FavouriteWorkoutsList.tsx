@@ -49,6 +49,10 @@ export default function FavouriteWorkoutsList({
   const {getFavouriteTokens, favouriteTokens, getWorkoutNames, workoutNames} =
     useContext(UserContext);
 
+  const getWorkoutName = async (item: String) => {
+    await workoutNames.find((x: any) => x.token === item).title;
+  };
+
   useEffect(() => {
     getFavouriteTokens();
     getWorkoutNames();
@@ -76,12 +80,11 @@ export default function FavouriteWorkoutsList({
             onPress={() =>
               navigation.push('SavedWorkouts', {
                 token: favouriteTokens[index],
-                title: workoutNames.find((x: any) => x.token === item).title,
+                title: workoutNames.find((x: any) => x.token === item)?.title,
               })
             }>
             <ButtonText>
-              {workoutNames.find((x: any) => x.token === item).title}
-              {/* {item} */}
+              {workoutNames.find((x: any) => x.token === item)?.title}
             </ButtonText>
           </Button>
         )}
