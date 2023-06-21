@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CompleteIcon from 'react-native-vector-icons/FontAwesome5';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -79,6 +80,8 @@ const ModalView = styled.View`
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [workoutSaved, setWorkoutSaved] = useState(false);
+  const [addFavouritesVisible, setAddFavouritesVisible] = useState(true);
   const [text, onChangeText] = useState('');
   const {exerciseData, clearWorkout, workout, title, setTitle} =
     useContext(UserContext);
@@ -87,6 +90,12 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     setTitle(text);
     await saveToken();
     setModalVisible(false);
+    setWorkoutSaved(true);
+    setAddFavouritesVisible(false);
+  };
+
+  const closeConfirm = () => {
+    setWorkoutSaved(false);
   };
 
   const modalPopup = () => {
@@ -215,6 +224,30 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
           </InnerModalView>
         </OuterModalView>
       </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={workoutSaved}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setWorkoutSaved(!workoutSaved);
+        }}>
+        <OuterModalView>
+          <InnerModalView>
+            <ModalHeader>New Workout {`'${title}'`} Saved!</ModalHeader>
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <CompleteIcon
+                name="check-circle"
+                size={Dimensions.get('window').height * 0.175}
+                color={'green'}
+              />
+            </View>
+            <Button onPress={closeConfirm}>
+              <ButtonText>Ok</ButtonText>
+            </Button>
+          </InnerModalView>
+        </OuterModalView>
+      </Modal>
       <Header>{title}</Header>
       <FlatList
         keyExtractor={item => item.id}
@@ -230,16 +263,11 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         )}
       />
       <ButtonWrapper>
-        {/* <Button onPress={() => setModalVisible(true)}>
-          <ButtonText>Modal</ButtonText>
-        </Button> */}
-        <Button
-          // onPress={async () => {
-          //   await saveToken();
-          // }}
-          onPress={modalPopup}>
+        {/* {addFavouritesVisible && ( */}
+        <Button onPress={modalPopup}>
           <ButtonText>Add to favourites</ButtonText>
         </Button>
+        {/* )} */}
         <Button
           onPress={() => {
             clearWorkout({navigation});
