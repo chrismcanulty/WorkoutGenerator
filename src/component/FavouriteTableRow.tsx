@@ -43,6 +43,8 @@ export default function FavouriteTableRow({
   const [reps, setReps] = useState('10');
   const [weight, setWeight] = useState('0');
 
+  // prevent user from being able to input non-integer values or partial reps
+
   const onChangedReps = (text: string) => {
     isNaN(Number(text)) || text.includes('.')
       ? (text = text.substr(0, text.length - 1))
@@ -51,11 +53,17 @@ export default function FavouriteTableRow({
     setReps(text);
   };
 
+  // prevent user from being able to input non-integer values for weight
+
   const onChangedWeight = (text: string) => {
     isNaN(Number(text)) ? (text = text.substr(0, text.length - 1)) : text;
 
     setWeight(text);
   };
+
+  if (!row) {
+    return null;
+  }
 
   return (
     <>
@@ -69,7 +77,7 @@ export default function FavouriteTableRow({
             keyboardType="numeric"
             onChangeText={text => onChangedReps(text)}
             placeholder={'0'}
-            maxLength={755}
+            maxLength={7}
           />
         ) : (
           <DataTable.Cell style={styles.cell}>

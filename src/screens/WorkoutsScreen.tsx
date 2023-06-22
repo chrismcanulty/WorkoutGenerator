@@ -1,6 +1,6 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {Alert, Dimensions, FlatList, Modal, View} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';

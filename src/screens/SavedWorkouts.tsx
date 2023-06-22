@@ -99,7 +99,6 @@ export default function SavedWorkouts({
 
   return (
     <ContainerWrapper>
-      {/* <Text>{title}</Text> */}
       <Header>{title}</Header>
       <FlatList
         keyExtractor={item => item.id}

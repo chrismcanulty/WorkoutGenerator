@@ -9,12 +9,11 @@ export default function FavouriteExerciseData({
   item: any;
   workoutId: String;
 }) {
-  if (!item) return null;
+  if (!item) {
+    return null;
+  }
 
   return item.map((row: ExerciseSet, index: Number) => {
-    if (!row) {
-      return null;
-    }
     return (
       <FavouriteTableRow
         row={row}

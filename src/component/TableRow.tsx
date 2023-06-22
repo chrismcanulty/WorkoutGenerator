@@ -68,7 +68,7 @@ export default function TableRow({
             keyboardType="numeric"
             onChangeText={text => onChangedReps(text)}
             placeholder={'0'}
-            maxLength={755}
+            maxLength={7}
           />
         ) : (
           <DataTable.Cell style={styles.cell}>
