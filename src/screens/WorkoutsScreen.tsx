@@ -195,6 +195,11 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
+  // 1. confirm with user that oldest workout will be overwritten and provide option to abort
+  // in case max number of workouts has been reached
+  // 2. add limit to number of characters and conditionally render warning message,
+  // prevent user from saving workout name that is too long
+
   return (
     <ContainerWrapper>
       <Modal
