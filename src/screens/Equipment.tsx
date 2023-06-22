@@ -60,7 +60,7 @@ export default function EquipmentScreen({navigation}: NativeStackHeaderProps) {
 
   const onPress = function () {
     if (selectedEquipment.length > 0) {
-      navigation.navigate('Reps');
+      navigation.push('Reps');
     } else if (selectedEquipment.length === 0) {
       setWarning(true);
     }

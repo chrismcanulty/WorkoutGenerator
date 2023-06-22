@@ -28,7 +28,7 @@ const WorkoutIcon = ({name}: {name: string}) => {
   return <Icon name={name} size={14} color={'rgb(169,169,169)'} />;
 };
 
-export default function TableRow({
+export default function FavouriteTableRow({
   row,
   index,
   workoutId,
@@ -37,10 +37,13 @@ export default function TableRow({
   index: Number;
   workoutId: String;
 }) {
-  const {clickComplete, deleteSet, editSet} = useContext(UserContext);
+  const {favouriteClickComplete, favouriteDeleteSet, favouriteEditSet} =
+    useContext(UserContext);
 
   const [reps, setReps] = useState('10');
   const [weight, setWeight] = useState('0');
+
+  // prevent user from being able to input non-integer values or partial reps
 
   const onChangedReps = (text: string) => {
     isNaN(Number(text)) || text.includes('.')
@@ -50,11 +53,17 @@ export default function TableRow({
     setReps(text);
   };
 
+  // prevent user from being able to input non-integer values for weight
+
   const onChangedWeight = (text: string) => {
     isNaN(Number(text)) ? (text = text.substr(0, text.length - 1)) : text;
 
     setWeight(text);
   };
+
+  if (!row) {
+    return null;
+  }
 
   return (
     <>
@@ -90,13 +99,15 @@ export default function TableRow({
         )}
         <DataTable.Cell style={styles.cell}>
           <TouchableOpacity
-            onPress={() => clickComplete({row, index, workoutId})}>
+            onPress={() => favouriteClickComplete({row, index, workoutId})}>
             <WorkoutIcon name={row.Completion} />
           </TouchableOpacity>
         </DataTable.Cell>
         <DataTable.Cell style={styles.cell}>
           <TouchableOpacity
-            onPress={() => editSet({row, index, workoutId, reps, weight})}>
+            onPress={() =>
+              favouriteEditSet({row, index, workoutId, reps, weight})
+            }>
             {row.Edit ? (
               <WorkoutIcon name="check" />
             ) : (
@@ -105,7 +116,8 @@ export default function TableRow({
           </TouchableOpacity>
         </DataTable.Cell>
         <DataTable.Cell style={styles.cell}>
-          <TouchableOpacity onPress={() => deleteSet({index, workoutId})}>
+          <TouchableOpacity
+            onPress={() => favouriteDeleteSet({index, workoutId})}>
             <WorkoutIcon name="trash" />
           </TouchableOpacity>
         </DataTable.Cell>

@@ -17,6 +17,40 @@ const UserProvider = ({children}) => {
   const [exerciseData, setExerciseData] = useState([]);
   const [workout, setWorkout] = useState({});
   const [isEditable, setIsEditable] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [favouriteWorkoutData, setFavouriteWorkoutData] = useState([]);
+  const [favouriteExerciseData, setFavouriteExerciseData] = useState([]);
+  const [favouriteTokens, setFavouriteTokens] = useState([]);
+  const [title, setTitle] = useState('My workout');
+  const [workoutNames, setWorkoutNames] = useState([]);
+
+  const getFavouriteTokens = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@favourite-token');
+      if (values !== null) {
+        const tokens = JSON.parse(values);
+        setFavouriteTokens(tokens);
+        return favouriteTokens;
+      }
+      return [];
+    } catch (e) {
+      // read error
+    }
+  };
+
+  const getWorkoutNames = async () => {
+    try {
+      let values = await AsyncStorage.getItem('@workout-names');
+      if (values !== null) {
+        const names = JSON.parse(values);
+        setWorkoutNames(names);
+        return workoutNames;
+      }
+      return [];
+    } catch (e) {
+      // read error
+    }
+  };
 
   const checkOnboarding = async () => {
     try {
@@ -33,6 +67,7 @@ const UserProvider = ({children}) => {
     try {
       const res = await axios.get('https://wger.de/api/v2/muscle/');
       setMuscleGroup(res.data.results);
+      setLoading(false);
     } catch (err) {
       setErrorMessage(err);
     }
@@ -95,6 +130,16 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  const favouriteClickComplete = ({row, index, workoutId}) => {
+    const tempWorkout = {...favouriteWorkoutData};
+    const modifyComplete =
+      row.Completion === 'check-circle'
+        ? {...row, Completion: 'circle'}
+        : {...row, Completion: 'check-circle'};
+    tempWorkout[workoutId][index] = modifyComplete;
+    setFavouriteWorkoutData(tempWorkout);
+  };
+
   // need to add error handling - before setting reps and weight to tempworkout,
   // check whether user input is a number - if not, do not allow state changes
   // and display an error message
@@ -123,6 +168,29 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  const favouriteEditSet = ({row, index, workoutId, reps, weight}) => {
+    if (reps === '') {
+      reps = '0';
+    }
+    if (reps.slice(-1) === '.') {
+      reps = reps.replace('.', '');
+    }
+    if (weight === '') {
+      weight = '0';
+    }
+    if (weight.slice(-1) === '.') {
+      weight = weight.replace('.', '');
+    }
+    const tempWorkout = {...favouriteWorkoutData};
+    const editRow =
+      row.Edit === true
+        ? {...row, Edit: false, Reps: reps, Weight: weight}
+        : {...row, Edit: true};
+    tempWorkout[workoutId][index] = editRow;
+    setFavouriteWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout);
+  };
+
   const addSet = ({workoutId}) => {
     const tempWorkout = {...workout};
     const setNumber = tempWorkout[workoutId].length + 1;
@@ -136,6 +204,29 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
+  const storeWorkoutData = async value => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@workout_key', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const addFavouriteSet = ({workoutId}) => {
+    const tempWorkout = {...favouriteWorkoutData};
+    const setNumber = tempWorkout[workoutId].length + 1;
+    const newSet = {
+      Set: setNumber,
+      Reps: 10,
+      Weight: 0.0,
+      Completion: 'circle',
+    };
+    tempWorkout[workoutId].push(newSet);
+    setFavouriteWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout);
+  };
+
   const deleteSet = ({index, workoutId}) => {
     const tempWorkout = {...workout};
     tempWorkout[workoutId].splice(index, 1);
@@ -143,6 +234,33 @@ const UserProvider = ({children}) => {
       set.Set = index + 1;
     });
     setWorkout(tempWorkout);
+  };
+
+  const favouriteDeleteSet = ({index, workoutId}) => {
+    const tempWorkout = {...favouriteWorkoutData};
+    tempWorkout[workoutId].splice(index, 1);
+    tempWorkout[workoutId].map((set, index) => {
+      set.Set = index + 1;
+    });
+    setFavouriteWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout);
+  };
+
+  // reset state related to selected muscles, equipment, reps, workout, etc
+  // then navigate back to home screen
+
+  const clearWorkout = ({navigation}) => {
+    // unable to update state within this function directly - need to research another way
+    // to revert to initial state for muscles, equipment, reps and workout
+    setLoading(true);
+    setWorkout({});
+    setSelectedMuscles([]);
+    setSelectedEquipment([]);
+    setExerciseData([]);
+    setNumberOfExercises('0');
+    setTitle('My workout');
+    setLoading(false);
+    navigation.replace('Root');
   };
 
   const fetchExercises = async () => {
@@ -201,6 +319,23 @@ const UserProvider = ({children}) => {
           isEditable,
           setIsEditable,
           editSet,
+          clearWorkout,
+          loading,
+          favouriteWorkoutData,
+          setFavouriteWorkoutData,
+          favouriteExerciseData,
+          setFavouriteExerciseData,
+          addFavouriteSet,
+          favouriteClickComplete,
+          favouriteDeleteSet,
+          favouriteEditSet,
+          getFavouriteTokens,
+          favouriteTokens,
+          title,
+          setTitle,
+          workoutNames,
+          setWorkoutNames,
+          getWorkoutNames,
         }}>
         {children}
       </UserContext.Provider>

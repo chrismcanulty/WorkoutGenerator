@@ -1,9 +1,8 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
+import React, {useEffect, useContext} from 'react';
 import {FlatList} from 'react-native';
-import React, {useContext, useEffect} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
-import ExerciseItem from '../component/ExerciseItem';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -41,47 +40,54 @@ const Header = styled.Text`
   text-align: center;
 `;
 
-export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
-  const {exerciseData, fetchExercises} = useContext(UserContext);
-
-  const formatMessage = function () {
-    if (!exerciseData) {
-      return 'We were unable to retrieve any exercises for you :(';
-    } else if (exerciseData.length === 1) {
-      return `We've generated this ${exerciseData.length} exercise for you!`;
-    } else {
-      return `We've generated these ${exerciseData.length} exercises for you!`;
-    }
-  };
-
-  const onPress = function () {
-    fetchExercises();
-  };
+export default function FavouriteWorkoutsList({
+  navigation,
+}: {
+  navigation: NativeStackHeaderProps;
+  children?: JSX.Element | JSX.Element[];
+}) {
+  const {getFavouriteTokens, favouriteTokens, getWorkoutNames, workoutNames} =
+    useContext(UserContext);
 
   useEffect(() => {
-    fetchExercises();
+    getFavouriteTokens();
+    getWorkoutNames();
   }, []);
+
+  if (
+    !favouriteTokens ||
+    favouriteTokens.length === 0 ||
+    !workoutNames ||
+    workoutNames.length === 0
+  ) {
+    // create dummy component based on below informing user there are no favourites yet
+    return null;
+  }
 
   return (
     <ContainerWrapper>
-      <Header>{formatMessage()}</Header>
+      <Header>Favourite Workouts</Header>
       <FlatList
+        keyExtractor={item => item}
         contentContainerStyle={{paddingBottom: 200}}
-        data={exerciseData}
+        data={favouriteTokens}
         renderItem={({index, item}) => (
-          <ExerciseItem
-            item={item}
-            isLastItem={index === exerciseData.length - 1}
-          />
+          <Button
+            onPress={() =>
+              navigation.push('SavedWorkouts', {
+                token: favouriteTokens[index],
+                title: workoutNames.find((x: any) => x.token === item)?.title,
+              })
+            }>
+            <ButtonText>
+              {workoutNames.find((x: any) => x.token === item)?.title}
+            </ButtonText>
+          </Button>
         )}
-        keyExtractor={item => item.id}
       />
       <ButtonWrapper>
-        <Button onPress={() => navigation.push('Workouts')}>
-          <ButtonText>Start Workout</ButtonText>
-        </Button>
-        <Button onPress={onPress}>
-          <ButtonText>Regenerate</ButtonText>
+        <Button onPress={() => navigation.push('Root')}>
+          <ButtonText>Home</ButtonText>
         </Button>
       </ButtonWrapper>
     </ContainerWrapper>

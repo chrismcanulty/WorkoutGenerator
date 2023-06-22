@@ -1,12 +1,13 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {StyleSheet, View} from 'react-native';
-import React, {useContext, useState} from 'react';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
 import warnings from '../utils/warnings';
 import {UserContext} from '../context/User.Context';
 import {MultipleSelectList} from '../component/MultipleSelectList';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -53,12 +54,17 @@ const ContainerWrapper = styled.ScrollView`
   background-color: white;
   height: 100%;
 `;
+const SpinnerWrapper = styled.View`
+  background-color: white;
+  flex: 1;
+  justify-content: center;
+  align-item: center;
+`;
 
 export default function HomeScreen({navigation}: NativeStackHeaderProps) {
-  const {muscleGroup, selectedMuscles, setSelectedMuscles} =
+  const {muscleGroup, selectedMuscles, setSelectedMuscles, loading} =
     useContext(UserContext);
   const [warning, setWarning] = useState(false);
-
   // Clear onboarding function and button - keep for testing purposes to test onboarding flow
   // const clearOnboarding = async () => {
   //   try {
@@ -80,11 +86,19 @@ export default function HomeScreen({navigation}: NativeStackHeaderProps) {
 
   const onPress = function () {
     if (selectedMuscles.length > 0) {
-      navigation.navigate('Equipment');
+      navigation.push('Equipment');
     } else if (selectedMuscles.length === 0) {
       setWarning(true);
     }
   };
+
+  if (loading) {
+    return (
+      <SpinnerWrapper>
+        <ActivityIndicator size="small" color="#0000ff" />
+      </SpinnerWrapper>
+    );
+  }
 
   return (
     <>
