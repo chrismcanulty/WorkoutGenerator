@@ -100,9 +100,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const {exerciseData, clearWorkout, workout, title, setTitle} =
     useContext(UserContext);
 
-  // add code to onConfirm function to warn user if there are already max number of workouts
-  // need to retrieve number of workouts from UserContext
-
   const onConfirm = async () => {
     if (text.length < 3) {
       setMinCharWarning(true);
@@ -223,8 +220,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       let values = await getFavouriteTokens();
       let updatedFavourites = [...values];
       // remove oldest workout token from array if there are too many favourite workouts
-      // for now set to three for simplicity
-      if (updatedFavourites.length >= 3) {
+      if (updatedFavourites.length >= 10) {
         updatedFavourites.shift();
         // also need to remove excess exerise list/workouts
       }
@@ -256,11 +252,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       // saving error
     }
   };
-
-  // 1. confirm with user that oldest workout will be overwritten and provide option to abort
-  // in case max number of workouts has been reached
-  // 2. add limit to number of characters and conditionally render warning message,
-  // prevent user from saving workout name that is too long
 
   return (
     <ContainerWrapper>
