@@ -95,6 +95,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [workoutSaved, setWorkoutSaved] = useState(false);
   const [addFavouritesVisible, setAddFavouritesVisible] = useState(true);
   const [minCharWarning, setMinCharWarning] = useState(false);
+  const [maxCharWarning, setMaxCharWarning] = useState(false);
   const [text, onChangeText] = useState('');
   const {exerciseData, clearWorkout, workout, title, setTitle} =
     useContext(UserContext);
@@ -103,10 +104,12 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   // need to retrieve number of workouts from UserContext
 
   const onConfirm = async () => {
-    setTitle(text);
     if (text.length < 3) {
       setMinCharWarning(true);
-    } else if (text.length >= 3) {
+    } else if (text.length >= 30) {
+      setMaxCharWarning(true);
+    } else if (text.length >= 3 && text.length < 30) {
+      setTitle(text);
       try {
         let values = await getFavouriteTokens();
         if (values.length >= 3) {
@@ -147,13 +150,16 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   const modalPopup = () => {
     const titleText = text || 'My workout';
-    setTitle(titleText);
+    if (titleText.length >= 3 && titleText.length < 30) {
+      setTitle(titleText);
+    }
     setModalVisible(true);
   };
 
   const onCancel = () => {
     setModalVisible(false);
     setMinCharWarning(false);
+    setMaxCharWarning(false);
   };
 
   const getFavouriteTokens = async () => {
@@ -275,6 +281,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
               <ButtonText>Cancel</ButtonText>
             </Button>
             {minCharWarning && <Warning>{warnings[3]}</Warning>}
+            {maxCharWarning && <Warning>{warnings[4]}</Warning>}
           </InnerModalView>
         </OuterModalView>
       </Modal>

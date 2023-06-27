@@ -3,6 +3,7 @@ const warnings = {
   '1': 'Please indicate what equipment you have available',
   '2': 'Please enter a valid number of exercises',
   '3': 'Please enter at least three characters',
+  '4': 'Please enter less than 30 characters',
 };
 
 export default warnings;
