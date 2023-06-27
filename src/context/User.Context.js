@@ -140,10 +140,6 @@ const UserProvider = ({children}) => {
     setFavouriteWorkoutData(tempWorkout);
   };
 
-  // need to add error handling - before setting reps and weight to tempworkout,
-  // check whether user input is a number - if not, do not allow state changes
-  // and display an error message
-
   // add logic to remove trailing zeroes
 
   const editSet = ({row, index, workoutId, reps, weight}) => {
@@ -246,12 +242,7 @@ const UserProvider = ({children}) => {
     storeWorkoutData(tempWorkout);
   };
 
-  // reset state related to selected muscles, equipment, reps, workout, etc
-  // then navigate back to home screen
-
   const clearWorkout = ({navigation}) => {
-    // unable to update state within this function directly - need to research another way
-    // to revert to initial state for muscles, equipment, reps and workout
     setLoading(true);
     setWorkout({});
     setSelectedMuscles([]);

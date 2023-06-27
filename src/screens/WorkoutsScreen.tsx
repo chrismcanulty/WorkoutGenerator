@@ -6,6 +6,7 @@ import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CompleteIcon from 'react-native-vector-icons/FontAwesome5';
+import warnings from '../utils/warnings';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -77,35 +78,91 @@ const ModalTextInput = styled.TextInput`
 const ModalView = styled.View`
   padding: 10px;
 `;
+const Warning = styled.Text`
+  border: 2px solid red;
+  border-radius: 10px;
+  color: red;
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  margin: 20px;
+  margin-top: 0px;
+  padding: 10px;
+  text-align: center;
+`;
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [workoutSaved, setWorkoutSaved] = useState(false);
   const [addFavouritesVisible, setAddFavouritesVisible] = useState(true);
+  const [warning, setWarning] = useState('');
   const [text, onChangeText] = useState('');
   const {exerciseData, clearWorkout, workout, title, setTitle} =
     useContext(UserContext);
 
   const onConfirm = async () => {
-    setTitle(text);
-    await saveToken();
-    setModalVisible(false);
-    setWorkoutSaved(true);
-    setAddFavouritesVisible(false);
+    if (text.length < 3) {
+      setWarning('3');
+    } else if (text.length >= 20) {
+      setWarning('4');
+    } else if (text.length >= 3 && text.length < 20) {
+      setTitle(text);
+      try {
+        let values = await getFavouriteTokens();
+        if (values.length >= 10) {
+          createTwoButtonAlert();
+        } else {
+          try {
+            await saveToken();
+            setModalVisible(false);
+            setWorkoutSaved(true);
+            setAddFavouritesVisible(false);
+          } catch (e) {
+            // read error
+          }
+        }
+      } catch (e) {
+        // read error
+      }
+    }
   };
 
   const closeConfirm = () => {
     setWorkoutSaved(false);
   };
 
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      'Max Favourites Reached',
+      'Ok to overwrite oldest favourite workout?',
+      [
+        {
+          text: 'OK',
+          onPress: async () => {
+            await saveToken();
+            setModalVisible(false);
+            setWorkoutSaved(true);
+            setAddFavouritesVisible(false);
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+    );
+
   const modalPopup = () => {
     const titleText = text || 'My workout';
-    setTitle(titleText);
+    if (titleText.length >= 3 && titleText.length < 20) {
+      setTitle(titleText);
+    }
     setModalVisible(true);
   };
 
   const onCancel = () => {
     setModalVisible(false);
+    setWarning('');
   };
 
   const getFavouriteTokens = async () => {
@@ -145,7 +202,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     try {
       let values = await getWorkoutNames();
       let updatedWorkoutNames = [...values];
-      if (updatedWorkoutNames.length >= 3) {
+      if (updatedWorkoutNames.length >= 10) {
         updatedWorkoutNames.shift();
       }
 
@@ -161,10 +218,8 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       let values = await getFavouriteTokens();
       let updatedFavourites = [...values];
       // remove oldest workout token from array if there are too many favourite workouts
-      // for now set to three for simplicity
-      if (updatedFavourites.length >= 3) {
+      if (updatedFavourites.length >= 10) {
         updatedFavourites.shift();
-        // also need to remove excess exerise list/workouts
       }
       // add new favourite workout token to the list
       updatedFavourites.push(newFavouriteToken);
@@ -195,11 +250,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
-  // 1. confirm with user that oldest workout will be overwritten and provide option to abort
-  // in case max number of workouts has been reached
-  // 2. add limit to number of characters and conditionally render warning message,
-  // prevent user from saving workout name that is too long
-
   return (
     <ContainerWrapper>
       <Modal
@@ -226,6 +276,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
             <Button onPress={onCancel}>
               <ButtonText>Cancel</ButtonText>
             </Button>
+            {warning && <Warning>{warnings[warning]}</Warning>}
           </InnerModalView>
         </OuterModalView>
       </Modal>
@@ -268,11 +319,11 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         )}
       />
       <ButtonWrapper>
-        {/* {addFavouritesVisible && ( */}
-        <Button onPress={modalPopup}>
-          <ButtonText>Add to favourites</ButtonText>
-        </Button>
-        {/* )} */}
+        {addFavouritesVisible && (
+          <Button onPress={modalPopup}>
+            <ButtonText>Add to favourites</ButtonText>
+          </Button>
+        )}
         <Button
           onPress={() => {
             clearWorkout({navigation});
