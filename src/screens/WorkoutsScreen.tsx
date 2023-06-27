@@ -109,7 +109,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       setTitle(text);
       try {
         let values = await getFavouriteTokens();
-        if (values.length >= 3) {
+        if (values.length >= 10) {
           createTwoButtonAlert();
         } else {
           try {
@@ -204,7 +204,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     try {
       let values = await getWorkoutNames();
       let updatedWorkoutNames = [...values];
-      if (updatedWorkoutNames.length >= 3) {
+      if (updatedWorkoutNames.length >= 10) {
         updatedWorkoutNames.shift();
       }
 
@@ -222,7 +222,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       // remove oldest workout token from array if there are too many favourite workouts
       if (updatedFavourites.length >= 10) {
         updatedFavourites.shift();
-        // also need to remove excess exerise list/workouts
       }
       // add new favourite workout token to the list
       updatedFavourites.push(newFavouriteToken);
@@ -323,11 +322,11 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
         )}
       />
       <ButtonWrapper>
-        {/* {addFavouritesVisible && ( */}
-        <Button onPress={modalPopup}>
-          <ButtonText>Add to favourites</ButtonText>
-        </Button>
-        {/* )} */}
+        {addFavouritesVisible && (
+          <Button onPress={modalPopup}>
+            <ButtonText>Add to favourites</ButtonText>
+          </Button>
+        )}
         <Button
           onPress={() => {
             clearWorkout({navigation});
