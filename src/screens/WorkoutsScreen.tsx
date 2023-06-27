@@ -6,6 +6,7 @@ import {UserContext} from '../context/User.Context';
 import WorkoutExercise from '../component/WorkoutExercise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CompleteIcon from 'react-native-vector-icons/FontAwesome5';
+import warnings from '../utils/warnings';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -77,26 +78,72 @@ const ModalTextInput = styled.TextInput`
 const ModalView = styled.View`
   padding: 10px;
 `;
+const Warning = styled.Text`
+  border: 2px solid red;
+  border-radius: 10px;
+  color: red;
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  margin: 20px;
+  margin-top: 0px;
+  padding: 10px;
+  text-align: center;
+`;
 
 export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [workoutSaved, setWorkoutSaved] = useState(false);
   const [addFavouritesVisible, setAddFavouritesVisible] = useState(true);
+  const [minCharWarning, setMinCharWarning] = useState(false);
   const [text, onChangeText] = useState('');
   const {exerciseData, clearWorkout, workout, title, setTitle} =
     useContext(UserContext);
 
+  // add code to onConfirm function to warn user if there are already max number of workouts
+  // need to retrieve number of workouts from UserContext
+
   const onConfirm = async () => {
     setTitle(text);
-    await saveToken();
-    setModalVisible(false);
-    setWorkoutSaved(true);
-    setAddFavouritesVisible(false);
+    if (text.length < 3) {
+      setMinCharWarning(true);
+    } else if (text.length >= 3) {
+      try {
+        let values = await getFavouriteTokens();
+        if (values.length >= 3) {
+          createTwoButtonAlert();
+        } else {
+          try {
+            await saveToken();
+            setModalVisible(false);
+            setWorkoutSaved(true);
+            setAddFavouritesVisible(false);
+          } catch (e) {
+            // read error
+          }
+        }
+      } catch (e) {
+        // read error
+      }
+    }
   };
 
   const closeConfirm = () => {
     setWorkoutSaved(false);
   };
+
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      'Max Favourites Reached',
+      'Ok to overwrite oldest favourite workout?',
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+    );
 
   const modalPopup = () => {
     const titleText = text || 'My workout';
@@ -106,6 +153,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   const onCancel = () => {
     setModalVisible(false);
+    setMinCharWarning(false);
   };
 
   const getFavouriteTokens = async () => {
@@ -226,6 +274,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
             <Button onPress={onCancel}>
               <ButtonText>Cancel</ButtonText>
             </Button>
+            {minCharWarning && <Warning>{warnings[3]}</Warning>}
           </InnerModalView>
         </OuterModalView>
       </Modal>
