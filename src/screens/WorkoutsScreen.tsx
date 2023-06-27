@@ -94,17 +94,16 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [workoutSaved, setWorkoutSaved] = useState(false);
   const [addFavouritesVisible, setAddFavouritesVisible] = useState(true);
-  const [minCharWarning, setMinCharWarning] = useState(false);
-  const [maxCharWarning, setMaxCharWarning] = useState(false);
+  const [warning, setWarning] = useState('');
   const [text, onChangeText] = useState('');
   const {exerciseData, clearWorkout, workout, title, setTitle} =
     useContext(UserContext);
 
   const onConfirm = async () => {
     if (text.length < 3) {
-      setMinCharWarning(true);
+      setWarning('3');
     } else if (text.length >= 20) {
-      setMaxCharWarning(true);
+      setWarning('4');
     } else if (text.length >= 3 && text.length < 20) {
       setTitle(text);
       try {
@@ -163,8 +162,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   const onCancel = () => {
     setModalVisible(false);
-    setMinCharWarning(false);
-    setMaxCharWarning(false);
+    setWarning('');
   };
 
   const getFavouriteTokens = async () => {
@@ -278,8 +276,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
             <Button onPress={onCancel}>
               <ButtonText>Cancel</ButtonText>
             </Button>
-            {minCharWarning && <Warning>{warnings[3]}</Warning>}
-            {maxCharWarning && <Warning>{warnings[4]}</Warning>}
+            {warning && <Warning>{warnings[warning]}</Warning>}
           </InnerModalView>
         </OuterModalView>
       </Modal>
