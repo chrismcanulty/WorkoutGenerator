@@ -106,9 +106,9 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const onConfirm = async () => {
     if (text.length < 3) {
       setMinCharWarning(true);
-    } else if (text.length >= 30) {
+    } else if (text.length >= 20) {
       setMaxCharWarning(true);
-    } else if (text.length >= 3 && text.length < 30) {
+    } else if (text.length >= 3 && text.length < 20) {
       setTitle(text);
       try {
         let values = await getFavouriteTokens();
@@ -139,7 +139,15 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       'Max Favourites Reached',
       'Ok to overwrite oldest favourite workout?',
       [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        {
+          text: 'OK',
+          onPress: async () => {
+            await saveToken();
+            setModalVisible(false);
+            setWorkoutSaved(true);
+            setAddFavouritesVisible(false);
+          },
+        },
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
@@ -150,7 +158,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
 
   const modalPopup = () => {
     const titleText = text || 'My workout';
-    if (titleText.length >= 3 && titleText.length < 30) {
+    if (titleText.length >= 3 && titleText.length < 20) {
       setTitle(titleText);
     }
     setModalVisible(true);
