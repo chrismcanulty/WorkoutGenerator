@@ -1,19 +1,19 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import React, {useEffect, useContext} from 'react';
-import {FlatList, Dimensions, ActivityIndicator} from 'react-native';
+import {
+  FlatList,
+  Dimensions,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import {BorderBottom} from '../../types/data';
+import DeleteIcon from 'react-native-vector-icons/FontAwesome5';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
   padding: 10px;
-`;
-const ExerciseView = styled.View<BorderBottom>`
-  border-color: rgb(230, 230, 230);
-  border-top-width: 1px;
-  padding-bottom: 10px;
-  border-bottom-width: ${props => props.borderBottom}px;
 `;
 const ButtonText = styled.Text`
   border: 2px rgb(230, 230, 230);
@@ -49,6 +49,9 @@ const Header = styled.Text`
   padding: 18px;
   text-align: center;
 `;
+const InvisibleView = styled.View`
+  margin-right: 45px;
+`;
 const LoadingView = styled.View`
   margin-top: ${Dimensions.get('window').height * 0.15}px;
 `;
@@ -56,14 +59,17 @@ const TitleView = styled.View<BorderBottom>`
   border-color: rgb(230, 230, 230);
   border-top-width: 1px;
   border-bottom-width: ${props => props.borderBottom}px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 const TitleText = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Regular';
   font-size: 24px;
-  padding-bottom: 20px;
-  padding-top: 20px;
-  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 30px;
 `;
 
 export default function FavouriteWorkoutsList({
@@ -79,6 +85,10 @@ export default function FavouriteWorkoutsList({
     workoutNames,
     loadingFavourites,
   } = useContext(UserContext);
+
+  const onDelete = () => {
+    console.log('delete');
+  };
 
   useEffect(() => {
     getFavouriteTokens();
@@ -135,6 +145,14 @@ export default function FavouriteWorkoutsList({
               <TitleText>
                 {workoutNames.find((x: any) => x.token === item)?.title}
               </TitleText>
+              <TouchableOpacity onPress={onDelete} style={{}}>
+                <DeleteIcon
+                  name="trash"
+                  size={20}
+                  color={'rgb(169,169,169)'}
+                  style={{marginTop: 20, marginBottom: 20, marginRight: 25}}
+                />
+              </TouchableOpacity>
             </TitleView>
           </FavouriteButton>
         )}
