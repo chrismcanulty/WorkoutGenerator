@@ -3,10 +3,17 @@ import React, {useEffect, useContext} from 'react';
 import {FlatList, Dimensions, ActivityIndicator} from 'react-native';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
+import {BorderBottom} from '../../types/data';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
   padding: 10px;
+`;
+const ExerciseView = styled.View<BorderBottom>`
+  border-color: rgb(230, 230, 230);
+  border-top-width: 1px;
+  padding-bottom: 10px;
+  border-bottom-width: ${props => props.borderBottom}px;
 `;
 const ButtonText = styled.Text`
   border: 2px rgb(230, 230, 230);
@@ -30,6 +37,9 @@ const ContainerWrapper = styled.SafeAreaView`
   background-color: white;
   flex: 1;
 `;
+const FavouriteButton = styled.TouchableOpacity`
+  font-size: 24px;
+`;
 const Header = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
@@ -41,6 +51,19 @@ const Header = styled.Text`
 `;
 const LoadingView = styled.View`
   margin-top: ${Dimensions.get('window').height * 0.15}px;
+`;
+const TitleView = styled.View<BorderBottom>`
+  border-color: rgb(230, 230, 230);
+  border-top-width: 1px;
+  border-bottom-width: ${props => props.borderBottom}px;
+`;
+const TitleText = styled.Text`
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 24px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  text-align: center;
 `;
 
 export default function FavouriteWorkoutsList({
@@ -100,17 +123,20 @@ export default function FavouriteWorkoutsList({
         contentContainerStyle={{paddingBottom: 200}}
         data={favouriteTokens}
         renderItem={({index, item}) => (
-          <Button
+          <FavouriteButton
             onPress={() =>
               navigation.push('SavedWorkouts', {
                 token: favouriteTokens[index],
                 title: workoutNames.find((x: any) => x.token === item)?.title,
               })
             }>
-            <ButtonText>
-              {workoutNames.find((x: any) => x.token === item)?.title}
-            </ButtonText>
-          </Button>
+            <TitleView
+              borderBottom={index === favouriteTokens.length - 1 ? 1 : 0}>
+              <TitleText>
+                {workoutNames.find((x: any) => x.token === item)?.title}
+              </TitleText>
+            </TitleView>
+          </FavouriteButton>
         )}
       />
       <ButtonWrapper>
