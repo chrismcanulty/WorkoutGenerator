@@ -1,6 +1,7 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {FlatList} from 'react-native';
+import {FlatList, Dimensions} from 'react-native';
 import React, {useContext, useEffect} from 'react';
+import {ActivityIndicator} from 'react-native';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import ExerciseItem from '../component/ExerciseItem';
@@ -40,9 +41,13 @@ const Header = styled.Text`
   padding: 18px;
   text-align: center;
 `;
+const LoadingView = styled.View`
+  margin-top: ${Dimensions.get('window').height * 0.15}px;
+`;
 
 export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
-  const {exerciseData, fetchExercises} = useContext(UserContext);
+  const {exerciseData, fetchExercises, loadingExercises} =
+    useContext(UserContext);
 
   const formatMessage = function () {
     if (!exerciseData) {
@@ -61,6 +66,17 @@ export default function GenerationScreen({navigation}: NativeStackHeaderProps) {
   useEffect(() => {
     fetchExercises();
   }, []);
+
+  if (loadingExercises) {
+    return (
+      <ContainerWrapper>
+        <Header>Generating...</Header>
+        <LoadingView>
+          <ActivityIndicator size="large" />
+        </LoadingView>
+      </ContainerWrapper>
+    );
+  }
 
   return (
     <ContainerWrapper>

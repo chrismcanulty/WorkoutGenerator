@@ -21,7 +21,7 @@ const ButtonText = styled.Text`
 `;
 const ButtonWrapper = styled.View`
   background-color: white;
-  bottom: 5px;
+  bottom: 0px;
   position: absolute;
   width: 100%;
   flex: 1;
