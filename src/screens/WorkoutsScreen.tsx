@@ -6,6 +6,7 @@ import {
   Modal,
   View,
   KeyboardAvoidingView,
+  Text,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
@@ -42,6 +43,37 @@ const ContainerWrapper = styled.SafeAreaView`
   background-color: white;
   flex: 1;
 `;
+const CreateWorkoutSeparator = styled.View`
+  border-color: rgb(230, 230, 230);
+  border-left-width: 1px;
+`;
+const CancelCreateWorkoutText = styled.Text`
+  border-color: rgb(230, 230, 230);
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Regular';
+  font-size: 20px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  text-align: center;
+`;
+const CreateWorkoutText = styled.Text`
+  border-color: rgb(230, 230, 230);
+  color: rgb(38, 38, 38);
+  font-family: 'Montserrat-Bold';
+  font-size: 20px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  text-align: center;
+`;
+const CreateWorkoutView = styled.View`
+  border-color: rgb(230, 230, 230);
+  border-top-width: 1px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  position: relative;
+`;
 const Header = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
@@ -54,7 +86,7 @@ const Header = styled.Text`
 const InnerModalView = styled.View`
   background-color: #fff;
   border-radius: 15px;
-  height: ${Dimensions.get('window').height * 0.5}px;
+  height: ${Dimensions.get('window').height * 0.3}px;
   padding: 10px;
   width: ${Dimensions.get('window').width * 0.9}px;
 `;
@@ -69,7 +101,7 @@ const ModalHeader = styled.Text`
   font-family: 'Montserrat-Bold';
   font-size: 24px;
   margin: 20px;
-  padding: 18px;
+  padding: 10px;
   text-align: center;
 `;
 const ModalTextInput = styled.TextInput`
@@ -275,25 +307,34 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
             Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
-          <OuterModalView>
-            <InnerModalView>
-              <ModalHeader>Input workout name</ModalHeader>
-              <ModalView>
-                <ModalTextInput
-                  onChangeText={onChangeText}
-                  value={text}
-                  placeholder="My workout"
-                />
-              </ModalView>
-              <Button onPress={onConfirm}>
-                <ButtonText>Confirm</ButtonText>
-              </Button>
-              <Button onPress={onCancel}>
-                <ButtonText>Cancel</ButtonText>
-              </Button>
-              {warning && <Warning>{warnings[warning]}</Warning>}
-            </InnerModalView>
-          </OuterModalView>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={height}
+            behavior="padding"
+            style={{flex: 1}}
+            enabled>
+            <OuterModalView>
+              <InnerModalView>
+                <ModalHeader>Input workout name</ModalHeader>
+                <ModalView>
+                  <ModalTextInput
+                    onChangeText={onChangeText}
+                    value={text}
+                    placeholder="My workout"
+                  />
+                </ModalView>
+                <CreateWorkoutView>
+                  <Button onPress={onConfirm}>
+                    <CreateWorkoutText>Create</CreateWorkoutText>
+                  </Button>
+                  <CreateWorkoutSeparator />
+                  <Button onPress={onCancel}>
+                    <CancelCreateWorkoutText>Cancel</CancelCreateWorkoutText>
+                  </Button>
+                </CreateWorkoutView>
+                {warning && <Warning>{warnings[warning]}</Warning>}
+              </InnerModalView>
+            </OuterModalView>
+          </KeyboardAvoidingView>
         </Modal>
         <Modal
           animationType="fade"
