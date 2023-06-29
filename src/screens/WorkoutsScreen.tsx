@@ -257,6 +257,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       // saving error
     }
   };
+
   const height = useHeaderHeight();
 
   return (
