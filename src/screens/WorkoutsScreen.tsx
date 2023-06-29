@@ -6,7 +6,6 @@ import {
   Modal,
   View,
   KeyboardAvoidingView,
-  Text,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
