@@ -1,5 +1,12 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {Alert, Dimensions, FlatList, Modal, View} from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  Modal,
+  View,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
@@ -7,6 +14,7 @@ import WorkoutExercise from '../component/WorkoutExercise';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CompleteIcon from 'react-native-vector-icons/FontAwesome5';
 import warnings from '../utils/warnings';
+import {useHeaderHeight} from '@react-navigation/elements';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -249,88 +257,95 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       // saving error
     }
   };
+  const height = useHeaderHeight();
 
   return (
     <ContainerWrapper>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <OuterModalView>
-          <InnerModalView>
-            <ModalHeader>Input workout name</ModalHeader>
-            <ModalView>
-              <ModalTextInput
-                onChangeText={onChangeText}
-                value={text}
-                placeholder="My workout"
-              />
-            </ModalView>
-            <Button onPress={onConfirm}>
-              <ButtonText>Confirm</ButtonText>
-            </Button>
-            <Button onPress={onCancel}>
-              <ButtonText>Cancel</ButtonText>
-            </Button>
-            {warning && <Warning>{warnings[warning]}</Warning>}
-          </InnerModalView>
-        </OuterModalView>
-      </Modal>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={workoutSaved}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setWorkoutSaved(!workoutSaved);
-        }}>
-        <OuterModalView>
-          <InnerModalView>
-            <ModalHeader>New Workout {`'${title}'`} Saved!</ModalHeader>
-            <View style={{flex: 1, alignItems: 'center'}}>
-              <CompleteIcon
-                name="check-circle"
-                size={Dimensions.get('window').height * 0.175}
-                color={'green'}
-              />
-            </View>
-            <Button onPress={closeConfirm}>
-              <ButtonText>Ok</ButtonText>
-            </Button>
-          </InnerModalView>
-        </OuterModalView>
-      </Modal>
-      <Header>{title}</Header>
-      <FlatList
-        keyExtractor={item => item.id}
-        contentContainerStyle={{paddingBottom: 200}}
-        data={exerciseData}
-        renderItem={({index, item}) => (
-          <WorkoutExercise
-            key={+item.id}
-            workoutId={+item.id}
-            item={item}
-            isLastItem={index === exerciseData.length - 1}
-          />
-        )}
-      />
-      <ButtonWrapper>
-        {addFavouritesVisible && (
-          <Button onPress={modalPopup}>
-            <ButtonText>Add to favourites</ButtonText>
-          </Button>
-        )}
-        <Button
-          onPress={() => {
-            clearWorkout({navigation});
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={height}
+        behavior="padding"
+        style={{flex: 1}}
+        enabled>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
           }}>
-          <ButtonText>Complete Workout</ButtonText>
-        </Button>
-      </ButtonWrapper>
+          <OuterModalView>
+            <InnerModalView>
+              <ModalHeader>Input workout name</ModalHeader>
+              <ModalView>
+                <ModalTextInput
+                  onChangeText={onChangeText}
+                  value={text}
+                  placeholder="My workout"
+                />
+              </ModalView>
+              <Button onPress={onConfirm}>
+                <ButtonText>Confirm</ButtonText>
+              </Button>
+              <Button onPress={onCancel}>
+                <ButtonText>Cancel</ButtonText>
+              </Button>
+              {warning && <Warning>{warnings[warning]}</Warning>}
+            </InnerModalView>
+          </OuterModalView>
+        </Modal>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={workoutSaved}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setWorkoutSaved(!workoutSaved);
+          }}>
+          <OuterModalView>
+            <InnerModalView>
+              <ModalHeader>New Workout {`'${title}'`} Saved!</ModalHeader>
+              <View style={{flex: 1, alignItems: 'center'}}>
+                <CompleteIcon
+                  name="check-circle"
+                  size={Dimensions.get('window').height * 0.175}
+                  color={'green'}
+                />
+              </View>
+              <Button onPress={closeConfirm}>
+                <ButtonText>Ok</ButtonText>
+              </Button>
+            </InnerModalView>
+          </OuterModalView>
+        </Modal>
+        <Header>{title}</Header>
+        <FlatList
+          keyExtractor={item => item.id}
+          contentContainerStyle={{paddingBottom: 200}}
+          data={exerciseData}
+          renderItem={({index, item}) => (
+            <WorkoutExercise
+              key={+item.id}
+              workoutId={+item.id}
+              item={item}
+              isLastItem={index === exerciseData.length - 1}
+            />
+          )}
+        />
+        <ButtonWrapper>
+          {addFavouritesVisible && (
+            <Button onPress={modalPopup}>
+              <ButtonText>Add to favourites</ButtonText>
+            </Button>
+          )}
+          <Button
+            onPress={() => {
+              clearWorkout({navigation});
+            }}>
+            <ButtonText>Complete Workout</ButtonText>
+          </Button>
+        </ButtonWrapper>
+      </KeyboardAvoidingView>
     </ContainerWrapper>
   );
 }
