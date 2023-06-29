@@ -24,15 +24,19 @@ const UserProvider = ({children}) => {
   const [title, setTitle] = useState('My workout');
   const [workoutNames, setWorkoutNames] = useState([]);
   const [loadingExercises, setLoadingExercises] = useState(false);
+  const [loadingFavourites, setLoadingFavourites] = useState(true);
 
   const getFavouriteTokens = async () => {
+    setLoadingFavourites(true);
     try {
       let values = await AsyncStorage.getItem('@favourite-token');
       if (values !== null) {
         const tokens = JSON.parse(values);
         setFavouriteTokens(tokens);
+        setLoadingFavourites(false);
         return favouriteTokens;
       }
+      setLoadingFavourites(false);
       return [];
     } catch (e) {
       // read error
@@ -330,6 +334,7 @@ const UserProvider = ({children}) => {
           setWorkoutNames,
           getWorkoutNames,
           loadingExercises,
+          loadingFavourites,
         }}>
         {children}
       </UserContext.Provider>
