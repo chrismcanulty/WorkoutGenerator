@@ -5,6 +5,7 @@ import {
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
@@ -49,9 +50,6 @@ const Header = styled.Text`
   padding: 18px;
   text-align: center;
 `;
-const InvisibleView = styled.View`
-  margin-right: 45px;
-`;
 const LoadingView = styled.View`
   margin-top: ${Dimensions.get('window').height * 0.15}px;
 `;
@@ -86,9 +84,76 @@ export default function FavouriteWorkoutsList({
     loadingFavourites,
   } = useContext(UserContext);
 
+  // use saveToken function for reference
+  // determine which favourite is being referenced based on name and token number
+  // create new variable with spread operator as a copy of currently existing token and name
+  // delete in place the referenced token and names from respective data structures
+  // set the updated data to each respective state
+  // set data stored in states to Async storage
+  // once functionality is confirmed, create an 'are you sure' iOS popup similar to creating new favourite
+
   const onDelete = () => {
     console.log('delete');
   };
+
+  // const saveToken = async () => {
+  //   const randomToken = () => {
+  //     return Date.now() + Math.random();
+  //   };
+
+  //   const newFavouriteToken = randomToken();
+  //   setTitle(text);
+
+  //   try {
+  //     let values = await getWorkoutNames();
+  //     let updatedWorkoutNames = [...values];
+  //     if (updatedWorkoutNames.length >= 10) {
+  //       updatedWorkoutNames.shift();
+  //     }
+
+  //     updatedWorkoutNames.push({token: newFavouriteToken, title: text});
+  //     const jsonValue = JSON.stringify(updatedWorkoutNames);
+  //     await AsyncStorage.setItem('@workout-names', jsonValue);
+  //   } catch (e) {
+  //     // saving error
+  //   }
+
+  //   try {
+  //     // first get favourite tokens stored in async storage, if any
+  //     let values = await getFavouriteTokens();
+  //     let updatedFavourites = [...values];
+  //     // remove oldest workout token from array if there are too many favourite workouts
+  //     if (updatedFavourites.length >= 10) {
+  //       updatedFavourites.shift();
+  //     }
+  //     // add new favourite workout token to the list
+  //     updatedFavourites.push(newFavouriteToken);
+  //     const jsonValue = JSON.stringify(updatedFavourites);
+  //     await AsyncStorage.setItem('@favourite-token', jsonValue);
+  //     try {
+  //       const exerciseJson = JSON.stringify(exerciseData);
+  //       await AsyncStorage.setItem(
+  //         `@exercise_key-${newFavouriteToken}`,
+  //         exerciseJson,
+  //       );
+
+  //       try {
+  //         const workoutJson = JSON.stringify(workout);
+
+  //         await AsyncStorage.setItem(
+  //           `@workout_key-${newFavouriteToken}`,
+  //           workoutJson,
+  //         );
+  //       } catch (e) {
+  //         // saving error
+  //       }
+  //     } catch (e) {
+  //       // saving error
+  //     }
+  //   } catch (e) {
+  //     // saving error
+  //   }
+  // };
 
   useEffect(() => {
     getFavouriteTokens();
@@ -150,7 +215,7 @@ export default function FavouriteWorkoutsList({
                   name="trash"
                   size={20}
                   color={'rgb(169,169,169)'}
-                  style={{marginTop: 20, marginBottom: 20, marginRight: 25}}
+                  style={styles.delete}
                 />
               </TouchableOpacity>
             </TitleView>
@@ -165,3 +230,11 @@ export default function FavouriteWorkoutsList({
     </ContainerWrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  delete: {
+    marginTop: 20,
+    marginBottom: 20,
+    marginRight: 25,
+  },
+});
