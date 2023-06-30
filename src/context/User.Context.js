@@ -24,7 +24,7 @@ const UserProvider = ({children}) => {
   const [title, setTitle] = useState('My workout');
   const [workoutNames, setWorkoutNames] = useState([]);
   const [loadingExercises, setLoadingExercises] = useState(false);
-  const [loadingFavourites, setLoadingFavourites] = useState(true);
+  const [loadingFavourites, setLoadingFavourites] = useState(false);
 
   const getFavouriteTokens = async () => {
     setLoadingFavourites(true);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect} from 'react';
 import {StatusBar} from 'react-native';
-import {useColorScheme, KeyboardAvoidingView} from 'react-native';
+import {useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 // import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
