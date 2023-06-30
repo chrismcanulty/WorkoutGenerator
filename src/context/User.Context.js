@@ -23,15 +23,20 @@ const UserProvider = ({children}) => {
   const [favouriteTokens, setFavouriteTokens] = useState([]);
   const [title, setTitle] = useState('My workout');
   const [workoutNames, setWorkoutNames] = useState([]);
+  const [loadingExercises, setLoadingExercises] = useState(false);
+  const [loadingFavourites, setLoadingFavourites] = useState(false);
 
   const getFavouriteTokens = async () => {
+    setLoadingFavourites(true);
     try {
       let values = await AsyncStorage.getItem('@favourite-token');
       if (values !== null) {
         const tokens = JSON.parse(values);
         setFavouriteTokens(tokens);
+        setLoadingFavourites(false);
         return favouriteTokens;
       }
+      setLoadingFavourites(false);
       return [];
     } catch (e) {
       // read error
@@ -262,18 +267,19 @@ const UserProvider = ({children}) => {
       'name',
     );
 
+    setLoadingExercises(true);
+
     try {
       const res = await axios.get(
         `https://wger.de/api/v2/exercise/?muscles=${muscleIds}&equipment=${equipmentIds}&language=2`,
       );
-
       // remove duplicates + limit returned results to user specified # of exercises, then set to state
-
       const filteredData = getUniqueListBy(res.data.results, 'id');
       const shuffledData = shuffleData(filteredData);
       const randomizedData = shuffledData.slice(0, numberOfExercises);
       setExerciseData(randomizedData);
       defaultExercises(randomizedData);
+      setLoadingExercises(false);
     } catch (err) {
       setErrorMessage(err);
     }
@@ -327,6 +333,8 @@ const UserProvider = ({children}) => {
           workoutNames,
           setWorkoutNames,
           getWorkoutNames,
+          loadingExercises,
+          loadingFavourites,
         }}>
         {children}
       </UserContext.Provider>

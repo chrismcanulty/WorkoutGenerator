@@ -1,10 +1,11 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import React, {useEffect, useContext, useState} from 'react';
-import {FlatList, Text} from 'react-native';
+import React, {useEffect, useContext} from 'react';
+import {FlatList, KeyboardAvoidingView} from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserContext} from '../context/User.Context';
 import FavouriteWorkout from '../component/FavouriteWorkout';
+import {useHeaderHeight} from '@react-navigation/elements';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -87,6 +88,8 @@ export default function SavedWorkouts({
     }
   };
 
+  const height = useHeaderHeight();
+
   useEffect(() => {
     getFavouriteTokens();
     getFavouriteExerciseData();
@@ -99,30 +102,36 @@ export default function SavedWorkouts({
 
   return (
     <ContainerWrapper>
-      <Header>{title}</Header>
-      <FlatList
-        keyExtractor={item => item.id}
-        contentContainerStyle={{paddingBottom: 200}}
-        data={favouriteExerciseData}
-        renderItem={({index, item}) => (
-          <FavouriteWorkout
-            favouriteWorkout={favouriteWorkoutData}
-            key={+item.id}
-            workoutId={+item.id}
-            item={item}
-            isLastItem={index === favouriteExerciseData.length - 1}
-          />
-        )}
-      />
-      <ButtonWrapper>
-        <Button
-          onPress={() => {
-            setFavouriteExerciseData([]);
-            navigation.push('Root');
-          }}>
-          <ButtonText>Home</ButtonText>
-        </Button>
-      </ButtonWrapper>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={height}
+        behavior="padding"
+        style={{flex: 1}}
+        enabled>
+        <Header>{title}</Header>
+        <FlatList
+          keyExtractor={item => item.id}
+          contentContainerStyle={{paddingBottom: 200}}
+          data={favouriteExerciseData}
+          renderItem={({index, item}) => (
+            <FavouriteWorkout
+              favouriteWorkout={favouriteWorkoutData}
+              key={+item.id}
+              workoutId={+item.id}
+              item={item}
+              isLastItem={index === favouriteExerciseData.length - 1}
+            />
+          )}
+        />
+        <ButtonWrapper>
+          <Button
+            onPress={() => {
+              setFavouriteExerciseData([]);
+              navigation.push('Root');
+            }}>
+            <ButtonText>Home</ButtonText>
+          </Button>
+        </ButtonWrapper>
+      </KeyboardAvoidingView>
     </ContainerWrapper>
   );
 }

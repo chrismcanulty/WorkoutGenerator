@@ -48,7 +48,9 @@ export const FilterMuscleGroup = ({
 
 export const ExerciseDetails = ({item}: {item: SequenceItem}) => {
   const filterText = (text: string) => {
-    return text.replace(/<[^>]*>?/gm, '');
+    return text
+      .replace(/<[^>]*(>|$)|&nbsp;|&zwnj;|&raquo;|&laquo;|&gt;/g, '')
+      .trim();
   };
   return <PopoverText>{filterText(item.description)}</PopoverText>;
 };
