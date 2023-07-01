@@ -6,11 +6,13 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import styled from 'styled-components/native';
 import {UserContext} from '../context/User.Context';
 import {BorderBottom} from '../../types/data';
 import DeleteIcon from 'react-native-vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
@@ -79,81 +81,61 @@ export default function FavouriteWorkoutsList({
   const {
     getFavouriteTokens,
     favouriteTokens,
+    setFavouriteTokens,
     getWorkoutNames,
     workoutNames,
+    setWorkoutNames,
     loadingFavourites,
   } = useContext(UserContext);
 
-  // use saveToken function for reference
-  // determine which favourite is being referenced based on name and token number
-  // create new variable with spread operator as a copy of currently existing token and name
-  // delete in place the referenced token and names from respective data structures
-  // set the updated data to each respective state
-  // set data stored in states to Async storage
-  // once functionality is confirmed, create an 'are you sure' iOS popup similar to creating new favourite
-
-  const onDelete = () => {
-    console.log('delete');
+  const deleteFavourite = async (index: number, item: any) => {
+    try {
+      // retrieve all workout names
+      let values = await getWorkoutNames();
+      let updatedWorkoutNames = [...values];
+      // delete workoutName : token key value pair by splicing in place in array, then save to async storage
+      updatedWorkoutNames.splice(index, 1);
+      const jsonValue = JSON.stringify(updatedWorkoutNames);
+      await AsyncStorage.setItem('@workout-names', jsonValue);
+      setWorkoutNames(updatedWorkoutNames);
+    } catch (e) {
+      // saving error
+    }
+    try {
+      let values = await getFavouriteTokens();
+      let updatedFavourites = [...values];
+      const tokenIndex = updatedFavourites.indexOf(+item);
+      // delete token by splicing in place in array, then save to async storage
+      updatedFavourites.splice(tokenIndex, 1);
+      const jsonValue = JSON.stringify(updatedFavourites);
+      await AsyncStorage.setItem('@favourite-token', jsonValue);
+      try {
+        await AsyncStorage.removeItem(`@exercise_key-${item}`);
+        await AsyncStorage.removeItem(`@workout_key-${item}`);
+        setFavouriteTokens(updatedFavourites);
+      } catch (e) {
+        // saving error
+      }
+    } catch (e) {
+      // saving error
+    }
   };
 
-  // const saveToken = async () => {
-  //   const randomToken = () => {
-  //     return Date.now() + Math.random();
-  //   };
-
-  //   const newFavouriteToken = randomToken();
-  //   setTitle(text);
-
-  //   try {
-  //     let values = await getWorkoutNames();
-  //     let updatedWorkoutNames = [...values];
-  //     if (updatedWorkoutNames.length >= 10) {
-  //       updatedWorkoutNames.shift();
-  //     }
-
-  //     updatedWorkoutNames.push({token: newFavouriteToken, title: text});
-  //     const jsonValue = JSON.stringify(updatedWorkoutNames);
-  //     await AsyncStorage.setItem('@workout-names', jsonValue);
-  //   } catch (e) {
-  //     // saving error
-  //   }
-
-  //   try {
-  //     // first get favourite tokens stored in async storage, if any
-  //     let values = await getFavouriteTokens();
-  //     let updatedFavourites = [...values];
-  //     // remove oldest workout token from array if there are too many favourite workouts
-  //     if (updatedFavourites.length >= 10) {
-  //       updatedFavourites.shift();
-  //     }
-  //     // add new favourite workout token to the list
-  //     updatedFavourites.push(newFavouriteToken);
-  //     const jsonValue = JSON.stringify(updatedFavourites);
-  //     await AsyncStorage.setItem('@favourite-token', jsonValue);
-  //     try {
-  //       const exerciseJson = JSON.stringify(exerciseData);
-  //       await AsyncStorage.setItem(
-  //         `@exercise_key-${newFavouriteToken}`,
-  //         exerciseJson,
-  //       );
-
-  //       try {
-  //         const workoutJson = JSON.stringify(workout);
-
-  //         await AsyncStorage.setItem(
-  //           `@workout_key-${newFavouriteToken}`,
-  //           workoutJson,
-  //         );
-  //       } catch (e) {
-  //         // saving error
-  //       }
-  //     } catch (e) {
-  //       // saving error
-  //     }
-  //   } catch (e) {
-  //     // saving error
-  //   }
-  // };
+  const onConfirm = (index: number, item: any) => {
+    Alert.alert('Delete Favourite', 'Ok to delete this workout?', [
+      {
+        text: 'OK',
+        onPress: async () => {
+          await deleteFavourite(index, item);
+        },
+      },
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+    ]);
+  };
 
   useEffect(() => {
     getFavouriteTokens();
@@ -210,7 +192,11 @@ export default function FavouriteWorkoutsList({
               <TitleText>
                 {workoutNames.find((x: any) => x.token === item)?.title}
               </TitleText>
-              <TouchableOpacity onPress={onDelete} style={{}}>
+              <TouchableOpacity
+                onPress={() => {
+                  onConfirm(index, item);
+                }}
+                style={{}}>
                 <DeleteIcon
                   name="trash"
                   size={20}
