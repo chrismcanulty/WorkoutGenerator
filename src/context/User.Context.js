@@ -335,6 +335,7 @@ const UserProvider = ({children}) => {
           getWorkoutNames,
           loadingExercises,
           loadingFavourites,
+          setLoadingFavourites,
         }}>
         {children}
       </UserContext.Provider>
