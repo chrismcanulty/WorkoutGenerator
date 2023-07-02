@@ -4,8 +4,8 @@ import {
   Dimensions,
   FlatList,
   Modal,
-  View,
   KeyboardAvoidingView,
+  StyleSheet,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import styled from 'styled-components/native';
@@ -37,6 +37,17 @@ const ButtonWrapper = styled.View`
   position: absolute;
   width: 100%;
   flex: 1;
+`;
+const CompleteIconView = styled.View`
+  align-items: center;
+  flex: 1;
+`;
+const ConfirmInnerModalView = styled.View`
+  background-color: #fff;
+  border-radius: 15px;
+  height: ${Dimensions.get('window').height * 0.45}px;
+  padding: 10px;
+  width: ${Dimensions.get('window').width * 0.9}px;
 `;
 const ContainerWrapper = styled.SafeAreaView`
   background-color: white;
@@ -296,7 +307,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
       <KeyboardAvoidingView
         keyboardVerticalOffset={height}
         behavior="padding"
-        style={{flex: 1}}
+        style={styles.keyboardAvoidingView}
         enabled>
         <Modal
           animationType="fade"
@@ -309,7 +320,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
           <KeyboardAvoidingView
             keyboardVerticalOffset={height}
             behavior="padding"
-            style={{flex: 1}}
+            style={styles.keyboardAvoidingView}
             enabled>
             <OuterModalView>
               <InnerModalView>
@@ -344,25 +355,25 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
             setWorkoutSaved(!workoutSaved);
           }}>
           <OuterModalView>
-            <InnerModalView>
+            <ConfirmInnerModalView>
               <ModalHeader>New Workout {`'${title}'`} Saved!</ModalHeader>
-              <View style={{flex: 1, alignItems: 'center'}}>
+              <CompleteIconView>
                 <CompleteIcon
                   name="check-circle"
                   size={Dimensions.get('window').height * 0.175}
                   color={'green'}
                 />
-              </View>
+              </CompleteIconView>
               <Button onPress={closeConfirm}>
                 <ButtonText>Ok</ButtonText>
               </Button>
-            </InnerModalView>
+            </ConfirmInnerModalView>
           </OuterModalView>
         </Modal>
         <Header>{title}</Header>
         <FlatList
           keyExtractor={item => item.id}
-          contentContainerStyle={{paddingBottom: 200}}
+          contentContainerStyle={styles.contentContainerStyle}
           data={exerciseData}
           renderItem={({index, item}) => (
             <WorkoutExercise
@@ -390,3 +401,12 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     </ContainerWrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+  contentContainerStyle: {
+    paddingBottom: 200,
+  },
+});
