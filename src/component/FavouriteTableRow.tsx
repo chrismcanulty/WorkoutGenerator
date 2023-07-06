@@ -5,7 +5,6 @@ import {DataTable} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {UserContext} from '../context/User.Context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditText = styled.TextInput`
   background-color: 'rgb(200,200,200)';
@@ -40,12 +39,8 @@ export default function FavouriteTableRow({
   token: number;
   workoutId: String;
 }) {
-  const {
-    favouriteClickComplete,
-    favouriteDeleteSet,
-    favouriteEditSet,
-    favouriteWorkoutData,
-  } = useContext(UserContext);
+  const {favouriteClickComplete, favouriteDeleteSet, favouriteEditSet} =
+    useContext(UserContext);
 
   const [reps, setReps] = useState('10');
   const [weight, setWeight] = useState('0');
@@ -72,23 +67,7 @@ export default function FavouriteTableRow({
     return null;
   }
 
-  const saveFavouriteWorkoutData = async () => {
-    try {
-      const workoutJson = JSON.stringify(favouriteWorkoutData);
-
-      await AsyncStorage.setItem(`@workout_key-${token}`, workoutJson);
-    } catch (e) {
-      // saving error
-    }
-  };
-
   const selectedFavouriteToken = token;
-
-  // console.log('token', token);
-  // console.log('title', title);
-  // console.log('item', item);
-  // console.log('favouriteWorkoutData', favouriteWorkoutData);
-  // console.log('favouriteexercisedata', favouriteExerciseData);
 
   return (
     <>
