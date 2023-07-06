@@ -95,6 +95,8 @@ export default function FavouriteWorkout({
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
 
+  const selectedFavouriteToken = token;
+
   // need to pass down required props - token (favouriteWorkoutData is available from user context)
 
   const saveFavouriteWorkoutData = async () => {
@@ -173,7 +175,8 @@ export default function FavouriteWorkout({
           token={token}
         />
       </DataTable>
-      <InfoButton onPress={() => addFavouriteSet({workoutId})}>
+      <InfoButton
+        onPress={() => addFavouriteSet({workoutId, selectedFavouriteToken})}>
         <AddText>Add set</AddText>
         <AddIcon name="plus" size={14} color={'rgb(169,169,169)'} />
       </InfoButton>

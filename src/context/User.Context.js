@@ -135,7 +135,12 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
-  const favouriteClickComplete = ({row, index, workoutId}) => {
+  const favouriteClickComplete = ({
+    row,
+    index,
+    workoutId,
+    selectedFavouriteToken,
+  }) => {
     const tempWorkout = {...favouriteWorkoutData};
     const modifyComplete =
       row.Completion === 'check-circle'
@@ -143,6 +148,7 @@ const UserProvider = ({children}) => {
         : {...row, Completion: 'check-circle'};
     tempWorkout[workoutId][index] = modifyComplete;
     setFavouriteWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout, selectedFavouriteToken);
   };
 
   // add logic to remove trailing zeroes
@@ -169,7 +175,14 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
-  const favouriteEditSet = ({row, index, workoutId, reps, weight}) => {
+  const favouriteEditSet = ({
+    row,
+    index,
+    workoutId,
+    reps,
+    weight,
+    selectedFavouriteToken,
+  }) => {
     if (reps === '') {
       reps = '0';
     }
@@ -182,6 +195,7 @@ const UserProvider = ({children}) => {
     if (weight.slice(-1) === '.') {
       weight = weight.replace('.', '');
     }
+    console.log('edit', selectedFavouriteToken);
     const tempWorkout = {...favouriteWorkoutData};
     const editRow =
       row.Edit === true
@@ -189,7 +203,7 @@ const UserProvider = ({children}) => {
         : {...row, Edit: true};
     tempWorkout[workoutId][index] = editRow;
     setFavouriteWorkoutData(tempWorkout);
-    storeWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout, selectedFavouriteToken);
   };
 
   const addSet = ({workoutId}) => {
@@ -205,16 +219,21 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
-  const storeWorkoutData = async value => {
+  const storeWorkoutData = async (value, selectedFavouriteToken) => {
+    console.log('selected', selectedFavouriteToken);
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@workout_key', jsonValue);
+      await AsyncStorage.setItem(
+        `@workout_key-${selectedFavouriteToken}`,
+        jsonValue,
+      );
     } catch (e) {
       // saving error
     }
   };
 
-  const addFavouriteSet = ({workoutId}) => {
+  const addFavouriteSet = ({workoutId, selectedFavouriteToken}) => {
+    console.log('add', selectedFavouriteToken);
     const tempWorkout = {...favouriteWorkoutData};
     const setNumber = tempWorkout[workoutId].length + 1;
     const newSet = {
@@ -225,7 +244,7 @@ const UserProvider = ({children}) => {
     };
     tempWorkout[workoutId].push(newSet);
     setFavouriteWorkoutData(tempWorkout);
-    storeWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout, selectedFavouriteToken);
   };
 
   const deleteSet = ({index, workoutId}) => {
@@ -237,14 +256,15 @@ const UserProvider = ({children}) => {
     setWorkout(tempWorkout);
   };
 
-  const favouriteDeleteSet = ({index, workoutId}) => {
+  const favouriteDeleteSet = ({index, workoutId, selectedFavouriteToken}) => {
+    console.log('delete', selectedFavouriteToken);
     const tempWorkout = {...favouriteWorkoutData};
     tempWorkout[workoutId].splice(index, 1);
     tempWorkout[workoutId].map((set, index) => {
       set.Set = index + 1;
     });
     setFavouriteWorkoutData(tempWorkout);
-    storeWorkoutData(tempWorkout);
+    storeWorkoutData(tempWorkout, selectedFavouriteToken);
   };
 
   const clearWorkout = ({navigation}) => {

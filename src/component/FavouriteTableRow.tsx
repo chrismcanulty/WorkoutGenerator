@@ -82,6 +82,8 @@ export default function FavouriteTableRow({
     }
   };
 
+  const selectedFavouriteToken = token;
+
   // console.log('token', token);
   // console.log('title', title);
   // console.log('item', item);
@@ -122,14 +124,28 @@ export default function FavouriteTableRow({
         )}
         <DataTable.Cell style={styles.cell}>
           <TouchableOpacity
-            onPress={() => favouriteClickComplete({row, index, workoutId})}>
+            onPress={() =>
+              favouriteClickComplete({
+                row,
+                index,
+                workoutId,
+                selectedFavouriteToken,
+              })
+            }>
             <WorkoutIcon name={row.Completion} />
           </TouchableOpacity>
         </DataTable.Cell>
         <DataTable.Cell style={styles.cell}>
           <TouchableOpacity
             onPress={() =>
-              favouriteEditSet({row, index, workoutId, reps, weight})
+              favouriteEditSet({
+                row,
+                index,
+                workoutId,
+                reps,
+                weight,
+                selectedFavouriteToken,
+              })
             }>
             {row.Edit ? (
               <WorkoutIcon name="check" />
@@ -140,7 +156,9 @@ export default function FavouriteTableRow({
         </DataTable.Cell>
         <DataTable.Cell style={styles.cell}>
           <TouchableOpacity
-            onPress={() => favouriteDeleteSet({index, workoutId})}>
+            onPress={() =>
+              favouriteDeleteSet({index, workoutId, selectedFavouriteToken})
+            }>
             <WorkoutIcon name="trash" />
           </TouchableOpacity>
         </DataTable.Cell>
