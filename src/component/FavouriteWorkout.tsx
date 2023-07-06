@@ -78,11 +78,13 @@ export default function FavouriteWorkout({
   item,
   isLastItem,
   workoutId,
+  token,
 }: {
   workoutId: String;
   item: SequenceItem;
   children?: ReactNode;
   isLastItem: boolean;
+  token: number;
 }) {
   const {
     muscleGroup,
@@ -93,9 +95,23 @@ export default function FavouriteWorkout({
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
 
+  // need to pass down required props - token (favouriteWorkoutData is available from user context)
+
+  const saveFavouriteWorkoutData = async () => {
+    try {
+      const workoutJson = JSON.stringify(favouriteWorkoutData);
+
+      await AsyncStorage.setItem(`@workout_key-${token}`, workoutJson);
+    } catch (e) {
+      // saving error
+    }
+  };
+
   if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
     return null;
   }
+
+  // console.log('token', token);
 
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
@@ -154,6 +170,7 @@ export default function FavouriteWorkout({
         <FavouriteExerciseData
           item={favouriteWorkoutData[+workoutId]}
           workoutId={workoutId}
+          token={token}
         />
       </DataTable>
       <InfoButton onPress={() => addFavouriteSet({workoutId})}>
