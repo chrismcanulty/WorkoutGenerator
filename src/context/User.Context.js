@@ -233,7 +233,6 @@ const UserProvider = ({children}) => {
   };
 
   const addFavouriteSet = ({workoutId, selectedFavouriteToken}) => {
-    console.log('add', selectedFavouriteToken);
     const tempWorkout = {...favouriteWorkoutData};
     const setNumber = tempWorkout[workoutId].length + 1;
     const newSet = {
