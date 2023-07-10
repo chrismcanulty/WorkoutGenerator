@@ -95,25 +95,11 @@ export default function FavouriteWorkout({
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
 
-  const selectedFavouriteToken = token;
-
   // need to pass down required props - token (favouriteWorkoutData is available from user context)
-
-  const saveFavouriteWorkoutData = async () => {
-    try {
-      const workoutJson = JSON.stringify(favouriteWorkoutData);
-
-      await AsyncStorage.setItem(`@workout_key-${token}`, workoutJson);
-    } catch (e) {
-      // saving error
-    }
-  };
 
   if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
     return null;
   }
-
-  // console.log('token', token);
 
   return (
     <ExerciseView borderBottom={isLastItem ? 1 : 0}>
@@ -176,7 +162,9 @@ export default function FavouriteWorkout({
         />
       </DataTable>
       <InfoButton
-        onPress={() => addFavouriteSet({workoutId, selectedFavouriteToken})}>
+        onPress={() =>
+          addFavouriteSet({workoutId, selectedFavouriteToken: token})
+        }>
         <AddText>Add set</AddText>
         <AddIcon name="plus" size={14} color={'rgb(169,169,169)'} />
       </InfoButton>
