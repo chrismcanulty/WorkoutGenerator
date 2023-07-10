@@ -78,11 +78,13 @@ export default function FavouriteWorkout({
   item,
   isLastItem,
   workoutId,
+  token,
 }: {
   workoutId: String;
   item: SequenceItem;
   children?: ReactNode;
   isLastItem: boolean;
+  token: number;
 }) {
   const {
     muscleGroup,
@@ -92,6 +94,8 @@ export default function FavouriteWorkout({
   } = useContext(UserContext);
 
   const headers = ['Set', 'Reps', 'Weight', 'Done', 'Edit', 'Delete'];
+
+  // need to pass down required props - token (favouriteWorkoutData is available from user context)
 
   if (favouriteExerciseData.length === 0 || favouriteWorkoutData.length === 0) {
     return null;
@@ -154,9 +158,13 @@ export default function FavouriteWorkout({
         <FavouriteExerciseData
           item={favouriteWorkoutData[+workoutId]}
           workoutId={workoutId}
+          token={token}
         />
       </DataTable>
-      <InfoButton onPress={() => addFavouriteSet({workoutId})}>
+      <InfoButton
+        onPress={() =>
+          addFavouriteSet({workoutId, selectedFavouriteToken: token})
+        }>
         <AddText>Add set</AddText>
         <AddIcon name="plus" size={14} color={'rgb(169,169,169)'} />
       </InfoButton>

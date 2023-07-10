@@ -110,7 +110,22 @@ const ModalHeader = styled.Text`
   color: rgb(38, 38, 38);
   font-family: 'Montserrat-Bold';
   font-size: 24px;
-  margin: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 10px;
+  text-align: center;
+`;
+const ModalSpace = styled.Text`
+  background-color: white;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  color: transparent;
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 2px;
   padding: 10px;
   text-align: center;
 `;
@@ -126,16 +141,19 @@ const ModalTextInput = styled.TextInput`
   text-align: center;
 `;
 const ModalView = styled.View`
-  padding: 10px;
+  padding-top: 10px;
 `;
 const Warning = styled.Text`
+  background-color: white;
   border: 2px solid red;
   border-radius: 10px;
   color: red;
   font-family: 'Montserrat-Regular';
   font-size: 12px;
-  margin: 20px;
-  margin-top: 0px;
+  margin-bottom: 2px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
   padding: 10px;
   text-align: center;
 `;
@@ -155,6 +173,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     } else if (text.length >= 20) {
       setWarning('4');
     } else if (text.length >= 3 && text.length < 20) {
+      setWarning('');
       setTitle(text);
       try {
         let values = await getFavouriteTokens();
@@ -205,6 +224,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
   const modalPopup = () => {
     const titleText = text || 'My workout';
     if (titleText.length >= 3 && titleText.length < 20) {
+      setWarning('');
       setTitle(titleText);
     }
     setModalVisible(true);
@@ -300,6 +320,10 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
     }
   };
 
+  const checkMinVal = (text: String) => {
+    text.length >= 3 ? setWarning('') : setWarning('3');
+  };
+
   const height = useHeaderHeight();
 
   return (
@@ -327,10 +351,16 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
                 <ModalHeader>Input workout name</ModalHeader>
                 <ModalView>
                   <ModalTextInput
-                    onChangeText={onChangeText}
+                    onChangeText={text => {
+                      onChangeText(text);
+                      checkMinVal(text);
+                    }}
                     value={text}
                     placeholder="My workout"
+                    maxLength={18}
                   />
+                  {!warning && <ModalSpace>{warnings[3]}</ModalSpace>}
+                  {warning && <Warning>{warnings[warning]}</Warning>}
                 </ModalView>
                 <CreateWorkoutView>
                   <Button onPress={onConfirm}>
@@ -341,7 +371,6 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
                     <CancelCreateWorkoutText>Cancel</CancelCreateWorkoutText>
                   </Button>
                 </CreateWorkoutView>
-                {warning && <Warning>{warnings[warning]}</Warning>}
               </InnerModalView>
             </OuterModalView>
           </KeyboardAvoidingView>

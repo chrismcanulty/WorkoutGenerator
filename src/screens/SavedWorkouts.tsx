@@ -118,6 +118,8 @@ export default function SavedWorkouts({
               key={+item.id}
               workoutId={+item.id}
               item={item}
+              token={token}
+              title={title}
               isLastItem={index === favouriteExerciseData.length - 1}
             />
           )}

@@ -4,9 +4,11 @@ import {ExerciseSet} from '../../types/data';
 
 export default function FavouriteExerciseData({
   item,
+  token,
   workoutId,
 }: {
   item: any;
+  token: number;
   workoutId: String;
 }) {
   if (!item) {
@@ -18,6 +20,7 @@ export default function FavouriteExerciseData({
       <FavouriteTableRow
         row={row}
         index={index}
+        token={token}
         workoutId={workoutId}
         key={`${index}`}
       />
