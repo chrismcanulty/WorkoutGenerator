@@ -1,10 +1,18 @@
 import React from 'react';
-import HomeScreen from './HomeScreen';
-import renderer, {act} from 'react-test-renderer';
-import {render, fireEvent, screen} from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import {UserContext} from '../context/User.Context';
 import {expect, test} from '@jest/globals';
 import '@testing-library/jest-dom';
+import {
+  render,
+  fireEvent,
+  screen,
+  cleanup,
+  waitFor,
+} from '@testing-library/react-native';
+import HomeScreen from './HomeScreen';
+
+afterEach(cleanup);
 
 const createTestProps = (props: Object) => ({
   navigation: {
@@ -27,36 +35,30 @@ test('renders correctly', async () => {
       </UserContext.Provider>,
     )
     .toJSON();
-  await wait();
   expect(tree).toMatchSnapshot();
 });
 
 test('Displays correct text for initial question to user', async () => {
-  render(
+  const {getByText} = render(
     <UserContext.Provider
       value={{muscleGroup: [], selectedMuscles: [], loading: false}}>
       <HomeScreen {...props} />
     </UserContext.Provider>,
   );
-  expect(
-    screen.getByText('What muscle group do you want to target?'),
-  ).toBeInTheDocument();
+  expect(getByText('What muscle group do you want to target?')).toBeDefined();
 });
 
-export async function wait(ms = 0) {
-  await act(async () => {
-    return new Promise(resolve => {
-      setTimeout(resolve, ms);
-    });
-  });
-}
-
-// jest.config.ts;
-
-// import type {Config} from 'jest';
-
-// const config: Config = {
-//   setupFilesAfterEnv: ['<rootDir>/setup-jest.js'],
-// };
-
-// export default config;
+test('Multi-select list drops down when clicked', () => {
+  const {getByText} = render(
+    <UserContext.Provider
+      value={{
+        muscleGroup: ['biceps', 'triceps'],
+        selectedMuscles: [],
+        loading: false,
+      }}>
+      <HomeScreen {...props} />
+    </UserContext.Provider>,
+  );
+  fireEvent.press(getByText('Select option'));
+  waitFor(() => expect(screen.findByTestId('scroll-view')).toBeInTheDocument());
+});
