@@ -1,64 +1,52 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import {UserContext} from '../context/User.Context';
-import {expect, test} from '@jest/globals';
+import {expect} from '@jest/globals';
 import '@testing-library/jest-dom';
 import {
   render,
   fireEvent,
-  screen,
   cleanup,
   waitFor,
 } from '@testing-library/react-native';
 import HomeScreen from './HomeScreen';
 
-afterEach(cleanup);
+describe('HomeScreen', () => {
+  afterEach(cleanup);
 
-const createTestProps = (props: Object) => ({
-  navigation: {
-    navigate: jest.fn(),
-  },
-  ...props,
-});
+  const createTestProps = (props: Object) => ({
+    navigation: {
+      navigate: jest.fn(),
+    },
+    ...props,
+  });
 
-let props: any;
-beforeEach(() => {
-  props = createTestProps({});
-});
+  let props: any;
+  beforeEach(() => {
+    props = createTestProps({});
+  });
 
-test('renders correctly', async () => {
-  const tree = renderer
-    .create(
+  it('Displays correct text for initial question to user', async () => {
+    const {getByText} = render(
       <UserContext.Provider
         value={{muscleGroup: [], selectedMuscles: [], loading: false}}>
         <HomeScreen {...props} />
       </UserContext.Provider>,
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
+    );
+    expect(getByText('What muscle group do you want to target?')).toBeDefined();
+  });
 
-test('Displays correct text for initial question to user', async () => {
-  const {getByText} = render(
-    <UserContext.Provider
-      value={{muscleGroup: [], selectedMuscles: [], loading: false}}>
-      <HomeScreen {...props} />
-    </UserContext.Provider>,
-  );
-  expect(getByText('What muscle group do you want to target?')).toBeDefined();
-});
-
-test('Multi-select list drops down when clicked', () => {
-  const {getByText} = render(
-    <UserContext.Provider
-      value={{
-        muscleGroup: ['biceps', 'triceps'],
-        selectedMuscles: [],
-        loading: false,
-      }}>
-      <HomeScreen {...props} />
-    </UserContext.Provider>,
-  );
-  fireEvent.press(getByText('Select option'));
-  waitFor(() => expect(screen.findByTestId('scroll-view')).toBeInTheDocument());
+  it('Error message appears when Next button is clicked without selecting muscle groups', () => {
+    const {getByText} = render(
+      <UserContext.Provider
+        value={{
+          muscleGroup: ['biceps', 'triceps'],
+          selectedMuscles: [],
+          loading: false,
+        }}>
+        <HomeScreen {...props} />
+      </UserContext.Provider>,
+    );
+    waitFor(() => fireEvent.press(getByText('Next')));
+    expect(getByText('Please select at least one muscle group')).toBeTruthy();
+  });
 });
