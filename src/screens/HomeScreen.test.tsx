@@ -26,7 +26,6 @@ test('renders correctly', async () => {
     )
     .toJSON();
   await wait();
-  await wait();
   expect(tree).toMatchSnapshot();
 });
 
