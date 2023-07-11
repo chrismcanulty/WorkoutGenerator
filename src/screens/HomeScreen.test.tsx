@@ -4,6 +4,7 @@ import renderer, {act} from 'react-test-renderer';
 import {render, fireEvent, screen} from '@testing-library/react';
 import {UserContext} from '../context/User.Context';
 import {expect, test} from '@jest/globals';
+import '@testing-library/jest-dom';
 
 const createTestProps = (props: Object) => ({
   navigation: {
@@ -39,7 +40,7 @@ test('Displays correct text for initial question to user', async () => {
   );
   expect(
     screen.getByText('What muscle group do you want to target?'),
-  ).toBeOnTheScreen();
+  ).toBeInTheDocument();
 });
 
 export async function wait(ms = 0) {

@@ -3,6 +3,7 @@ import type {Config} from 'jest';
 const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/setuptests.ts'],
   preset: 'react-native',
+  testEnvironment: 'jsdom',
   // transform: {
   //   '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
   //   '\\.(ts|tsx)$': 'ts-jest',
