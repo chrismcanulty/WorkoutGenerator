@@ -1,8 +1,7 @@
 import React from 'react';
 import HomeScreen from './HomeScreen';
-import renderer from 'react-test-renderer';
-// import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/async-storage-mock';
-
+import renderer, {act} from 'react-test-renderer';
+import {UserContext} from '../context/User.Context';
 import {expect, test} from '@jest/globals';
 
 const createTestProps = (props: Object) => ({
@@ -17,22 +16,24 @@ beforeEach(() => {
   props = createTestProps({});
 });
 
-test('renders correctly', () => {
-  const tree = renderer.create(<HomeScreen {...props} />).toJSON();
+test('renders correctly', async () => {
+  const tree = renderer
+    .create(
+      <UserContext.Provider
+        value={{muscleGroup: [], selectedMuscles: [], loading: false}}>
+        <HomeScreen {...props} />
+      </UserContext.Provider>,
+    )
+    .toJSON();
+  await wait();
+  await wait();
   expect(tree).toMatchSnapshot();
 });
 
-// /**
-//  * @format
-//  */
-
-// import 'react-native';
-// import React from 'react';
-// import App from '../src/App';
-
-// // Note: test renderer must be required after react-native.
-// import renderer from 'react-test-renderer';
-
-// it('renders correctly', () => {
-//   renderer.create(<App />);
-// });
+export async function wait(ms = 0) {
+  await act(async () => {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  });
+}
