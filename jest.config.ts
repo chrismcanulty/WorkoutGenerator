@@ -4,10 +4,6 @@ const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/setuptests.ts'],
   preset: 'react-native',
   testEnvironment: 'node',
-  // transform: {
-  //   '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
-  //   '\\.(ts|tsx)$': 'ts-jest',
-  // },
   globals: {
     'ts-jest': {
       tsConfig: 'tsconfig.jest.json',

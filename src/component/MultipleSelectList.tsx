@@ -364,7 +364,6 @@ export const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
           style={[{maxHeight: animatedvalue}, styles.dropdown, dropdownStyles]}>
           <View style={[{maxHeight: height}]}>
             <ScrollView
-              data-testid="scroll-view"
               contentContainerStyle={{paddingVertical: 10}}
               nestedScrollEnabled={true}>
               {filtereddata.length >= 1 ? (
