@@ -1,13 +1,12 @@
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import questions from '../utils/questions';
 import warnings from '../utils/warnings';
 import {UserContext} from '../context/User.Context';
 import {MultipleSelectList} from '../component/MultipleSelectList';
-import {useFocusEffect} from '@react-navigation/native';
 
 const Button = styled.TouchableOpacity`
   font-size: 24px;
