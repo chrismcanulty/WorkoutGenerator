@@ -96,7 +96,7 @@ const Header = styled.Text`
 const InnerModalView = styled.View`
   background-color: #fff;
   border-radius: 15px;
-  height: ${Dimensions.get('window').height * 0.3}px;
+  height: 290px;
   padding: 10px;
   width: ${Dimensions.get('window').width * 0.9}px;
 `;
