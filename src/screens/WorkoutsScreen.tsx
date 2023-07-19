@@ -96,7 +96,7 @@ const Header = styled.Text`
 const InnerModalView = styled.View`
   background-color: #fff;
   border-radius: 15px;
-  height: 290px;
+  height: 260px;
   padding: 10px;
   width: ${Dimensions.get('window').width * 0.9}px;
 `;
@@ -348,7 +348,7 @@ export default function WorkoutsScreen({navigation}: NativeStackHeaderProps) {
             enabled>
             <OuterModalView>
               <InnerModalView>
-                <ModalHeader>Input workout name</ModalHeader>
+                <ModalHeader>Workout name</ModalHeader>
                 <ModalView>
                   <ModalTextInput
                     onChangeText={text => {
