@@ -195,7 +195,6 @@ const UserProvider = ({children}) => {
     if (weight.slice(-1) === '.') {
       weight = weight.replace('.', '');
     }
-    console.log('edit', selectedFavouriteToken);
     const tempWorkout = {...favouriteWorkoutData};
     const editRow =
       row.Edit === true
@@ -220,7 +219,6 @@ const UserProvider = ({children}) => {
   };
 
   const storeWorkoutData = async (value, selectedFavouriteToken) => {
-    console.log('selected', selectedFavouriteToken);
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(
@@ -256,7 +254,6 @@ const UserProvider = ({children}) => {
   };
 
   const favouriteDeleteSet = ({index, workoutId, selectedFavouriteToken}) => {
-    console.log('delete', selectedFavouriteToken);
     const tempWorkout = {...favouriteWorkoutData};
     tempWorkout[workoutId].splice(index, 1);
     tempWorkout[workoutId].map((set, index) => {
