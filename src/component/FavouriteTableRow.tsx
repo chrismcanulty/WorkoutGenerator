@@ -10,7 +10,7 @@ const EditText = styled.TextInput`
   background-color: 'rgb(200,200,200)';
   color: rgb(38, 38, 38);
   flex: 1;
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   padding-bottom: 1px;
   text-align: center;
@@ -18,7 +18,7 @@ const EditText = styled.TextInput`
 
 const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   padding-bottom: 1px;
   text-align: left;

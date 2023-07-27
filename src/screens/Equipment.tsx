@@ -15,7 +15,7 @@ const ButtonText = styled.Text`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 24px;
   margin-left: 10px;
   margin-right: 10px;
@@ -24,7 +24,7 @@ const ButtonText = styled.Text`
 `;
 const Header = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Bold';
+  font-family: 'Montserrat_Bold';
   font-size: 24px;
   margin: 20px;
   margin-top: 30px;
@@ -35,7 +35,7 @@ const Warning = styled.Text`
   border: 2px solid red;
   border-radius: 10px;
   color: red;
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   margin: 20px;
   margin-top: 0px;
@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
   },
   dropdownTextStyles: {
     color: 'rgb(38, 38, 38)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'Montserrat_Regular',
   },
 });
