@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import {DataTable} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native';
 import {UserContext} from '../context/User.Context';
 
 const EditText = styled.TextInput`
