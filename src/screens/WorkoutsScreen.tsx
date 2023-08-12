@@ -24,7 +24,7 @@ const ButtonText = styled.Text`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 24px;
   margin-left: 10px;
   margin-right: 10px;
@@ -60,7 +60,7 @@ const CreateWorkoutSeparator = styled.View`
 const CancelCreateWorkoutText = styled.Text`
   border-color: rgb(230, 230, 230);
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 20px;
   padding-bottom: 20px;
   padding-top: 10px;
@@ -69,7 +69,7 @@ const CancelCreateWorkoutText = styled.Text`
 const CreateWorkoutText = styled.Text`
   border-color: rgb(230, 230, 230);
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Bold';
+  font-family: 'Montserrat_Bold';
   font-size: 20px;
   padding-bottom: 20px;
   padding-top: 10px;
@@ -86,7 +86,7 @@ const CreateWorkoutView = styled.View`
 `;
 const Header = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Bold';
+  font-family: 'Montserrat_Bold';
   font-size: 24px;
   margin: 20px;
   margin-top: 30px;
@@ -108,7 +108,7 @@ const OuterModalView = styled.View`
 `;
 const ModalHeader = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Bold';
+  font-family: 'Montserrat_Bold';
   font-size: 24px;
   margin-left: 20px;
   margin-right: 20px;
@@ -120,7 +120,7 @@ const ModalSpace = styled.Text`
   border: 2px solid transparent;
   border-radius: 10px;
   color: transparent;
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   margin-left: 20px;
   margin-right: 20px;
@@ -133,7 +133,7 @@ const ModalTextInput = styled.TextInput`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 24px;
   margin-left: 10px;
   margin-right: 10px;
@@ -148,7 +148,7 @@ const Warning = styled.Text`
   border: 2px solid red;
   border-radius: 10px;
   color: red;
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   margin-bottom: 2px;
   margin-left: 20px;

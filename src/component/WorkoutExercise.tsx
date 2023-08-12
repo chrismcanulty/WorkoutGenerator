@@ -12,7 +12,7 @@ import {DataTable} from 'react-native-paper';
 
 const AddText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   text-align: right;
   margin-left: 30px;
@@ -34,7 +34,7 @@ const ExerciseInfoView = styled.View`
 `;
 const ExerciseSetText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   text-align: center;
   padding-bottom: 1px;
@@ -44,7 +44,7 @@ const ExerciseTitleView = styled.View`
 `;
 const ExerciseText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Bold';
+  font-family: 'Montserrat_Bold';
   font-size: 20px;
   padding: 10px;
   text-align: left;
@@ -52,7 +52,7 @@ const ExerciseText = styled.Text`
 `;
 const InfoText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 12px;
   text-align: left;
   margin-left: 30px;
@@ -66,7 +66,7 @@ const InfoButton = styled.TouchableOpacity`
 `;
 const MuscleText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 16px;
   padding: 5px;
   text-align: left;

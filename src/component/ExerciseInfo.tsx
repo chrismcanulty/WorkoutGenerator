@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 const MuscleName = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 14px;
   margin-left: 20px;
   text-align: left;
@@ -14,7 +14,7 @@ const MuscleList = styled.FlatList`
 `;
 const PopoverText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 14px;
   margin-left: 10px;
   margin-right: 10px;

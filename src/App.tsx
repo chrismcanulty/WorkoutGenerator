@@ -24,7 +24,7 @@ export default function App() {
         <PaperProvider>
           <SafeAreaProvider>
             <Navigation colorScheme={colorScheme} />
-            <StatusBar style="auto" />
+            <StatusBar style="auto" hidden={true} />
           </SafeAreaProvider>
         </PaperProvider>
       </TailwindProvider>

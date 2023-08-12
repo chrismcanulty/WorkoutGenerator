@@ -22,7 +22,7 @@ const ButtonText = styled.Text`
   border: 2px rgb(230, 230, 230);
   border-radius: 15px;
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 24px;
   margin-left: 10px;
   margin-right: 10px;
@@ -45,7 +45,7 @@ const FavouriteButton = styled.TouchableOpacity`
 `;
 const Header = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Bold';
+  font-family: 'Montserrat_Bold';
   font-size: 24px;
   margin: 20px;
   margin-top: 30px;
@@ -65,7 +65,7 @@ const TitleView = styled.View<BorderBottom>`
 `;
 const TitleText = styled.Text`
   color: rgb(38, 38, 38);
-  font-family: 'Montserrat-Regular';
+  font-family: 'Montserrat_Regular';
   font-size: 24px;
   margin-top: 20px;
   margin-bottom: 20px;
